@@ -1,0 +1,20 @@
+{
+  "width": 600,
+  "height": 420,
+  "formData": {
+    "vizType": "funnel",
+    "groupby": ["stage"],
+    "metric": "users",
+    "labelType": "key_value_percent",
+    "showLegend": true,
+    "legendOrientation": "top",
+    "numberFormat": "smart"
+  },
+  "data": [
+    { "stage": "Visited",     "users": 10000 },
+    { "stage": "Signed up",   "users":  3500 },
+    { "stage": "Onboarded",   "users":  2100 },
+    { "stage": "Activated",   "users":  1200 },
+    { "stage": "Paid",        "users":   420 }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "vizType": "line",
+  "xAxis": "__timestamp",
+  "metrics": ["COUNT(*)"],
+  "seriesColumn": "category",
+  "smooth": true,
+  "area": false,
+  "showDots": true,
+  "showLegend": true,
+  "legendOrientation": "top",
+  "numberFormat": "smart",
+  "xAxisLabel": "Month",
+  "yAxisLabel": "Event count"
+}

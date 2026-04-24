@@ -1,0 +1,29 @@
+{
+  "width": 600,
+  "height": 420,
+  "formData": {
+    "vizType": "scatter",
+    "xAxis": "price",
+    "yAxis": "rating",
+    "seriesColumn": "category",
+    "sizeColumn": "reviews",
+    "xAxisLabel": "Price ($)",
+    "yAxisLabel": "Rating",
+    "numberFormat": "float1",
+    "minSize": 8,
+    "maxSize": 40
+  },
+  "data": [
+    { "category": "Electronics", "price": 199, "rating": 4.2, "reviews": 120 },
+    { "category": "Electronics", "price": 799, "rating": 4.7, "reviews": 530 },
+    { "category": "Electronics", "price": 349, "rating": 3.9, "reviews": 210 },
+    { "category": "Books",       "price":  12, "rating": 4.5, "reviews":  90 },
+    { "category": "Books",       "price":  25, "rating": 4.8, "reviews": 340 },
+    { "category": "Books",       "price":   8, "rating": 4.1, "reviews":  70 },
+    { "category": "Clothing",    "price":  45, "rating": 3.7, "reviews": 180 },
+    { "category": "Clothing",    "price": 120, "rating": 4.4, "reviews": 260 },
+    { "category": "Clothing",    "price":  65, "rating": 4.0, "reviews": 150 },
+    { "category": "Home",        "price":  89, "rating": 4.6, "reviews": 420 },
+    { "category": "Home",        "price": 199, "rating": 4.3, "reviews": 310 }
+  ]
+}

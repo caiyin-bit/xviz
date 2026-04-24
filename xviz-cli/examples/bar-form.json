@@ -1,0 +1,12 @@
+{
+  "vizType": "bar",
+  "xAxis": "month",
+  "metrics": ["sales"],
+  "seriesColumn": "region",
+  "stacked": true,
+  "showLegend": true,
+  "legendOrientation": "top",
+  "numberFormat": "smart",
+  "xAxisLabel": "Month",
+  "yAxisLabel": "Sales"
+}

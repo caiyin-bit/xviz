@@ -1,0 +1,12 @@
+{
+  "vizType": "bar",
+  "xAxis": "month",
+  "metrics": ["revenue"],
+  "seriesColumn": "category",
+  "stacked": true,
+  "showLegend": true,
+  "legendOrientation": "top",
+  "numberFormat": "smart",
+  "xAxisLabel": "Month",
+  "yAxisLabel": "Revenue (USD)"
+}

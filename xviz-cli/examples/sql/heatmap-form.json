@@ -1,0 +1,9 @@
+{
+  "vizType": "heatmap",
+  "xAxis": "category",
+  "yAxis": "region",
+  "metric": "revenue",
+  "showValues": true,
+  "numberFormat": "smart",
+  "colorRange": ["#f5f7fa", "#1FA8C9"]
+}

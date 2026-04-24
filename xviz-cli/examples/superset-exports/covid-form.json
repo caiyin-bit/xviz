@@ -1,0 +1,9 @@
+{
+  "vizType": "bar",
+  "xAxis": "state",
+  "metrics": ["SUM(confirmed)"],
+  "showLegend": false,
+  "numberFormat": "smart",
+  "xAxisLabel": "State",
+  "yAxisLabel": "Confirmed cases"
+}

@@ -1,0 +1,16 @@
+{
+  "vizType": "pie",
+  "groupby": ["region"],
+  "metric": "sales",
+  "donut": true,
+  "innerRadius": 40,
+  "outerRadius": 75,
+  "labelType": "key_percent",
+  "showLabels": true,
+  "labelsOutside": true,
+  "showLegend": true,
+  "legendOrientation": "top",
+  "numberFormat": "smart",
+  "thresholdForOther": 5,
+  "showTotal": true
+}

@@ -1,0 +1,14 @@
+[
+  { "month": "2025-01", "region": "NA", "sales": 800 },
+  { "month": "2025-01", "region": "EU", "sales": 650 },
+  { "month": "2025-01", "region": "AS", "sales": 720 },
+  { "month": "2025-02", "region": "NA", "sales": 850 },
+  { "month": "2025-02", "region": "EU", "sales": 700 },
+  { "month": "2025-02", "region": "AS", "sales": 900 },
+  { "month": "2025-03", "region": "NA", "sales": 920 },
+  { "month": "2025-03", "region": "EU", "sales": 780 },
+  { "month": "2025-03", "region": "AS", "sales": 1100 },
+  { "month": "2025-04", "region": "NA", "sales": 1100 },
+  { "month": "2025-04", "region": "EU", "sales": 830 },
+  { "month": "2025-04", "region": "AS", "sales": 1500 }
+]

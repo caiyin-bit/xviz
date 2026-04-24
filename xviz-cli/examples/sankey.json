@@ -1,0 +1,31 @@
+{
+  "width": 720,
+  "height": 440,
+  "formData": {
+    "vizType": "sankey",
+    "source": "from",
+    "target": "to",
+    "metric": "count",
+    "numberFormat": "smart"
+  },
+  "data": [
+    { "from": "Homepage",     "to": "Search",      "count": 1200 },
+    { "from": "Homepage",     "to": "Category A",  "count":  800 },
+    { "from": "Homepage",     "to": "Category B",  "count":  600 },
+    { "from": "Search",       "to": "Product X",   "count":  500 },
+    { "from": "Search",       "to": "Product Y",   "count":  400 },
+    { "from": "Search",       "to": "Exit",        "count":  300 },
+    { "from": "Category A",   "to": "Product X",   "count":  300 },
+    { "from": "Category A",   "to": "Product Z",   "count":  500 },
+    { "from": "Category B",   "to": "Product Y",   "count":  450 },
+    { "from": "Category B",   "to": "Exit",        "count":  150 },
+    { "from": "Product X",    "to": "Checkout",    "count":  400 },
+    { "from": "Product X",    "to": "Exit",        "count":  400 },
+    { "from": "Product Y",    "to": "Checkout",    "count":  350 },
+    { "from": "Product Y",    "to": "Exit",        "count":  500 },
+    { "from": "Product Z",    "to": "Checkout",    "count":  300 },
+    { "from": "Product Z",    "to": "Exit",        "count":  200 },
+    { "from": "Checkout",     "to": "Purchase",    "count":  800 },
+    { "from": "Checkout",     "to": "Abandon",     "count":  250 }
+  ]
+}

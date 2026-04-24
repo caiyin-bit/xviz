@@ -1,0 +1,16 @@
+{
+  "vizType": "table",
+  "columns": ["product_name", "category", "units_sold", "revenue_usd", "profit_margin"],
+  "columnLabels": {
+    "product_name": "Product",
+    "category": "Category",
+    "units_sold": "Units",
+    "revenue_usd": "Revenue",
+    "profit_margin": "Margin"
+  },
+  "numericColumns": ["units_sold", "revenue_usd"],
+  "numberFormat": "smart",
+  "pageSize": 0,
+  "sortable": true,
+  "stripes": true
+}

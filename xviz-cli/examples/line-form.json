@@ -1,0 +1,14 @@
+{
+  "vizType": "line",
+  "xAxis": "month",
+  "metrics": ["sales"],
+  "seriesColumn": "region",
+  "smooth": true,
+  "area": true,
+  "showDots": true,
+  "showLegend": true,
+  "legendOrientation": "top",
+  "numberFormat": "smart",
+  "xAxisLabel": "Month",
+  "yAxisLabel": "Sales"
+}

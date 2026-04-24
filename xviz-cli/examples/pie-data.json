@@ -1,0 +1,8 @@
+[
+  { "region": "North America", "sales": 1200 },
+  { "region": "Europe", "sales": 900 },
+  { "region": "Asia", "sales": 1500 },
+  { "region": "South America", "sales": 400 },
+  { "region": "Africa", "sales": 150 },
+  { "region": "Oceania", "sales": 80 }
+]
