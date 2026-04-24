@@ -1,28 +1,20 @@
-# xviz — Superset-quality charts, Superset-free
+# xviz — lightweight charts + headless renderer
 
 <p align="center">
   <img src="docs/blog/images/hero-pie.png" width="520" alt="Pie chart rendered by xviz" />
 </p>
 
-> A lightweight React + ECharts charting library **plus** a headless CLI that
-> turns JSON, CSV, or SQL into PNG / PDF / HTML. Ships an HTTP server and an
-> MCP server for LLM tool-use. Inspired by Apache Superset's visualization
-> layer, but without its backend.
+> A React + ECharts charting library plus a headless CLI that turns JSON, CSV,
+> or SQL query results into PNG / PDF / HTML. Also ships an HTTP server and
+> an MCP server for LLM tool-use.
 
-## Why?
+## Origin
 
-Rendering a Superset-quality chart in your own app shouldn't require
-15 MB of transitive deps, a backend, or a downgrade to React 16.
-
-- `@superset-ui/plugin-chart-echarts` on npm is **several years behind**
-  the Superset monorepo and still targets React 16 APIs.
-- It drags in **antd v4 + antd v5 + emotion + react-ace + chart-controls + …**
-- There's **no CLI, no HTTP endpoint, no LLM integration** — Superset
-  assumes you'll use its dashboard UI.
-
-This repo vendors just the core chart transforms, re-wraps ECharts in 70
-lines, and ships the result as a clean React library + a headless renderer
-you can shell out to.
+This project grew out of an actual business need for production-quality
+chart rendering without a BI backend. It is inspired by — and borrows
+architectural ideas from — Apache Superset's chart plugin system, but was
+extracted into a standalone library so it can be used in any React app or
+run headless as a CLI / HTTP / MCP service.
 
 ## The charts
 
@@ -66,6 +58,9 @@ import { PieChart } from '@minimal-viz/core'
 />
 ```
 
+Runs in any React 18+ app. Three runtime deps: `react`, `react-dom`,
+`echarts`. ~5 KB gzipped (excluding peers).
+
 See the [library docs →](./minimal-viz/README.md)
 
 ### 2 · As a CLI
@@ -73,7 +68,7 @@ See the [library docs →](./minimal-viz/README.md)
 ```bash
 cd xviz-cli && npm install && npm run build
 
-# From JSON or CSV (Superset's Export to CSV works unmodified)
+# From JSON or CSV
 xviz render -d data.csv -f form.json -o chart.png
 
 # Straight from a database
@@ -102,29 +97,23 @@ directly:
   "args": ["/path/to/xviz-cli/bin/xviz.mjs", "mcp"] } } }
 ```
 
-## Superset compatibility
+## CSV compatibility
 
-The CSV parser reads **real Apache Superset `Export to CSV` output verbatim**
-— UTF-8 BOM, thousands-separated numbers, CSV-injection guard (`'+12V` →
-`+12V`), nested double quotes, aggregate column names like `SUM(confirmed)`
-and `__timestamp`. 16 regression tests pin the behaviour.
-
-<p align="center">
-  <img src="docs/blog/images/12-superset-csv.png" width="520" alt="Real Superset CSV rendered" />
-</p>
+The CSV parser handles the edge cases BI tools produce — UTF-8 BOM,
+thousands-separated numbers (`"9,823,456"`), nested double quotes,
+CSV-injection escaping, aggregate column names like `SUM(x)` and
+`__timestamp`. 16 regression tests cover real-world export shapes.
 
 ## What this is **not**
 
 xviz is not a BI platform. No dashboards, no permissioning, no saved
-queries. If you need those, use [Apache Superset](https://superset.apache.org/)
-directly. xviz is for the "I have some data, I want a chart" part of the
-problem.
+queries, no metadata DB. It's the "I have some data, I want a chart"
+part of the problem — nothing more.
 
 ## Learn more
 
 - 📖 **[Technical deep dive](./docs/blog/2026-04-24-extracting-superset-viz.md)**
-  — how the Superset visualization layer was extracted, with side-by-side
-  comparisons
+  — architecture, trade-offs, side-by-side comparisons
 - 🧩 **[minimal-viz library docs](./minimal-viz/README.md)** — full API, theming, all 10 chart types
 - 🛠️ **[xviz CLI docs](./xviz-cli/README.md)** — `render`, `query`, `serve`, `mcp` commands
 
