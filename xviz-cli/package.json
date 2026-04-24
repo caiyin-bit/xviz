@@ -1,19 +1,56 @@
 {
   "name": "xviz-cli",
   "version": "0.1.0",
-  "description": "Headless chart renderer - output PNG/HTML from JSON data. Built on minimal-viz.",
+  "description": "Headless chart renderer — turn JSON, CSV, or SQL query results into PNG / PDF / HTML. Ships render / query / serve / mcp commands.",
+  "keywords": [
+    "chart",
+    "charts",
+    "visualization",
+    "headless",
+    "cli",
+    "puppeteer",
+    "echarts",
+    "csv",
+    "sql",
+    "mcp",
+    "png",
+    "pdf"
+  ],
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/caiyin-bit/xviz#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/caiyin-bit/xviz.git",
+    "directory": "xviz-cli"
+  },
+  "bugs": {
+    "url": "https://github.com/caiyin-bit/xviz/issues"
+  },
   "type": "module",
   "bin": {
     "xviz": "./bin/xviz.mjs"
   },
+  "files": [
+    "bin",
+    "dist/renderer/index.html",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "build": "vite build",
-    "test": "npm run build && node test/smoke.mjs"
+    "prepublishOnly": "npm run build",
+    "test:csv": "node test/csv-compat.test.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",
     "commander": "^13.1.0",
     "puppeteer-core": "^24.42.0"
+  },
+  "optionalDependencies": {
+    "better-sqlite3": "^12.4.1",
+    "pg": "^8.14.1"
   },
   "devDependencies": {
     "@types/node": "^24.12.2",
