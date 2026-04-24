@@ -1,121 +1,133 @@
-# minimal-viz + xviz
+# xviz — Superset-quality charts, Superset-free
 
-A lightweight alternative to Apache Superset's visualization layer, split into
-two packages that can be used independently:
+<p align="center">
+  <img src="docs/blog/images/hero-pie.png" width="520" alt="Pie chart rendered by xviz" />
+</p>
 
-- **[`minimal-viz/`](./minimal-viz/)** — a React + ECharts chart library with
-  10 chart types (Pie, Bar, Line, Table, BigNumber, Scatter, Heatmap, Sankey,
-  Funnel, Gauge). Runs in any React 18+ app. No Superset backend required.
-- **[`xviz-cli/`](./xviz-cli/)** — a headless renderer that turns JSON, CSV,
-  or SQL query results into PNG/PDF/HTML charts. Has four modes: one-shot
-  `render`, SQL `query`, HTTP `serve`, and MCP server for LLM tool-use.
+> A lightweight React + ECharts charting library **plus** a headless CLI that
+> turns JSON, CSV, or SQL into PNG / PDF / HTML. Ships an HTTP server and an
+> MCP server for LLM tool-use. Inspired by Apache Superset's visualization
+> layer, but without its backend.
 
-Together they cover the "I have some data, I want a chart" story without
-pulling in the full Superset stack.
+## Why?
 
-## Why this exists
+Rendering a Superset-quality chart in your own app shouldn't require
+15 MB of transitive deps, a backend, or a downgrade to React 16.
 
-Apache Superset ships ~66 chart types via a plugin system built on top of
-React + ECharts. Their npm packages (`@superset-ui/*`) work but:
+- `@superset-ui/plugin-chart-echarts` on npm is **several years behind**
+  the Superset monorepo and still targets React 16 APIs.
+- It drags in **antd v4 + antd v5 + emotion + react-ace + chart-controls + …**
+- There's **no CLI, no HTTP endpoint, no LLM integration** — Superset
+  assumes you'll use its dashboard UI.
 
-- **Published versions are several years behind** the monorepo source.
-- **Require React 16-era** APIs (breaks on React 19, awkward on 18).
-- **~15 MB of transitive deps** pulled in (antd v4 + v5, emotion,
-  react-loadable, react-ace, chart-controls, …).
-- **Hard to use headless** — no CLI, no HTTP API, no LLM integration.
+This repo vendors just the core chart transforms, re-wraps ECharts in 70
+lines, and ships the result as a clean React library + a headless renderer
+you can shell out to.
 
-`minimal-viz` vendors just the Pie/Bar/Line/... transform logic directly and
-wraps ECharts. Result: **10 charts in ~1,300 lines** with 3 runtime deps
-(`react`, `react-dom`, `echarts`).
+## The charts
 
-`xviz-cli` adds the headless layer: Puppeteer drives the minimal-viz bundle,
-returning image bytes. Perfect for reports, email attachments, automated
-dashboards, or LLM-generated charts.
+Ten chart types covering ~80% of everyday BI needs.
 
-## Quick start
+| | | |
+|:---:|:---:|:---:|
+| ![Pie](docs/blog/images/hero-pie.png) | ![Bar](docs/blog/images/02-bar-stacked.png) | ![Line](docs/blog/images/03-line-area.png) |
+| **Pie / Donut** | **Bar (stacked)** | **Line (smooth + area)** |
+| ![Table](docs/blog/images/04-table.png) | ![Scatter](docs/blog/images/05-scatter.png) | ![Heatmap](docs/blog/images/06-heatmap.png) |
+| **Table** | **Scatter / Bubble** | **Heatmap** |
+| ![Sankey](docs/blog/images/07-sankey.png) | ![Funnel](docs/blog/images/08-funnel.png) | ![Gauge](docs/blog/images/09-gauge.png) |
+| **Sankey** | **Funnel** | **Gauge** |
+
+Plus **BigNumber** (KPI tile with trendline + % delta) and light/dark themes:
+
+<p align="center">
+  <img src="docs/blog/images/10-pie-dark.png" width="340" alt="Dark theme" />
+  <img src="docs/blog/images/11-gauge-dark.png" width="340" alt="Dark gauge" />
+</p>
+
+## Three ways to use it
+
+### 1 · As a React library
 
 ```bash
-# Browse the demos
-cd minimal-viz && npm install && npm run dev
-# → http://localhost:5173
-
-# Render a chart from JSON on the command line
-cd xviz-cli && npm install && npm run build
-node bin/xviz.mjs render \
-  -d examples/pie-data.json \
-  -f examples/pie-form.json \
-  -o chart.png
-
-# Query a database directly (SQL → PNG in one step)
-node bin/xviz.mjs query \
-  --db sqlite:examples/sql/sample.db \
-  --sql "SELECT region, SUM(revenue) AS revenue FROM orders GROUP BY 1" \
-  --form examples/sql/region-pie-form.json \
-  --out regions.png
-
-# Or serve it over HTTP
-node bin/xviz.mjs serve --port 3737
-curl -X POST http://localhost:3737/render \
-  -H 'Content-Type: application/json' \
-  -d @examples/pie-payload.json \
-  -o chart.png
-
-# Or expose it to an LLM over MCP
-node bin/xviz.mjs mcp   # stdio transport
+npm install @minimal-viz/core react react-dom echarts
 ```
 
-## Chart catalog (10)
+```tsx
+import { PieChart } from '@minimal-viz/core'
 
-| Chart | Package export | Typical use |
-|---|---|---|
-| Pie / Donut | `PieChart` | Part-of-a-whole, with "Other" bucketing and total annotation |
-| Bar | `BarChart` | Categorical comparison, stacked and grouped |
-| Line | `LineChart` | Time series with smooth/area/scatter variants |
-| Table | `Table` | Sortable, paginated data grid with formatted cells |
-| Big Number | `BigNumber` | KPI tile with optional trendline and period-over-period delta |
-| Scatter | `Scatter` | Correlation / bubble chart with color + size dimensions |
-| Heatmap | `Heatmap` | 2D intensity matrix with a color-scale legend |
-| Sankey | `Sankey` | Flow / routing diagrams between nodes |
-| Funnel | `Funnel` | Stage-to-stage conversion with percentage drop-off |
-| Gauge | `Gauge` | Single-metric dial with color-banded thresholds |
+<PieChart
+  width={600} height={400}
+  formData={{ vizType: 'pie', groupby: ['region'], metric: 'sales', donut: true }}
+  queriesData={[{ data: [
+    { region: 'NA', sales: 1200 },
+    { region: 'EU', sales:  900 },
+    { region: 'AS', sales: 1500 },
+  ]}]}
+/>
+```
+
+See the [library docs →](./minimal-viz/README.md)
+
+### 2 · As a CLI
+
+```bash
+cd xviz-cli && npm install && npm run build
+
+# From JSON or CSV (Superset's Export to CSV works unmodified)
+xviz render -d data.csv -f form.json -o chart.png
+
+# Straight from a database
+xviz query --db sqlite:./orders.db \
+  --sql "SELECT region, SUM(revenue) r FROM orders GROUP BY 1" \
+  --form pie.json -o regions.png
+
+# Or as an HTTP service — browser stays warm, ~1.2s/request
+xviz serve --port 3737
+```
+
+See the [CLI docs →](./xviz-cli/README.md)
+
+### 3 · As an LLM tool (MCP)
+
+Ask Claude *"chart these numbers as a donut"* and it calls `render_chart`
+directly:
+
+<p align="center">
+  <img src="docs/blog/images/15-mcp.png" width="420" alt="MCP-rendered chart" />
+</p>
+
+```json
+// Add to Claude Desktop's config:
+{ "mcpServers": { "xviz": { "command": "node",
+  "args": ["/path/to/xviz-cli/bin/xviz.mjs", "mcp"] } } }
+```
 
 ## Superset compatibility
 
-The CLI's CSV parser is tested against real-world Superset `Export to CSV`
-output (16-test suite at [`xviz-cli/test/csv-compat.test.mjs`](./xviz-cli/test/csv-compat.test.mjs)). It handles:
+The CSV parser reads **real Apache Superset `Export to CSV` output verbatim**
+— UTF-8 BOM, thousands-separated numbers, CSV-injection guard (`'+12V` →
+`+12V`), nested double quotes, aggregate column names like `SUM(confirmed)`
+and `__timestamp`. 16 regression tests pin the behaviour.
 
-- UTF-8 BOM (Superset uses `encoding="utf-8-sig"`)
-- Thousands-separated numbers: `"9,823,456"` and `"24,800.00"`
-- CSV-injection guard: `"'+12V"` → `"+12V"`, `"'@formula"` → `"@formula"`
-- Nested double quotes: `"""Pro"" Kit"` → `"Pro" Kit`
-- Aggregate column names: `SUM(confirmed)`, `COUNT(*)`
-- `__timestamp` columns preserved as strings (not coerced)
+<p align="center">
+  <img src="docs/blog/images/12-superset-csv.png" width="520" alt="Real Superset CSV rendered" />
+</p>
 
-Run compatibility tests: `cd xviz-cli && node test/csv-compat.test.mjs`
+## What this is **not**
 
-## Layout
+xviz is not a BI platform. No dashboards, no permissioning, no saved
+queries. If you need those, use [Apache Superset](https://superset.apache.org/)
+directly. xviz is for the "I have some data, I want a chart" part of the
+problem.
 
-```
-superset-workspace/
-├── README.md                 ← this file
-├── minimal-viz/              ← React + ECharts chart library
-│   ├── src/viz/
-│   │   ├── pie/ bar/ line/ table/ bigNumber/
-│   │   ├── scatter/ heatmap/ sankey/ funnel/ gauge/
-│   │   ├── Echart.tsx        ← theme-aware ECharts wrapper
-│   │   ├── theme.ts          ← light/dark/custom themes
-│   │   └── types.ts          ← ChartProps, FormData types
-│   └── src/App.tsx           ← live demo with all 10 charts
-├── xviz-cli/                 ← headless renderer
-│   ├── bin/xviz.mjs          ← CLI entry: render / serve / mcp
-│   ├── bin/renderer.mjs      ← puppeteer engine (shared)
-│   ├── bin/mcp.mjs           ← MCP server (LLM tool-use)
-│   ├── bin/csv.mjs           ← Superset-compatible CSV parser
-│   ├── renderer/             ← built to a single self-contained HTML
-│   └── examples/             ← sample forms + data (JSON + CSV)
-└── superset/                 ← upstream Apache Superset (reference only)
-```
+## Learn more
+
+- 📖 **[Technical deep dive](./docs/blog/2026-04-24-extracting-superset-viz.md)**
+  — how the Superset visualization layer was extracted, with side-by-side
+  comparisons
+- 🧩 **[minimal-viz library docs](./minimal-viz/README.md)** — full API, theming, all 10 chart types
+- 🛠️ **[xviz CLI docs](./xviz-cli/README.md)** — `render`, `query`, `serve`, `mcp` commands
 
 ## License
 
-Apache 2.0 — same as Apache Superset, whose architecture inspired this project.
+Apache 2.0
