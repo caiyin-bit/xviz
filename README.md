@@ -1,6 +1,14 @@
 # xviz — lightweight charts + headless renderer
 
 <p align="center">
+  <a href="https://github.com/caiyin-bit/xviz/actions/workflows/ci.yml">
+    <img src="https://github.com/caiyin-bit/xviz/actions/workflows/ci.yml/badge.svg" alt="CI" />
+  </a>
+  <img src="https://img.shields.io/badge/license-Apache_2.0-blue.svg" alt="License" />
+  <img src="https://img.shields.io/badge/node-%E2%89%A520-brightgreen.svg" alt="Node" />
+</p>
+
+<p align="center">
   <img src="docs/blog/images/hero-pie.png" width="520" alt="Pie chart rendered by xviz" />
 </p>
 

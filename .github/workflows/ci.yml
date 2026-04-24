@@ -1,0 +1,92 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Cancel in-flight runs for the same ref (e.g. force-pushes to a PR branch).
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  csv-compat:
+    # Tiny Node-only test suite: UTF-8 BOM, thousands-separated numbers, CSV
+    # injection guard, etc. Runs in ~1s, no browser needed.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: xviz-cli/package-lock.json
+      - name: Install xviz-cli deps
+        working-directory: xviz-cli
+        run: npm ci --ignore-scripts
+      - name: Run CSV compatibility tests
+        working-directory: xviz-cli
+        run: node test/csv-compat.test.mjs
+
+  build-lib:
+    # Build @minimal-viz/core — makes sure the library bundle (ESM + CJS) and
+    # .d.ts declarations can be emitted cleanly.
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [20, 22]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+          cache-dependency-path: minimal-viz/package-lock.json
+      - name: Install
+        working-directory: minimal-viz
+        run: npm ci --ignore-scripts
+      - name: Build library (ESM + CJS + d.ts)
+        working-directory: minimal-viz
+        run: npm run build
+      - name: Verify expected output files
+        working-directory: minimal-viz
+        run: |
+          test -f dist/index.js       || (echo "missing dist/index.js" && exit 1)
+          test -f dist/index.cjs      || (echo "missing dist/index.cjs" && exit 1)
+          test -f dist/index.d.ts     || (echo "missing dist/index.d.ts" && exit 1)
+      - name: npm pack (smoke)
+        working-directory: minimal-viz
+        run: npm pack --dry-run
+
+  build-renderer:
+    # Build xviz-cli's renderer HTML bundle — this is what the CLI loads into
+    # Puppeteer at runtime. Build succeeds iff the full React + viz + echarts
+    # import graph type-checks and bundles.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: xviz-cli/package-lock.json
+      - name: Install
+        working-directory: xviz-cli
+        run: npm ci --ignore-scripts
+      - name: Install minimal-viz deps (renderer imports from it)
+        working-directory: minimal-viz
+        run: npm ci --ignore-scripts
+      - name: Build renderer bundle
+        working-directory: xviz-cli
+        run: npm run build
+      - name: Verify renderer output
+        working-directory: xviz-cli
+        run: |
+          test -f dist/renderer/index.html \
+            || (echo "missing dist/renderer/index.html" && exit 1)
+          size=$(wc -c < dist/renderer/index.html)
+          echo "Renderer bundle size: $size bytes"
+          test "$size" -gt 100000 \
+            || (echo "Renderer bundle suspiciously small ($size < 100KB)" && exit 1)
