@@ -47,7 +47,7 @@ export function Gauge(props: ChartProps<GaugeFormData>) {
         data: [{ value, name: subheader ?? '' }],
       }],
     }
-  }, [formData, queriesData, width, height])
+  }, [formData, queriesData, width, height, theme?.colorText, theme?.colorTextSecondary])
 
   return <Echart width={width} height={height} echartOptions={echartOptions} theme={theme} />
 }
