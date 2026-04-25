@@ -6,6 +6,8 @@ versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.2.0] — 2026-04-25
+
 ### Added
 - `xviz-cli`: `prepack` build hook so `npm pack` always rebuilds the renderer
   before tarballing (replaces the now-removed `prepublishOnly` to avoid
@@ -123,5 +125,6 @@ registry pattern — are adapted from
 This project is an independent extraction and is not affiliated with
 or endorsed by The Apache Software Foundation.
 
-[Unreleased]: https://github.com/caiyin-bit/xviz/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/caiyin-bit/xviz/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/caiyin-bit/xviz/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/caiyin-bit/xviz/releases/tag/v0.1.0
