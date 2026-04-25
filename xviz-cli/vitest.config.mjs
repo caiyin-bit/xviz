@@ -16,13 +16,13 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'lcov', 'html'],
-      // The bin/ scripts run in spawned subprocesses — V8 coverage in this
-      // parent process won't capture them. We still measure: csv parser
-      // (used in tests indirectly is fine), the test/util/ helpers, and
-      // anything imported synchronously. Coverage % will be modest by
-      // design — real correctness lives in the E2E tests.
-      include: ['bin/**/*.mjs', 'test/util/**/*.mjs'],
-      exclude: ['test/**/*.test.mjs', 'test/csv-compat.test.mjs', 'test/mcp-client.mjs'],
+      // CLI binaries under bin/ run in spawned subprocesses (Puppeteer +
+      // child JSON-RPC), so V8 coverage in this parent process can't see
+      // them. We instrument only what the parent actually imports —
+      // currently just the test utilities. Real CLI behavior is verified
+      // by the E2E tests, not by this percentage.
+      include: ['test/util/**/*.mjs'],
+      exclude: ['test/**/*.test.mjs', 'test/csv-compat.test.mjs'],
       reportsDirectory: 'coverage',
     },
   },
