@@ -3,7 +3,7 @@
 // Redux, styled-components, and Superset theme provider removed.
 
 import { useEffect, useLayoutEffect, useMemo, useRef } from 'react'
-import { use, init, type EChartsType } from 'echarts/core'
+import { use as registerEcharts, init, type EChartsType } from 'echarts/core'
 import { DEFAULT_THEME, type Theme } from './theme'
 import {
   PieChart, BarChart, LineChart, ScatterChart,
@@ -19,7 +19,7 @@ import {
 import { LabelLayout } from 'echarts/features'
 import type { EChartsCoreOption } from 'echarts/core'
 
-use([
+registerEcharts([
   CanvasRenderer,
   PieChart, BarChart, LineChart, ScatterChart,
   FunnelChart, GaugeChart, RadarChart, TreemapChart, SunburstChart,

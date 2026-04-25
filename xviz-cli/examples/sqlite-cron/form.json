@@ -1,0 +1,9 @@
+{
+  "vizType": "bar",
+  "xAxis": "month",
+  "metrics": ["revenue"],
+  "showLegend": false,
+  "numberFormat": "smart",
+  "xAxisLabel": "Month",
+  "yAxisLabel": "Revenue ($)"
+}

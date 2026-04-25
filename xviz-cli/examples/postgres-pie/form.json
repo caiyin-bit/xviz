@@ -1,0 +1,13 @@
+{
+  "vizType": "pie",
+  "groupby": ["customer_region"],
+  "metric": "revenue",
+  "donut": true,
+  "innerRadius": 40,
+  "outerRadius": 75,
+  "labelType": "key_percent",
+  "showLegend": true,
+  "legendOrientation": "right",
+  "numberFormat": "smart",
+  "showTotal": true
+}

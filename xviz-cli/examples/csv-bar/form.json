@@ -1,0 +1,13 @@
+{
+  "vizType": "bar",
+  "xAxis": "__timestamp",
+  "metrics": ["COUNT(*)"],
+  "seriesColumn": "category",
+  "stacked": true,
+  "horizontal": false,
+  "showLegend": true,
+  "legendOrientation": "top",
+  "numberFormat": "smart",
+  "xAxisLabel": "Month",
+  "yAxisLabel": "Event count"
+}

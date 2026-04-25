@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "xviz": {
+      "command": "npx",
+      "args": ["-y", "xviz-cli", "mcp"]
+    }
+  }
+}

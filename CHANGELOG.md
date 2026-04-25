@@ -21,6 +21,24 @@ versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - CI: `vitest` job covering both packages.
 - Repo: `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md` (Contributor Covenant 2.1),
   issue templates (bug / feature / config), and PR template.
+- `xviz-cli` + `@minimal-viz/core`: Vitest V8 coverage configured;
+  `npm run test:coverage` produces `coverage/lcov.info` and an HTML
+  report locally. CI uploads the combined coverage as a 14-day
+  workflow artifact and (best-effort) sends lcov to Codecov.
+- CI: `lint-typecheck` job runs `npm run lint` (minimal-viz) and
+  `npm run typecheck` (both packages) on every PR.
+- Top-level: `README.md` rewritten with the value proposition
+  ("Apache Superset's chart engine, unbundled"), language toggle,
+  Coverage badge slot, and corrected `npm i -g xviz-cli` install
+  command.
+- New: `README.zh-CN.md` Chinese top-level README.
+- New: `xviz-cli/examples/README.md` index plus five end-to-end
+  example folders (`postgres-pie`, `csv-bar`, `sqlite-cron`,
+  `mcp-claude-desktop`, `serve-curl`), each with sample data /
+  config, a runnable script, and a pre-rendered `chart.png`.
+- `minimal-viz`: ESLint config now ignores `coverage/` and the
+  echarts `use` import was renamed to `registerEcharts` to silence
+  a `react-hooks/rules-of-hooks` false positive.
 
 ### Removed
 - `xviz-cli`: `prepublishOnly` script (functionally subsumed by `prepack`).
