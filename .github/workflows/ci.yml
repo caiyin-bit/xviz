@@ -245,6 +245,10 @@ jobs:
         working-directory: xviz-cli
         run: npm ci --ignore-scripts
 
+      - name: Lint xviz-cli
+        working-directory: xviz-cli
+        run: npm run lint
+
       - name: Typecheck xviz-cli
         working-directory: xviz-cli
         run: npm run typecheck
