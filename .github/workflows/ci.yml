@@ -176,9 +176,9 @@ jobs:
         working-directory: minimal-viz
         run: npm ci --ignore-scripts
 
-      - name: Run minimal-viz Vitest
+      - name: Run minimal-viz Vitest with coverage
         working-directory: minimal-viz
-        run: npm test
+        run: npm run test:coverage
 
       - name: Install xviz-cli deps (with optional sqlite for query test)
         working-directory: xviz-cli
@@ -188,8 +188,28 @@ jobs:
         working-directory: xviz-cli
         run: npm run build
 
-      - name: Run xviz-cli Vitest
+      - name: Run xviz-cli Vitest with coverage
         working-directory: xviz-cli
         env:
           XVIZ_CHROME: ${{ steps.chrome.outputs.chrome-path }}
-        run: npm test
+        run: npm run test:coverage
+
+      - name: Upload coverage artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: |
+            minimal-viz/coverage/
+            xviz-cli/coverage/
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Upload coverage to Codecov (best-effort)
+        if: always()
+        continue-on-error: true
+        uses: codecov/codecov-action@v4
+        with:
+          files: ./minimal-viz/coverage/lcov.info,./xviz-cli/coverage/lcov.info
+          flags: minimal-viz,xviz-cli
+          fail_ci_if_error: false
