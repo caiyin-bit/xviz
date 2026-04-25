@@ -6,6 +6,26 @@ versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+- `xviz-cli`: `prepack` build hook so `npm pack` always rebuilds the renderer
+  before tarballing (replaces the now-removed `prepublishOnly` to avoid
+  double builds).
+- `xviz-cli`: Vitest smoke tests for `render`, `query` (SQLite), and `mcp`
+  paths. The legacy hand-runnable `test/mcp-client.mjs` was ported.
+- `@minimal-viz/core`: Vitest snapshot tests for `transformPieProps` and
+  `transformCartesianProps`.
+- CI: `pack-smoke` job that does fresh-checkout `npm pack` →
+  `npm i -g <tarball>` → real `xviz render`, with Chrome installed via
+  `browser-actions/setup-chrome`. Regression net for the
+  `npm i -g xviz-cli` user path.
+- CI: `vitest` job covering both packages.
+- Repo: `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md` (Contributor Covenant 2.1),
+  issue templates (bug / feature / config), and PR template.
+
+### Removed
+- `xviz-cli`: `prepublishOnly` script (functionally subsumed by `prepack`).
+- `xviz-cli/test/mcp-client.mjs` (replaced by Vitest equivalent).
+
 ## [0.1.0] — 2026-04-24
 
 Initial release.

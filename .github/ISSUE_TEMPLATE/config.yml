@@ -1,0 +1,10 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Documentation (READMEs + CHANGELOG)
+    url: https://github.com/caiyin-bit/xviz#readme
+    about: Read the README first — most install / usage questions are answered there.
+  - name: Have an idea or open-ended question?
+    url: https://github.com/caiyin-bit/xviz/issues/new?template=feature.yml
+    about: |
+      Use the feature template — describe what you'd like to do
+      and we'll discuss before any code is written.

@@ -90,3 +90,106 @@ jobs:
           echo "Renderer bundle size: $size bytes"
           test "$size" -gt 100000 \
             || (echo "Renderer bundle suspiciously small ($size < 100KB)" && exit 1)
+
+  pack-smoke:
+    # End-to-end install-and-render. Verifies that 'npm pack' (which calls
+    # the prepack hook) produces a tarball that, once installed globally,
+    # actually runs `xviz render` against a fixture and outputs a PNG.
+    # This is the regression net for the "user can `npm i -g xviz-cli` and
+    # it works" guarantee.
+    runs-on: ubuntu-latest
+    needs: build-renderer
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: xviz-cli/package-lock.json
+
+      # Set up Chrome explicitly — do not rely on the runner image's
+      # implicit state. setup-chrome exposes the binary path as an output.
+      - uses: browser-actions/setup-chrome@v2
+        id: chrome
+        with:
+          chrome-version: stable
+
+      - name: Install minimal-viz deps (renderer imports it at build time)
+        working-directory: minimal-viz
+        run: npm ci --ignore-scripts
+
+      - name: Install xviz-cli deps
+        working-directory: xviz-cli
+        run: npm ci --ignore-scripts
+
+      - name: npm pack (triggers prepack → vite build)
+        working-directory: xviz-cli
+        run: npm pack
+
+      - name: Verify tarball contains renderer
+        working-directory: xviz-cli
+        run: |
+          tar tzf xviz-cli-*.tgz | grep -q 'package/dist/renderer/index.html' \
+            || (echo "renderer missing from tarball" && exit 1)
+
+      - name: Install tarball globally
+        working-directory: xviz-cli
+        run: npm i -g ./xviz-cli-*.tgz
+
+      - name: Render a pie chart end-to-end
+        working-directory: xviz-cli
+        env:
+          XVIZ_CHROME: ${{ steps.chrome.outputs.chrome-path }}
+        run: |
+          xviz render \
+            -d examples/pie-data.json \
+            -f examples/pie-form.json \
+            -o /tmp/pie.png \
+            --width 600 --height 400
+          test -f /tmp/pie.png || (echo "PNG not produced" && exit 1)
+          size=$(wc -c < /tmp/pie.png)
+          echo "PNG size: $size bytes"
+          test "$size" -gt 1000 || (echo "PNG too small" && exit 1)
+
+  vitest:
+    # Runs the new Vitest suites for both packages. xviz-cli tests spawn
+    # the CLI which boots Puppeteer, so this job also needs Chrome.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: |
+            minimal-viz/package-lock.json
+            xviz-cli/package-lock.json
+
+      - uses: browser-actions/setup-chrome@v2
+        id: chrome
+        with:
+          chrome-version: stable
+
+      - name: Install minimal-viz deps
+        working-directory: minimal-viz
+        run: npm ci --ignore-scripts
+
+      - name: Run minimal-viz Vitest
+        working-directory: minimal-viz
+        run: npm test
+
+      - name: Install xviz-cli deps (with optional sqlite for query test)
+        working-directory: xviz-cli
+        run: npm ci --include=optional
+
+      - name: Build renderer (xviz tests need the bundle on disk)
+        working-directory: xviz-cli
+        run: npm run build
+
+      - name: Run xviz-cli Vitest
+        working-directory: xviz-cli
+        env:
+          XVIZ_CHROME: ${{ steps.chrome.outputs.chrome-path }}
+        run: npm test

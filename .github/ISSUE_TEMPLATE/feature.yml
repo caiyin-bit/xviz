@@ -1,0 +1,44 @@
+name: Feature request
+description: Propose a new feature, chart type, or capability.
+title: "[feature] "
+labels: ["enhancement", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please open this issue **before** sending a PR for anything
+        beyond a one-line fix. We'd rather discuss the shape first.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / use case
+      description: What are you trying to accomplish? What does the
+        absence of this feature force you to do today?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: A sketch of the API or behavior you'd like.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Other approaches and why they fall short.
+
+  - type: dropdown
+    id: package
+    attributes:
+      label: Which package
+      options:
+        - "xviz-cli"
+        - "@minimal-viz/core"
+        - "Both"
+    validations:
+      required: true

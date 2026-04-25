@@ -14,17 +14,27 @@ Supports 10 chart types: `pie bar line table big-number scatter heatmap sankey f
 ## Setup
 
 ```bash
-cd xviz-cli
-npm install
-npm run build        # build the renderer bundle (one-time)
+npm i -g xviz-cli
 ```
 
-Chrome or Chromium is required. Puppeteer auto-detects these paths:
+Chrome or Chromium is required at runtime — `xviz` uses `puppeteer-core`
+and does not bundle a browser. The CLI auto-detects these paths:
 
 - macOS: `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome`
-- Linux: `/usr/bin/google-chrome`, `/usr/bin/chromium`, `/usr/bin/chromium-browser`
+- Linux: `/usr/bin/google-chrome`, `/usr/bin/chromium`,
+  `/usr/bin/chromium-browser`
 
-Override with `XVIZ_CHROME=/path/to/chrome`.
+Override the path with `XVIZ_CHROME=/path/to/chrome`.
+
+### From source (contributors only)
+
+```bash
+git clone https://github.com/caiyin-bit/xviz.git
+cd xviz/xviz-cli
+npm ci --include=optional
+npm run build        # builds the renderer bundle into dist/
+node bin/xviz.mjs --help
+```
 
 ## `xviz render`
 
