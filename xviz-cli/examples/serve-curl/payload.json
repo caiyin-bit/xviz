@@ -1,0 +1,16 @@
+{
+  "type": "pie",
+  "data": [
+    { "region": "NA", "sales": 1200 },
+    { "region": "EU", "sales": 900  },
+    { "region": "AS", "sales": 1500 }
+  ],
+  "formData": {
+    "vizType": "pie",
+    "groupby": ["region"],
+    "metric": "sales",
+    "donut": true
+  },
+  "width": 600,
+  "height": 400
+}
