@@ -30,7 +30,7 @@ function coerce(v) {
 
   // Defuse Superset's CSV-injection guard (values prefixed with ' before -@+|=%).
   // We keep it as a string but strip the leading ' so it doesn't break typing below.
-  const unguarded = /^'(?=[\-@+|=%])/.test(s) ? s.slice(1) : s
+  const unguarded = /^'(?=[-@+|=%])/.test(s) ? s.slice(1) : s
 
   // Plain integer/float: "1234", "-1.5", "1.23e+05".
   if (/^-?\d+(\.\d+)?([eE][-+]?\d+)?$/.test(unguarded)) {

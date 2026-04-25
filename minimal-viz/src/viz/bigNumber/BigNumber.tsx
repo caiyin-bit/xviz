@@ -16,7 +16,7 @@ export function BigNumber(props: ChartProps<BigNumberFormData>) {
     compareToPrevious = false,
   } = formData
 
-  const rows = queriesData[0]?.data ?? []
+  const rows = useMemo(() => queriesData[0]?.data ?? [], [queriesData])
   const fmt = getNumberFormatter(numberFormat)
 
   // Big value = last row's metric (most recent); fall back to first row if only one.

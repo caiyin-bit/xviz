@@ -20,7 +20,7 @@ export function Table(props: ChartProps<TableFormData>) {
     stripes = true,
   } = formData
 
-  const rows = queriesData[0]?.data ?? []
+  const rows = useMemo(() => queriesData[0]?.data ?? [], [queriesData])
   const colnames = queriesData[0]?.colnames
   const columns = useMemo(() => {
     if (explicit?.length) return explicit
