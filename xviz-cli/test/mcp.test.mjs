@@ -69,10 +69,12 @@ beforeAll(async () => {
 })
 
 afterAll(async () => {
-  if (proc) {
-    proc.kill('SIGTERM')
-    await new Promise((r) => proc.on('exit', r))
-  }
+  if (!proc) return
+  proc.kill('SIGTERM')
+  await Promise.race([
+    new Promise((r) => proc.on('exit', r)),
+    new Promise((r) => setTimeout(() => { proc.kill('SIGKILL'); r() }, 3000)),
+  ])
 })
 
 describe('xviz mcp (MCP smoke)', () => {
