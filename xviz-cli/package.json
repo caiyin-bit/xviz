@@ -28,7 +28,7 @@
   },
   "type": "module",
   "bin": {
-    "xviz": "./bin/xviz.mjs"
+    "xviz": "bin/xviz.mjs"
   },
   "files": [
     "bin",
