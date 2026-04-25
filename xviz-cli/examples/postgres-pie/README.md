@@ -29,15 +29,15 @@ PGPASSWORD=demo psql -h localhost -U postgres \
   -f schema.sql -f seed.sql
 ```
 
-### 3. Install the CLI and the Postgres driver
+### 3. Install the CLI
 
 ```bash
 npm i -g xviz-cli
-npm i -g pg            # peer driver for the postgres:// URL
 ```
 
-(The `pg` install only needs to be done once per machine — `xviz-cli`
-uses it dynamically, so it's listed under `optionalDependencies`.)
+`xviz-cli` lists `pg` (the Postgres driver) in `optionalDependencies`,
+so a default `npm i -g xviz-cli` already pulls it in. If you installed
+with `npm i -g xviz-cli --omit=optional`, run `npm i -g pg` separately.
 
 ### 4. Render
 
@@ -50,8 +50,11 @@ xviz query \
   --width 700 --height 500
 ```
 
-Open `chart.png` — the donut you see in this folder is exactly what
-gets produced.
+Open `chart.png` — the donut you see in this folder was rendered
+from the same aggregation result the SQL above produces (NA = 34,340,
+Europe = 28,525, Asia = 43,650, South America = 13,470), so the
+shape and proportions match exactly what you'll see when you run
+the actual query against a live Postgres.
 
 ## Cleanup
 
