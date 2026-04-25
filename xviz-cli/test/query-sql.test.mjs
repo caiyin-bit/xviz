@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest'
 import { spawn } from 'node:child_process'
 import { mkdtemp, rm, readFile, stat } from 'node:fs/promises'
+import { existsSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -13,6 +14,12 @@ const cli = resolve(repoRoot, 'bin/xviz.mjs')
 let tmp
 
 beforeAll(async () => {
+  const html = resolve(repoRoot, 'dist/renderer/index.html')
+  if (!existsSync(html)) {
+    throw new Error(
+      `Renderer bundle missing — run 'npm run build' first (expected ${html})`,
+    )
+  }
   tmp = await mkdtemp(join(tmpdir(), 'xviz-query-'))
 })
 
