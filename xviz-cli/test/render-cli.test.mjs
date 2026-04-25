@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest'
 import { spawn } from 'node:child_process'
 import { mkdtemp, rm, readFile, stat } from 'node:fs/promises'
+import { existsSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -13,6 +14,12 @@ const cli = resolve(repoRoot, 'bin/xviz.mjs')
 let tmp
 
 beforeAll(async () => {
+  const html = resolve(repoRoot, 'dist/renderer/index.html')
+  if (!existsSync(html)) {
+    throw new Error(
+      `Renderer bundle missing — run 'npm run build' first (expected ${html})`,
+    )
+  }
   tmp = await mkdtemp(join(tmpdir(), 'xviz-render-'))
 })
 
@@ -38,8 +45,6 @@ function runCli(args) {
 
 describe('xviz render (CLI smoke)', () => {
   it('renders pie example to PNG with requested dimensions', async () => {
-    // Skip in CI if renderer hasn't been built yet (Task 9 covers CI).
-    // Locally, the engineer should have run `npm run build` once.
     const out = join(tmp, 'pie.png')
 
     const { code, stderr } = await runCli([
@@ -64,10 +69,13 @@ describe('xviz render (CLI smoke)', () => {
     // The actual element is wrapped with 20px padding on each side per
     // bin/xviz.mjs:60 — so we just sanity-check non-zero and roughly correct
     // aspect ratio (within 30%).
-    expect(width).toBeGreaterThan(0)
-    expect(height).toBeGreaterThan(0)
+    // After deviceScaleFactor: 2 + 20px padding on each side, a 600×400
+    // request typically renders at ~1240×840. Sanity-check minimum size
+    // and a tighter aspect window (within ±15% of 1.5).
+    expect(width).toBeGreaterThan(800)
+    expect(height).toBeGreaterThan(500)
     const aspect = width / height
-    expect(aspect).toBeGreaterThan(600 / 400 * 0.7)
-    expect(aspect).toBeLessThan(600 / 400 * 1.3)
+    expect(aspect).toBeGreaterThan(600 / 400 * 0.85)
+    expect(aspect).toBeLessThan(600 / 400 * 1.15)
   })
 })
