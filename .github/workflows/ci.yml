@@ -151,3 +151,42 @@ jobs:
           size=$(wc -c < /tmp/pie.png)
           echo "PNG size: $size bytes"
           test "$size" -gt 1000 || (echo "PNG too small" && exit 1)
+
+  vitest:
+    # Runs the new Vitest suites for both packages. xviz-cli tests spawn
+    # the CLI which boots Puppeteer, so this job also needs Chrome.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 20
+          cache: npm
+
+      - uses: browser-actions/setup-chrome@v2
+        id: chrome
+        with:
+          chrome-version: stable
+
+      - name: Install minimal-viz deps
+        working-directory: minimal-viz
+        run: npm ci --ignore-scripts
+
+      - name: Run minimal-viz Vitest
+        working-directory: minimal-viz
+        run: npm test
+
+      - name: Install xviz-cli deps (with optional sqlite for query test)
+        working-directory: xviz-cli
+        run: npm ci --include=optional
+
+      - name: Build renderer (xviz tests need the bundle on disk)
+        working-directory: xviz-cli
+        run: npm run build
+
+      - name: Run xviz-cli Vitest
+        working-directory: xviz-cli
+        env:
+          XVIZ_CHROME: ${{ steps.chrome.outputs.chrome-path }}
+        run: npm test
