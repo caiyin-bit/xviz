@@ -40,8 +40,10 @@
   },
   "scripts": {
     "build": "vite build",
-    "prepublishOnly": "npm run build",
-    "test:csv": "node test/csv-compat.test.mjs"
+    "prepack": "npm run build",
+    "test": "vitest run",
+    "test:csv": "node test/csv-compat.test.mjs",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",
