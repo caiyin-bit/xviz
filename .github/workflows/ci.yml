@@ -163,6 +163,9 @@ jobs:
         with:
           node-version: 20
           cache: npm
+          cache-dependency-path: |
+            minimal-viz/package-lock.json
+            xviz-cli/package-lock.json
 
       - uses: browser-actions/setup-chrome@v2
         id: chrome

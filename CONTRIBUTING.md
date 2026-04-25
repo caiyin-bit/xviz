@@ -50,8 +50,9 @@ shape than ask you to redo the work.
 2. Make your change. Keep PRs focused — one logical change per PR.
 3. Run the relevant test suite locally (see [Testing](#testing)).
 4. Open a PR using the [template](.github/pull_request_template.md).
-5. CI will run lint, typecheck, Vitest, the CSV regression suite, and a
-   pack-smoke that does a real `xviz render` end-to-end.
+5. CI will run Vitest, the CSV regression suite, and a pack-smoke that
+   does a real `xviz render` end-to-end. Run `npm run lint` (minimal-viz)
+   and `npm run typecheck` (each package) locally before submitting.
 6. A maintainer will review. Expect comments — the project is small enough
    that we read every line.
 
