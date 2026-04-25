@@ -13,5 +13,17 @@ export default defineConfig({
     // Existing csv-compat is a plain Node script, leave it out of Vitest
     // (still runnable via `npm run test:csv`).
     exclude: ['node_modules', 'dist', 'test/csv-compat.test.mjs'],
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'lcov', 'html'],
+      // The bin/ scripts run in spawned subprocesses — V8 coverage in this
+      // parent process won't capture them. We still measure: csv parser
+      // (used in tests indirectly is fine), the test/util/ helpers, and
+      // anything imported synchronously. Coverage % will be modest by
+      // design — real correctness lives in the E2E tests.
+      include: ['bin/**/*.mjs', 'test/util/**/*.mjs'],
+      exclude: ['test/**/*.test.mjs', 'test/csv-compat.test.mjs', 'test/mcp-client.mjs'],
+      reportsDirectory: 'coverage',
+    },
   },
 })

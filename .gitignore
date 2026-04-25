@@ -28,3 +28,6 @@ xviz-cli/examples/sql/*.db
 
 # Personal workspace / design docs not part of the xviz project.
 /docs/superpowers/
+
+# Vitest coverage output (per-package)
+**/coverage/
