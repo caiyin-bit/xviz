@@ -213,3 +213,38 @@ jobs:
           files: ./minimal-viz/coverage/lcov.info,./xviz-cli/coverage/lcov.info
           flags: minimal-viz,xviz-cli
           fail_ci_if_error: false
+
+  lint-typecheck:
+    # Lints minimal-viz (xviz-cli has no ESLint config — by design, Week 2 spec)
+    # and typechecks both packages.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: |
+            minimal-viz/package-lock.json
+            xviz-cli/package-lock.json
+
+      - name: Install minimal-viz deps
+        working-directory: minimal-viz
+        run: npm ci --ignore-scripts
+
+      - name: Lint minimal-viz
+        working-directory: minimal-viz
+        run: npm run lint
+
+      - name: Typecheck minimal-viz
+        working-directory: minimal-viz
+        run: npm run typecheck
+
+      - name: Install xviz-cli deps
+        working-directory: xviz-cli
+        run: npm ci --ignore-scripts
+
+      - name: Typecheck xviz-cli
+        working-directory: xviz-cli
+        run: npm run typecheck
