@@ -66,7 +66,8 @@ async function loadDriver(name) {
     return await import(name)
   } catch (e) {
     throw new Error(
-      `Driver "${name}" is not installed. Run: npm install ${name}\n(Underlying error: ${e.message})`
+      `Driver "${name}" is not installed. Run: npm install ${name}\n(Underlying error: ${e.message})`,
+      { cause: e }
     )
   }
 }
