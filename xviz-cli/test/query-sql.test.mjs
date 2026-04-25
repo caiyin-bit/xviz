@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest'
-import { spawn } from 'node:child_process'
+import { spawn, execSync } from 'node:child_process'
 import { mkdtemp, rm, readFile, stat } from 'node:fs/promises'
 import { existsSync } from 'node:fs'
 import { tmpdir } from 'node:os'
@@ -20,6 +20,15 @@ beforeAll(async () => {
       `Renderer bundle missing — run 'npm run build' first (expected ${html})`,
     )
   }
+
+  // SQL fixture is gitignored (examples/sql/*.db). Build it on demand from
+  // the deterministic generator so fresh-clone runs (CI, new contributors)
+  // don't have to know about a manual build step.
+  const dbPath = resolve(repoRoot, 'examples/sql/sample.db')
+  if (!existsSync(dbPath)) {
+    execSync('node examples/sql/build-sample.mjs', { cwd: repoRoot, stdio: 'inherit' })
+  }
+
   tmp = await mkdtemp(join(tmpdir(), 'xviz-query-'))
 })
 
