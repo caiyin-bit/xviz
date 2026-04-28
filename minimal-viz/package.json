@@ -1,7 +1,7 @@
 {
   "name": "@minimal-viz/core",
-  "version": "0.2.0",
-  "description": "Lightweight React chart components (Pie, Bar, Line, Table, BigNumber, Scatter, Heatmap, Sankey, Funnel, Gauge) built on ECharts. Light/dark themes, ~5 KB gzip.",
+  "version": "0.4.0",
+  "description": "Lightweight React chart components (Pie, Bar, Line, Table, BigNumber, Scatter, Heatmap, Sankey, Funnel, Gauge, BoxPlot, Histogram, Treemap, Sunburst, Radar) built on ECharts. Light/dark themes, ~5 KB gzip.",
   "keywords": [
     "react",
     "charts",

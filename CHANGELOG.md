@@ -6,15 +6,30 @@ versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.4.0] — 2026-04-26
+
+This release completes **M1 of the [xviz × Superset feature-parity roadmap](docs/superpowers/specs/2026-04-26-xviz-superset-parity-roadmap.md)** — five new chart types taking xviz from 10 → 15 supported types in a single sweep. No breaking changes; all v0.2.0 charts and APIs are preserved.
+
+> **Versioning note:** v0.3.x was an internal lint/CI quality release that was deliberately not published to npm (no user-visible behavior change). v0.4.0 is the next user-facing release after v0.2.0.
+
 ### Added
 - **BoxPlot chart** (`vizType: 'boxplot'`) — categorical box-and-whisker with Tukey or min-max whiskers and optional outlier overlay. Computes 5-number summaries client-side from raw observations. Available in `@minimal-viz/core` (export `BoxPlot`, `BoxPlotFormData`) and the xviz CLI/serve/MCP surface (registered in `/health.supported`).
 - **Histogram chart** (`vizType: 'histogram'`) — equal-width binning with optional density normalization and cumulative (empirical CDF) modes. Client-side bin computation; uses ECharts `bar` series under the hood. Available in `@minimal-viz/core` (export `Histogram`, `HistogramFormData`) and the xviz CLI/serve/MCP surface.
 - **Treemap chart** (`vizType: 'treemap'`) — multi-level hierarchical rectangles, sized by metric. Accepts a flat row set + multi-column `groupby` path (e.g. `['region', 'country']`); the transform builds a nested tree and ECharts auto-aggregates parent levels. Available in `@minimal-viz/core` (export `Treemap`, `TreemapFormData`) and the xviz CLI/serve/MCP surface.
 - **Sunburst chart** (`vizType: 'sunburst'`) — concentric-ring hierarchy, sized by metric. Same data contract as Treemap (flat rows + multi-column `groupby`), with optional `innerRadius`/`outerRadius` for donut shapes. Available in `@minimal-viz/core` (export `Sunburst`, `SunburstFormData`) and the xviz CLI/serve/MCP surface.
 - **Radar chart** (`vizType: 'radar'`) — multi-axis comparison plot. Each metric in `metrics: string[]` becomes a radar axis; each `groupby` value becomes a series. Per-axis scale auto-computed from data, with `axisMax` override available. Filled by default; `fill: false` for outline-only. Polygon or circle shape. Available in `@minimal-viz/core` (export `Radar`, `RadarFormData`) and the xviz CLI/serve/MCP surface.
-- **Internal:** `viz/hierarchy.ts` introduced as the shared flat-rows-to-tree helper used by Treemap and Sunburst (slated for M2 Tree/Graph reuse).
-- **M1 milestone complete**: BoxPlot + Histogram + Treemap + Sunburst + Radar — 5 new chart types, taking xviz from 10 → 15 supported types. Roadmap M1.1–M1.5 all ✅. Ready for v0.4.0 npm release after the M1 integration plan finalizes README chart-tables and example walkthroughs.
-- First sweep of the **xviz × Superset feature parity roadmap** (M1 of 7 milestones; see `docs/superpowers/specs/2026-04-26-xviz-superset-parity-roadmap.md`).
+- `xviz-cli/examples/` quick-reference fixtures for each new type: `boxplot.json`, `histogram.json`, `treemap.json`, `sunburst.json`, `radar.json`. `render-all.sh` runs them all.
+- New walkthroughs: [`examples/boxplot-tukey/`](xviz-cli/examples/boxplot-tukey/README.md) (statistical exploration with outlier detection) and [`examples/treemap-regions/`](xviz-cli/examples/treemap-regions/README.md) (2-level hierarchy from flat rows). These deliberately ship without a pre-rendered `chart.png`; render locally to verify your environment.
+
+### Changed
+- `xviz serve /health.supported` now returns 15 entries instead of 10.
+- `Window.__CHART__.type` union (renderer bundle) extended to 15 type literals.
+- Top-level READMEs (EN + zh-CN), `minimal-viz/README.md`, `xviz-cli/README.md`, and `xviz-cli/examples/README.md` updated to reflect the 15-chart roster and the 95% BI-coverage figure.
+
+### Internal
+- `minimal-viz/src/viz/hierarchy.ts` introduced as the shared flat-rows-to-tree helper used by Treemap and Sunburst (slated for M2 Tree/Graph reuse). Treemap was refactored to consume the helper; snapshot output unchanged.
+- 27 new inline-snapshot / assertion tests across the five new transforms (test count: 6 → 33).
+- Renderer bundle grew from ~1.00 MB to ~1.01 MB (+~17 KB across all five charts).
 
 ## [0.2.0] — 2026-04-25
 

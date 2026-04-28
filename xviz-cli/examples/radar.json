@@ -1,0 +1,16 @@
+{
+  "width": 600,
+  "height": 480,
+  "formData": {
+    "vizType": "radar",
+    "metrics": ["q1", "q2", "q3", "q4"],
+    "groupby": "team",
+    "shape": "polygon",
+    "fill": true
+  },
+  "data": [
+    { "team": "A", "q1": 100, "q2": 80, "q3":  90, "q4": 110 },
+    { "team": "B", "q1":  70, "q2": 95, "q3":  85, "q4": 100 },
+    { "team": "C", "q1":  60, "q2": 70, "q3": 110, "q4":  90 }
+  ]
+}

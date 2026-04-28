@@ -9,7 +9,7 @@ Three modes:
 - **`xviz serve`** — HTTP server with `POST /render`
 - **`xviz mcp`** — MCP server for LLM tool-use (Claude, etc.)
 
-Supports 10 chart types: `pie bar line table big-number scatter heatmap sankey funnel gauge`.
+Supports 15 chart types: `pie bar line table big-number scatter heatmap sankey funnel gauge boxplot histogram treemap sunburst radar`.
 
 ## Setup
 

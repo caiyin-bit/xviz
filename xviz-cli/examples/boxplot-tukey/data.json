@@ -1,0 +1,12 @@
+[
+  { "team": "A", "score": 10 }, { "team": "A", "score": 12 },
+  { "team": "A", "score": 14 }, { "team": "A", "score": 16 },
+  { "team": "A", "score": 18 }, { "team": "A", "score": 20 },
+  { "team": "A", "score": 22 }, { "team": "A", "score": 24 },
+  { "team": "A", "score": 26 },
+  { "team": "B", "score": 30 }, { "team": "B", "score": 32 },
+  { "team": "B", "score": 34 }, { "team": "B", "score": 36 },
+  { "team": "B", "score": 38 }, { "team": "B", "score": 40 },
+  { "team": "B", "score": 42 }, { "team": "B", "score": 44 },
+  { "team": "B", "score": 1000 }
+]

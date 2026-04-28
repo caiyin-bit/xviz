@@ -22,8 +22,8 @@
 > 把 Apache Superset 的图表层剥出来做成独立可用的库。
 > 既能在 React 应用里当组件用，也能用 CLI 把 JSON / CSV / SQL 查询结果无头渲染成
 > PNG / PDF / HTML，还能通过 MCP 让 LLM agent 直接调用画图。
-> 没有 BI 平台、没有元数据库、没有 dashboard ——只有 10 种图表 + 一个把数据
-> 变成图片的渲染器。
+> 没有 BI 平台、没有元数据库、没有 dashboard ——只有 **15 种图表**（v0.4.0）+
+> 一个把数据变成图片的渲染器。
 
 ## 三种使用方式
 
@@ -88,12 +88,12 @@ xviz serve --port 3737
   "args": ["xviz-cli", "mcp"] } } }
 ```
 
-把这段加进 Claude Desktop 的配置，Claude 就能按需渲染 10 种图表中的任何一种。
+把这段加进 Claude Desktop 的配置，Claude 就能按需渲染 15 种图表中的任何一种。
 完整走查见 [MCP 示例](./xviz-cli/examples/mcp-claude-desktop/README.md)。
 
 ## 支持的图表类型
 
-10 种图表，覆盖 BI 日常 80% 的需求。
+15 种图表（截至 v0.4.0），覆盖 BI 日常约 95% 的需求。
 
 | | | |
 |:---:|:---:|:---:|
@@ -103,6 +103,16 @@ xviz serve --port 3737
 | **表格** | **散点 / 气泡图** | **热力图** |
 | ![桑基图](docs/blog/images/07-sankey.png) | ![漏斗图](docs/blog/images/08-funnel.png) | ![仪表盘](docs/blog/images/09-gauge.png) |
 | **桑基图** | **漏斗图** | **仪表盘** |
+
+**v0.4.0 新增**——[Superset 功能对齐路线图](./docs/superpowers/specs/2026-04-26-xviz-superset-parity-roadmap.md) M1 阶段成果：
+
+| 图表 | 适用场景 | 说明 |
+|---|---|---|
+| **BoxPlot（箱线图）** | 多组分布对比 | Tukey 或 min-max 触须，可选离群点叠加 |
+| **Histogram（直方图）** | 单列分布 | 等宽分箱；可选 density 归一化 / cumulative 累计 |
+| **Treemap（矩形树图）** | 层级占比 | 多列 `groupby` 自动构造嵌套树 |
+| **Sunburst（旭日图）** | 同心环层级 | 数据接口与 Treemap 完全相同 |
+| **Radar（雷达图）** | 多维比较 | 每个 metric 一个轴，每个 group 一个多边形 |
 
 外加 **BigNumber**（KPI 大数 + 迷你趋势线 + 增减百分比）和明暗双主题：
 
@@ -126,7 +136,7 @@ xviz 不是 BI 平台。没有 dashboard、没有权限、没有保存的查询�
 
 - 📖 **[技术深度文章](./docs/blog/2026-04-24-extracting-superset-viz.md)**
   ——架构、取舍、新旧方案对比
-- 🧩 **[minimal-viz 库文档](./minimal-viz/README.md)** ——完整 API、主题、10 种图表
+- 🧩 **[minimal-viz 库文档](./minimal-viz/README.md)** ——完整 API、主题、15 种图表
 - 🛠️ **[xviz CLI 文档](./xviz-cli/README.md)** ——`render`、`query`、`serve`、`mcp` 命令
 - 🧪 **[可运行示例](./xviz-cli/examples/README.md)** ——Postgres、SQLite、CSV、MCP、HTTP
 - 🤝 **[贡献指南](./CONTRIBUTING.md)** ——bug 报告、PR、开发环境

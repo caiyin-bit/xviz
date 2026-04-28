@@ -1,0 +1,22 @@
+{
+  "width": 700,
+  "height": 480,
+  "formData": {
+    "vizType": "treemap",
+    "groupby": ["region", "country"],
+    "metric": "sales",
+    "showLabels": true,
+    "showValues": true
+  },
+  "data": [
+    { "region": "NA", "country": "US",  "sales": 1200 },
+    { "region": "NA", "country": "CA",  "sales":  400 },
+    { "region": "EU", "country": "DE",  "sales":  800 },
+    { "region": "EU", "country": "FR",  "sales":  600 },
+    { "region": "EU", "country": "UK",  "sales":  750 },
+    { "region": "AS", "country": "JP",  "sales":  700 },
+    { "region": "AS", "country": "CN",  "sales": 1500 },
+    { "region": "AS", "country": "IN",  "sales":  900 },
+    { "region": "SA", "country": "BR",  "sales":  350 }
+  ]
+}

@@ -1,8 +1,11 @@
 # Examples
 
-Five end-to-end examples covering the most common ways to use `xviz-cli`.
-Each subdirectory contains its own walkthrough plus a pre-rendered
-`chart.png` so you can see the expected output before running anything.
+End-to-end examples covering the most common ways to use `xviz-cli`.
+Each subdirectory contains its own walkthrough; the v0.2.0 examples
+ship a pre-rendered `chart.png`, while the v0.4.0 additions ship
+input fixtures only (render locally to verify).
+
+## Workflow walkthroughs
 
 | Example | Demonstrates | Inputs |
 | --- | --- | --- |
@@ -11,7 +14,13 @@ Each subdirectory contains its own walkthrough plus a pre-rendered
 | [`sqlite-cron/`](./sqlite-cron/README.md) | A cronable daily-report shell script | sample.db + script + form |
 | [`mcp-claude-desktop/`](./mcp-claude-desktop/README.md) | MCP integration with Claude Desktop | `claude_desktop_config.json` snippet |
 | [`serve-curl/`](./serve-curl/README.md) | `xviz serve` + remote `curl` | bash demo + JSON payload |
+| [`boxplot-tukey/`](./boxplot-tukey/README.md) *(v0.4.0)* | Categorical box-and-whisker with Tukey outlier detection | data + form |
+| [`treemap-regions/`](./treemap-regions/README.md) *(v0.4.0)* | 2-level hierarchical treemap from flat rows | data + form |
 
-There are also single-file examples at the top of `examples/` (one form
-file per chart type — `pie-form.json`, `bar-form.json`, etc.) for quick
-reference. Run them with the `render-all.sh` helper.
+## Single-file fixtures
+
+There are also single-file payloads at the top of `examples/` (one
+file per chart type — `pie-form.json` / `pie-data.json`, `scatter.json`,
+`heatmap.json`, etc.) for quick reference. Run them all with the
+`render-all.sh` helper. v0.4.0 added: `boxplot.json`, `histogram.json`,
+`treemap.json`, `sunburst.json`, `radar.json`.

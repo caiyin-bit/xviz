@@ -22,8 +22,8 @@
 > The chart layer of Apache Superset, extracted into a standalone library.
 > Use it as a React component, render it headlessly from JSON / CSV / SQL via
 > the CLI, or hand it to an LLM agent over MCP. No BI platform, no metadata DB,
-> no dashboards — just charts, ten of them, plus a renderer that turns data
-> into PNG / PDF / HTML.
+> no dashboards — just charts, **fifteen of them** (v0.4.0), plus a renderer
+> that turns data into PNG / PDF / HTML.
 
 ## Three ways to use it
 
@@ -91,12 +91,12 @@ directly:
 ```
 
 Drop that into your Claude Desktop config and Claude can render any of
-the ten chart types on demand. Full walk-through in the
+the fifteen chart types on demand. Full walk-through in the
 [MCP example](./xviz-cli/examples/mcp-claude-desktop/README.md).
 
 ## The charts
 
-Ten chart types covering ~80% of everyday BI needs.
+Fifteen chart types covering ~95% of everyday BI needs (as of v0.4.0).
 
 | | | |
 |:---:|:---:|:---:|
@@ -106,6 +106,16 @@ Ten chart types covering ~80% of everyday BI needs.
 | **Table** | **Scatter / Bubble** | **Heatmap** |
 | ![Sankey](docs/blog/images/07-sankey.png) | ![Funnel](docs/blog/images/08-funnel.png) | ![Gauge](docs/blog/images/09-gauge.png) |
 | **Sankey** | **Funnel** | **Gauge** |
+
+**Added in v0.4.0** — first wave of the [Superset feature-parity roadmap](./docs/superpowers/specs/2026-04-26-xviz-superset-parity-roadmap.md):
+
+| Chart | Use case | Notes |
+|---|---|---|
+| **BoxPlot** | Distribution comparison across groups | Tukey or min-max whiskers, optional outlier overlay |
+| **Histogram** | Single-column distribution | Equal-width bins, optional density / cumulative modes |
+| **Treemap** | Hierarchical part-to-whole | Multi-column `groupby` builds nested tree |
+| **Sunburst** | Concentric-ring hierarchy | Same data contract as Treemap |
+| **Radar** | Multi-axis comparison | Each metric → one axis; each group → one polygon |
 
 Plus **BigNumber** (KPI tile with trendline + % delta) and light/dark themes:
 
@@ -131,7 +141,7 @@ part of the problem — nothing more.
 
 - 📖 **[Technical deep dive](./docs/blog/2026-04-24-extracting-superset-viz.md)**
   — architecture, trade-offs, side-by-side comparisons
-- 🧩 **[minimal-viz library docs](./minimal-viz/README.md)** — full API, theming, all 10 chart types
+- 🧩 **[minimal-viz library docs](./minimal-viz/README.md)** — full API, theming, all 15 chart types
 - 🛠️ **[xviz CLI docs](./xviz-cli/README.md)** — `render`, `query`, `serve`, `mcp` commands
 - 🧪 **[Runnable examples](./xviz-cli/examples/README.md)** — Postgres, SQLite, CSV, MCP, HTTP
 - 🤝 **[Contributing](./CONTRIBUTING.md)** — bug reports, PRs, dev setup

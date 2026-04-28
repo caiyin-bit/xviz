@@ -1,0 +1,20 @@
+{
+  "width": 600,
+  "height": 600,
+  "formData": {
+    "vizType": "sunburst",
+    "groupby": ["region", "country"],
+    "metric": "sales",
+    "showLabels": true,
+    "innerRadius": 20,
+    "outerRadius": 90
+  },
+  "data": [
+    { "region": "NA", "country": "US",  "sales": 1200 },
+    { "region": "NA", "country": "CA",  "sales":  400 },
+    { "region": "EU", "country": "DE",  "sales":  800 },
+    { "region": "EU", "country": "FR",  "sales":  600 },
+    { "region": "AS", "country": "JP",  "sales":  700 },
+    { "region": "AS", "country": "CN",  "sales": 1500 }
+  ]
+}
