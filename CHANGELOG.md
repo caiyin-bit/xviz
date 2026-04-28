@@ -8,6 +8,7 @@ versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 - **TimeseriesBar / TimeseriesLine charts** (`vizType: 'timeseries-bar' | 'timeseries-line'`) — proper time-axis variants of the existing categorical Bar / Line charts. Reuses `transformCartesianProps` and rewires the x-axis to ECharts' `time` type, remapping each series' data to `[timestamp, value]` pairs. Accepts ISO-8601 strings or numeric epoch ms in the time column. Available in `@minimal-viz/core` (export `TimeseriesBar`, `TimeseriesLine`, `TimeseriesFormData`) and the xviz CLI/serve/MCP surface. First charts of M3 (xviz × Superset parity roadmap).
+- **MixedTimeseries chart** (`vizType: 'mixed-timeseries'`) — combined bar + line chart on the same time axis with optional dual Y axis. Bar metrics live on the left axis (default); line metrics can move to a right axis (`dualAxis: true`) for mixing absolute counts with rate / ratio metrics. Aggregates duplicate (date × metric) cells and chronologically sorts x values. Available in `@minimal-viz/core` (export `MixedTimeseries`, `MixedTimeseriesFormData`) and the xviz CLI/serve/MCP surface.
 
 ## [0.5.0] — 2026-04-28
 

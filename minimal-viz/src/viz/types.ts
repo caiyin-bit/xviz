@@ -272,6 +272,24 @@ export interface TimeseriesFormData {
   yAxisLabel?: string
 }
 
+export interface MixedTimeseriesFormData {
+  vizType: 'mixed-timeseries'
+  xAxis: string                        // time column
+  barMetrics: string[]                 // metrics rendered as bars (left axis by default)
+  lineMetrics: string[]                // metrics rendered as lines (right axis when dualAxis=true)
+  dualAxis?: boolean                   // default false. If true, lines use the right Y axis (independent scale)
+  stacked?: boolean                    // applies to bar metrics only
+  smooth?: boolean                     // applies to line metrics
+  showDots?: boolean                   // applies to line metrics; default true
+  showLegend?: boolean
+  legendOrientation?: 'top' | 'right' | 'bottom' | 'left'
+  colorScheme?: string[]
+  numberFormat?: NumberFormatKind
+  xAxisLabel?: string
+  leftYAxisLabel?: string
+  rightYAxisLabel?: string
+}
+
 export type AnyFormData =
   | PieFormData
   | CartesianFormData
@@ -292,6 +310,7 @@ export type AnyFormData =
   | TreeFormData
   | GraphFormData
   | TimeseriesFormData
+  | MixedTimeseriesFormData
 
 export interface ChartProps<FD = AnyFormData> {
   formData: FD

@@ -20,6 +20,7 @@ export { Tree } from './tree/Tree'
 export { Graph } from './graph/Graph'
 export { TimeseriesBar } from './timeseries/TimeseriesBar'
 export { TimeseriesLine } from './timeseries/TimeseriesLine'
+export { MixedTimeseries } from './mixed-timeseries/MixedTimeseries'
 
 // transformProps (useful for server-side rendering / non-React hosts)
 export { transformPieProps } from './pie/transformProps'
@@ -57,5 +58,6 @@ export type {
   TreeFormData,
   GraphFormData,
   TimeseriesFormData,
+  MixedTimeseriesFormData,
   NumberFormatKind,
 } from './types'

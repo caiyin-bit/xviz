@@ -1,0 +1,10 @@
+{
+  "vizType": "mixed-timeseries",
+  "xAxis": "date",
+  "barMetrics": ["orders"],
+  "lineMetrics": ["conversion_rate"],
+  "dualAxis": true,
+  "smooth": true,
+  "leftYAxisLabel": "Orders",
+  "rightYAxisLabel": "Conversion rate"
+}
