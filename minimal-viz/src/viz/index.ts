@@ -25,6 +25,7 @@ export { Gantt } from './gantt/Gantt'
 export { BigNumberTotal } from './bigNumber/BigNumberTotal'
 export { BigNumberPeriodOverPeriod } from './bigNumber/BigNumberPeriodOverPeriod'
 export { TimeTable } from './time-table/TimeTable'
+export { PivotTable } from './pivot-table/PivotTable'
 
 // transformProps (useful for server-side rendering / non-React hosts)
 export { transformPieProps } from './pie/transformProps'
@@ -67,5 +68,6 @@ export type {
   BigNumberTotalFormData,
   BigNumberPeriodOverPeriodFormData,
   TimeTableFormData,
+  PivotTableFormData,
   NumberFormatKind,
 } from './types'

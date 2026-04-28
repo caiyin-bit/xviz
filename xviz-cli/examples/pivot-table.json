@@ -1,0 +1,27 @@
+{
+  "width": 720,
+  "height": 280,
+  "formData": {
+    "vizType": "pivot-table",
+    "rows": ["region"],
+    "columns": ["quarter"],
+    "value": "sales",
+    "aggregator": "sum",
+    "showRowTotals": true,
+    "showColumnTotals": true,
+    "stripes": true
+  },
+  "data": [
+    { "region": "NA", "country": "US", "quarter": "Q1", "sales": 100 },
+    { "region": "NA", "country": "US", "quarter": "Q2", "sales": 150 },
+    { "region": "NA", "country": "CA", "quarter": "Q1", "sales":  50 },
+    { "region": "NA", "country": "CA", "quarter": "Q2", "sales":  70 },
+    { "region": "EU", "country": "DE", "quarter": "Q1", "sales":  80 },
+    { "region": "EU", "country": "DE", "quarter": "Q2", "sales": 120 },
+    { "region": "EU", "country": "FR", "quarter": "Q1", "sales":  60 },
+    { "region": "AS", "country": "JP", "quarter": "Q1", "sales": 110 },
+    { "region": "AS", "country": "JP", "quarter": "Q2", "sales": 200 },
+    { "region": "AS", "country": "CN", "quarter": "Q1", "sales": 220 },
+    { "region": "AS", "country": "CN", "quarter": "Q2", "sales": 280 }
+  ]
+}

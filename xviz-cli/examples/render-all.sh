@@ -40,6 +40,7 @@ node bin/xviz.mjs render -c examples/gantt.json           -o "$OUT/gantt.png"
 node bin/xviz.mjs render -c examples/big-number-total.json -o "$OUT/big-number-total.png"
 node bin/xviz.mjs render -c examples/big-number-pop.json   -o "$OUT/big-number-pop.png"
 node bin/xviz.mjs render -c examples/time-table.json       -o "$OUT/time-table.png"
+node bin/xviz.mjs render -c examples/pivot-table.json      -o "$OUT/pivot-table.png"
 
 # Dark variants of a few
 node bin/xviz.mjs render -d examples/pie-data.json   -f examples/pie-form.json   -o "$OUT/pie-dark.png"  --width 600 --height 400 --theme dark

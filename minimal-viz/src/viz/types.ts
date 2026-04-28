@@ -99,6 +99,18 @@ export interface TimeTableFormData {
   stripes?: boolean                 // default true — alternating row tint
 }
 
+export interface PivotTableFormData {
+  vizType: 'pivot-table'
+  rows: string[]                    // row-dimension columns (≥1). Multiple joined with ' / '.
+  columns: string[]                 // column-dimension columns (≥0). Empty → single value column.
+  value: string                     // numeric column to aggregate
+  aggregator?: 'sum' | 'avg' | 'count' | 'min' | 'max'  // default 'sum'
+  showRowTotals?: boolean           // default true (per-row total column on the right)
+  showColumnTotals?: boolean        // default true (per-column totals row at the bottom)
+  numberFormat?: NumberFormatKind
+  stripes?: boolean                 // default true
+}
+
 export interface ScatterFormData {
   vizType: 'scatter'
   xAxis: string
@@ -357,6 +369,7 @@ export type AnyFormData =
   | BigNumberTotalFormData
   | BigNumberPeriodOverPeriodFormData
   | TimeTableFormData
+  | PivotTableFormData
 
 export interface ChartProps<FD = AnyFormData> {
   formData: FD
