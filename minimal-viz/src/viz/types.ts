@@ -239,6 +239,21 @@ export interface TreeFormData {
   colorScheme?: string[]
 }
 
+export interface GraphFormData {
+  vizType: 'graph'
+  source: string                       // edge source column (one row = one edge)
+  target: string                       // edge target column
+  metric?: string                      // optional numeric column — edge weight (drives line width and node degree-sum)
+  layout?: 'force' | 'circular' | 'none'  // default 'force'
+  symbolSize?: number                  // base node radius; default 12 (scaled by node value when metric present)
+  showLabels?: boolean                 // default true
+  showEdgeLabels?: boolean             // default false
+  repulsion?: number                   // force-layout repulsion; default 200
+  edgeLength?: number                  // force-layout edge length; default 80
+  numberFormat?: NumberFormatKind
+  colorScheme?: string[]
+}
+
 export type AnyFormData =
   | PieFormData
   | CartesianFormData
@@ -257,6 +272,7 @@ export type AnyFormData =
   | WaterfallFormData
   | StepFormData
   | TreeFormData
+  | GraphFormData
 
 export interface ChartProps<FD = AnyFormData> {
   formData: FD

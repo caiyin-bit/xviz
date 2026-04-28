@@ -1,0 +1,8 @@
+{
+  "vizType": "graph",
+  "source": "from",
+  "target": "to",
+  "metric": "weight",
+  "layout": "force",
+  "showLabels": true
+}

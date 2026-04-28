@@ -1,0 +1,21 @@
+{
+  "width": 720,
+  "height": 540,
+  "formData": {
+    "vizType": "graph",
+    "source": "from",
+    "target": "to",
+    "metric": "weight",
+    "layout": "force",
+    "showLabels": true,
+    "showEdgeLabels": true
+  },
+  "data": [
+    { "from": "A", "to": "B", "weight": 5 },
+    { "from": "B", "to": "C", "weight": 3 },
+    { "from": "A", "to": "C", "weight": 2 },
+    { "from": "C", "to": "D", "weight": 4 },
+    { "from": "D", "to": "E", "weight": 6 },
+    { "from": "B", "to": "E", "weight": 1 }
+  ]
+}

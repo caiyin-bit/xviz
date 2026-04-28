@@ -1,0 +1,8 @@
+[
+  { "from": "A", "to": "B", "weight": 5 },
+  { "from": "B", "to": "C", "weight": 3 },
+  { "from": "A", "to": "C", "weight": 2 },
+  { "from": "C", "to": "D", "weight": 4 },
+  { "from": "D", "to": "E", "weight": 6 },
+  { "from": "B", "to": "E", "weight": 1 }
+]
