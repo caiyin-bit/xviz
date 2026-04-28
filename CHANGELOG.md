@@ -9,6 +9,7 @@ versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Added
 - **Waterfall chart** (`vizType: 'waterfall'`) — running-total visualization with positive (gain) and negative (loss) deltas plus an optional terminal Total bar. Implemented as two stacked `bar` series (transparent placeholder + colored deltas) since ECharts has no native waterfall. Available in `@minimal-viz/core` (export `Waterfall`, `WaterfallFormData`) and the xviz CLI/serve/MCP surface. First chart of M2 (xviz × Superset parity roadmap).
 - **Step chart** (`vizType: 'step'`) — stepped line chart for state-change time series. Reuses `transformCartesianProps` (line variant) with a post-pass that injects ECharts' `step: 'start' | 'middle' | 'end'`. Same data contract as LineChart (xAxis + metrics + optional seriesColumn breakdown). Available in `@minimal-viz/core` (export `Step`, `StepFormData`) and the xviz CLI/serve/MCP surface.
+- **Tree chart** (`vizType: 'tree'`) — hierarchical tree visualized as nodes + connecting links. Accepts a flat row set + multi-column `groupby` path; reuses `viz/hierarchy.ts` to build the nested tree, then synthesizes a single root when ≥2 top-level groups exist (configurable via `rootName`). Layouts: `'orthogonal'` (with `orient: 'LR' | 'RL' | 'TB' | 'BT'`) or `'radial'`. Available in `@minimal-viz/core` (export `Tree`, `TreeFormData`) and the xviz CLI/serve/MCP surface.
 
 ## [0.4.0] — 2026-04-26
 

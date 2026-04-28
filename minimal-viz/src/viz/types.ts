@@ -226,6 +226,19 @@ export interface StepFormData {
   step?: 'start' | 'middle' | 'end'    // step position; default 'end' (rises after the data point)
 }
 
+export interface TreeFormData {
+  vizType: 'tree'
+  groupby: string[]                    // hierarchy levels (root → leaves); ≥1 column required
+  metric?: string                      // optional numeric column — leaf node values (for tooltip / label)
+  layout?: 'orthogonal' | 'radial'     // default 'orthogonal'
+  orient?: 'LR' | 'RL' | 'TB' | 'BT'   // for orthogonal layout; default 'LR'
+  symbolSize?: number                  // node circle radius; default 10
+  showLabels?: boolean                 // default true
+  rootName?: string                    // synthesized root label when ≥2 top-level groups exist; default 'All'
+  numberFormat?: NumberFormatKind
+  colorScheme?: string[]
+}
+
 export type AnyFormData =
   | PieFormData
   | CartesianFormData
@@ -243,6 +256,7 @@ export type AnyFormData =
   | RadarFormData
   | WaterfallFormData
   | StepFormData
+  | TreeFormData
 
 export interface ChartProps<FD = AnyFormData> {
   formData: FD

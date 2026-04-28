@@ -1,0 +1,10 @@
+[
+  { "department": "Engineering", "team": "Frontend",   "person": "Alice",   "headcount": 1 },
+  { "department": "Engineering", "team": "Frontend",   "person": "Bob",     "headcount": 1 },
+  { "department": "Engineering", "team": "Backend",    "person": "Charlie", "headcount": 1 },
+  { "department": "Engineering", "team": "Backend",    "person": "Dora",    "headcount": 1 },
+  { "department": "Engineering", "team": "DevOps",     "person": "Eve",     "headcount": 1 },
+  { "department": "Sales",       "team": "Enterprise", "person": "Frank",   "headcount": 1 },
+  { "department": "Sales",       "team": "Enterprise", "person": "Grace",   "headcount": 1 },
+  { "department": "Sales",       "team": "SMB",        "person": "Hank",    "headcount": 1 }
+]

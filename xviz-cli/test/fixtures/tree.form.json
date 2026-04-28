@@ -1,0 +1,9 @@
+{
+  "vizType": "tree",
+  "groupby": ["department", "team", "person"],
+  "metric": "headcount",
+  "layout": "orthogonal",
+  "orient": "LR",
+  "rootName": "Org",
+  "showLabels": true
+}

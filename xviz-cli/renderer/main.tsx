@@ -2,7 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import {
   PieChart, BarChart, LineChart, Table, BigNumber,
-  Scatter, Heatmap, Sankey, Funnel, Gauge, BoxPlot, Histogram, Treemap, Sunburst, Radar, Waterfall, Step,
+  Scatter, Heatmap, Sankey, Funnel, Gauge, BoxPlot, Histogram, Treemap, Sunburst, Radar, Waterfall, Step, Tree,
   LIGHT_THEME, DARK_THEME, extendTheme,
   type AnyFormData, type QueryData, type Theme,
 } from '../../minimal-viz/src/viz'
@@ -13,7 +13,7 @@ declare global {
   interface Window {
     __CHART__?: {
       type: 'pie' | 'bar' | 'line' | 'table' | 'big-number' |
-            'scatter' | 'heatmap' | 'sankey' | 'funnel' | 'gauge' | 'boxplot' | 'histogram' | 'treemap' | 'sunburst' | 'radar' | 'waterfall' | 'step'
+            'scatter' | 'heatmap' | 'sankey' | 'funnel' | 'gauge' | 'boxplot' | 'histogram' | 'treemap' | 'sunburst' | 'radar' | 'waterfall' | 'step' | 'tree'
       width: number
       height: number
       formData: AnyFormData
@@ -77,6 +77,8 @@ function Renderer() {
       return <Waterfall {...common} formData={formData as never} />
     case 'step':
       return <Step {...common} formData={formData as never} />
+    case 'tree':
+      return <Tree {...common} formData={formData as never} />
     default:
       return <div style={{ color: 'red' }}>Unknown chart type: {String(type)}</div>
   }
