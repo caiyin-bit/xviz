@@ -13,6 +13,7 @@ export { BoxPlot } from './boxplot/BoxPlot'
 export { Histogram } from './histogram/Histogram'
 export { Treemap } from './treemap/Treemap'
 export { Sunburst } from './sunburst/Sunburst'
+export { Radar } from './radar/Radar'
 
 // transformProps (useful for server-side rendering / non-React hosts)
 export { transformPieProps } from './pie/transformProps'
@@ -44,5 +45,6 @@ export type {
   HistogramFormData,
   TreemapFormData,
   SunburstFormData,
+  RadarFormData,
   NumberFormatKind,
 } from './types'

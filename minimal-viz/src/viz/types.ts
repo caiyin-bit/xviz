@@ -182,6 +182,19 @@ export interface SunburstFormData {
   numberFormat?: NumberFormatKind
 }
 
+export interface RadarFormData {
+  vizType: 'radar'
+  metrics: string[]                    // numeric columns — each becomes one radar axis (≥3 strongly preferred)
+  groupby?: string                     // optional category column — each distinct value becomes a series
+  shape?: 'polygon' | 'circle'         // default 'polygon'
+  fill?: boolean                       // default true (filled area under each polygon)
+  showLegend?: boolean                 // default true
+  legendOrientation?: 'top' | 'right' | 'bottom' | 'left'
+  axisMax?: number                     // override the auto-computed per-axis max (applied uniformly)
+  numberFormat?: NumberFormatKind
+  colorScheme?: string[]
+}
+
 export type AnyFormData =
   | PieFormData
   | CartesianFormData
@@ -196,6 +209,7 @@ export type AnyFormData =
   | HistogramFormData
   | TreemapFormData
   | SunburstFormData
+  | RadarFormData
 
 export interface ChartProps<FD = AnyFormData> {
   formData: FD

@@ -1,0 +1,7 @@
+{
+  "vizType": "radar",
+  "metrics": ["q1", "q2", "q3", "q4"],
+  "groupby": "team",
+  "shape": "polygon",
+  "fill": true
+}

@@ -11,8 +11,10 @@ versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - **Histogram chart** (`vizType: 'histogram'`) — equal-width binning with optional density normalization and cumulative (empirical CDF) modes. Client-side bin computation; uses ECharts `bar` series under the hood. Available in `@minimal-viz/core` (export `Histogram`, `HistogramFormData`) and the xviz CLI/serve/MCP surface.
 - **Treemap chart** (`vizType: 'treemap'`) — multi-level hierarchical rectangles, sized by metric. Accepts a flat row set + multi-column `groupby` path (e.g. `['region', 'country']`); the transform builds a nested tree and ECharts auto-aggregates parent levels. Available in `@minimal-viz/core` (export `Treemap`, `TreemapFormData`) and the xviz CLI/serve/MCP surface.
 - **Sunburst chart** (`vizType: 'sunburst'`) — concentric-ring hierarchy, sized by metric. Same data contract as Treemap (flat rows + multi-column `groupby`), with optional `innerRadius`/`outerRadius` for donut shapes. Available in `@minimal-viz/core` (export `Sunburst`, `SunburstFormData`) and the xviz CLI/serve/MCP surface.
+- **Radar chart** (`vizType: 'radar'`) — multi-axis comparison plot. Each metric in `metrics: string[]` becomes a radar axis; each `groupby` value becomes a series. Per-axis scale auto-computed from data, with `axisMax` override available. Filled by default; `fill: false` for outline-only. Polygon or circle shape. Available in `@minimal-viz/core` (export `Radar`, `RadarFormData`) and the xviz CLI/serve/MCP surface.
 - **Internal:** `viz/hierarchy.ts` introduced as the shared flat-rows-to-tree helper used by Treemap and Sunburst (slated for M2 Tree/Graph reuse).
-- First steps of the **xviz × Superset feature parity roadmap** (M1.1 BoxPlot + M1.2 Histogram + M1.3 Treemap + M1.4 Sunburst of 7 milestones; see `docs/superpowers/specs/2026-04-26-xviz-superset-parity-roadmap.md`).
+- **M1 milestone complete**: BoxPlot + Histogram + Treemap + Sunburst + Radar — 5 new chart types, taking xviz from 10 → 15 supported types. Roadmap M1.1–M1.5 all ✅. Ready for v0.4.0 npm release after the M1 integration plan finalizes README chart-tables and example walkthroughs.
+- First sweep of the **xviz × Superset feature parity roadmap** (M1 of 7 milestones; see `docs/superpowers/specs/2026-04-26-xviz-superset-parity-roadmap.md`).
 
 ## [0.2.0] — 2026-04-25
 
