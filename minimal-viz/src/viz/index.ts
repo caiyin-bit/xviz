@@ -9,6 +9,7 @@ export { Heatmap } from './heatmap/Heatmap'
 export { Sankey } from './sankey/Sankey'
 export { Funnel } from './funnel/Funnel'
 export { Gauge } from './gauge/Gauge'
+export { BoxPlot } from './boxplot/BoxPlot'
 
 // transformProps (useful for server-side rendering / non-React hosts)
 export { transformPieProps } from './pie/transformProps'
@@ -36,5 +37,6 @@ export type {
   SankeyFormData,
   FunnelFormData,
   GaugeFormData,
+  BoxPlotFormData,
   NumberFormatKind,
 } from './types'

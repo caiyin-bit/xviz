@@ -1,0 +1,8 @@
+{
+  "vizType": "boxplot",
+  "groupby": "team",
+  "metric": "score",
+  "whiskerType": "tukey",
+  "showOutliers": true,
+  "yAxisLabel": "Score"
+}

@@ -128,6 +128,21 @@ export interface GaugeFormData {
   numberFormat?: NumberFormatKind
 }
 
+export interface BoxPlotFormData {
+  vizType: 'boxplot'
+  groupby: string                      // category column — one box per distinct value
+  metric: string                       // numeric column — observations within each group
+  whiskerType?: 'tukey' | 'min-max'    // 'tukey' = Q1-1.5·IQR / Q3+1.5·IQR; 'min-max' = absolute extremes; default 'tukey'
+  showOutliers?: boolean               // default true (only meaningful with whiskerType='tukey')
+  horizontal?: boolean                 // default false (vertical boxes)
+  showLegend?: boolean                 // default false (single-metric chart)
+  legendOrientation?: 'top' | 'right' | 'bottom' | 'left'
+  numberFormat?: NumberFormatKind
+  xAxisLabel?: string
+  yAxisLabel?: string
+  colorScheme?: string[]
+}
+
 export type AnyFormData =
   | PieFormData
   | CartesianFormData
@@ -138,6 +153,7 @@ export type AnyFormData =
   | SankeyFormData
   | FunnelFormData
   | GaugeFormData
+  | BoxPlotFormData
 
 export interface ChartProps<FD = AnyFormData> {
   formData: FD
