@@ -1,0 +1,11 @@
+{
+  "vizType": "graph",
+  "source": "from",
+  "target": "to",
+  "metric": "calls",
+  "layout": "force",
+  "showLabels": true,
+  "showEdgeLabels": false,
+  "repulsion": 250,
+  "edgeLength": 100
+}

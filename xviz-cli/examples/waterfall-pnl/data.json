@@ -1,0 +1,9 @@
+[
+  { "step": "Revenue",       "delta":  1200 },
+  { "step": "COGS",          "delta":  -480 },
+  { "step": "Gross profit",  "delta":     0 },
+  { "step": "OpEx",          "delta":  -260 },
+  { "step": "R&D",           "delta":  -180 },
+  { "step": "Other income",  "delta":    40 },
+  { "step": "Tax",           "delta":   -90 }
+]

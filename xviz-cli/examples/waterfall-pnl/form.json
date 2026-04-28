@@ -1,0 +1,9 @@
+{
+  "vizType": "waterfall",
+  "groupby": "step",
+  "metric": "delta",
+  "showTotal": true,
+  "totalLabel": "Net income",
+  "showValues": true,
+  "yAxisLabel": "USD (k)"
+}

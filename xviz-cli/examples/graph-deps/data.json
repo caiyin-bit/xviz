@@ -1,0 +1,11 @@
+[
+  { "from": "app",           "to": "auth-service",  "calls": 1200 },
+  { "from": "app",           "to": "user-service",  "calls":  900 },
+  { "from": "app",           "to": "order-service", "calls":  450 },
+  { "from": "auth-service",  "to": "user-service",  "calls":  300 },
+  { "from": "auth-service",  "to": "redis",         "calls":  800 },
+  { "from": "user-service",  "to": "postgres",      "calls":  600 },
+  { "from": "order-service", "to": "postgres",      "calls":  400 },
+  { "from": "order-service", "to": "kafka",         "calls":  220 },
+  { "from": "order-service", "to": "user-service",  "calls":  180 }
+]

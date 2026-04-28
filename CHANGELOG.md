@@ -6,12 +6,28 @@ versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.5.0] — 2026-04-28
+
+This release completes **M2 of the [xviz × Superset feature-parity roadmap](docs/superpowers/specs/2026-04-26-xviz-superset-parity-roadmap.md)** — four new chart types taking xviz from 15 → 19 supported types. No breaking changes; all v0.4.0 charts and APIs are preserved.
+
 ### Added
-- **Waterfall chart** (`vizType: 'waterfall'`) — running-total visualization with positive (gain) and negative (loss) deltas plus an optional terminal Total bar. Implemented as two stacked `bar` series (transparent placeholder + colored deltas) since ECharts has no native waterfall. Available in `@minimal-viz/core` (export `Waterfall`, `WaterfallFormData`) and the xviz CLI/serve/MCP surface. First chart of M2 (xviz × Superset parity roadmap).
+- **Waterfall chart** (`vizType: 'waterfall'`) — running-total visualization with positive (gain) and negative (loss) deltas plus an optional terminal Total bar. Implemented as two stacked `bar` series (transparent placeholder + colored deltas) since ECharts has no native waterfall. Available in `@minimal-viz/core` (export `Waterfall`, `WaterfallFormData`) and the xviz CLI/serve/MCP surface.
 - **Step chart** (`vizType: 'step'`) — stepped line chart for state-change time series. Reuses `transformCartesianProps` (line variant) with a post-pass that injects ECharts' `step: 'start' | 'middle' | 'end'`. Same data contract as LineChart (xAxis + metrics + optional seriesColumn breakdown). Available in `@minimal-viz/core` (export `Step`, `StepFormData`) and the xviz CLI/serve/MCP surface.
 - **Tree chart** (`vizType: 'tree'`) — hierarchical tree visualized as nodes + connecting links. Accepts a flat row set + multi-column `groupby` path; reuses `viz/hierarchy.ts` to build the nested tree, then synthesizes a single root when ≥2 top-level groups exist (configurable via `rootName`). Layouts: `'orthogonal'` (with `orient: 'LR' | 'RL' | 'TB' | 'BT'`) or `'radial'`. Available in `@minimal-viz/core` (export `Tree`, `TreeFormData`) and the xviz CLI/serve/MCP surface.
 - **Graph chart** (`vizType: 'graph'`) — network/relationship plot from a flat edge list. Nodes are auto-inferred as `unique(source) ∪ unique(target)`; node values aggregate incident edge weights (or degree count when metric is absent), driving symbolSize. Layouts: `'force'` (default — animation disabled for headless rendering), `'circular'`, or `'none'`. Available in `@minimal-viz/core` (export `Graph`, `GraphFormData`) and the xviz CLI/serve/MCP surface.
-- **M2 milestone complete**: Waterfall + Step + Tree + Graph — 4 new chart types, taking xviz from 15 → 19 supported types. Roadmap M2.1–M2.4 all ✅.
+- `xviz-cli/examples/` quick-reference fixtures for each new type: `waterfall.json`, `step.json`, `tree.json`, `graph.json`. `render-all.sh` runs them all.
+- New walkthroughs: [`examples/waterfall-pnl/`](xviz-cli/examples/waterfall-pnl/README.md) (P&L decomposition with running total) and [`examples/graph-deps/`](xviz-cli/examples/graph-deps/README.md) (microservices call-graph with auto-inferred nodes). These ship without a pre-rendered `chart.png`; render locally.
+
+### Changed
+- `xviz serve /health.supported` now returns 19 entries instead of 15.
+- `Window.__CHART__.type` union (renderer bundle) extended to 19 type literals.
+- Top-level READMEs (EN + zh-CN), `minimal-viz/README.md`, `xviz-cli/README.md`, and `xviz-cli/examples/README.md` updated to reflect the 19-chart roster and the ~98% BI-coverage figure.
+
+### Internal
+- `Step` reuses `transformCartesianProps` (line variant) and post-processes the emitted series to inject ECharts' `step` field — no transform duplication.
+- `Tree` reuses `viz/hierarchy.ts` (`buildHierarchy`) for the second consumer after Treemap/Sunburst; helper now serves four charts.
+- 27 new inline-snapshot / assertion tests across the four new transforms (test count: 33 → 60).
+- Renderer bundle grew from ~1.01 MB (v0.4.0) to ~1.014 MB (v0.5.0) — about +5 KB across all four charts (Step/Graph have the lightest footprint due to reuse).
 
 ## [0.4.0] — 2026-04-26
 

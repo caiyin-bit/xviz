@@ -16,6 +16,8 @@ input fixtures only (render locally to verify).
 | [`serve-curl/`](./serve-curl/README.md) | `xviz serve` + remote `curl` | bash demo + JSON payload |
 | [`boxplot-tukey/`](./boxplot-tukey/README.md) *(v0.4.0)* | Categorical box-and-whisker with Tukey outlier detection | data + form |
 | [`treemap-regions/`](./treemap-regions/README.md) *(v0.4.0)* | 2-level hierarchical treemap from flat rows | data + form |
+| [`waterfall-pnl/`](./waterfall-pnl/README.md) *(v0.5.0)* | Quarterly P&L decomposition with running total | data + form |
+| [`graph-deps/`](./graph-deps/README.md) *(v0.5.0)* | Microservices call-graph with auto-inferred nodes | data + form |
 
 ## Single-file fixtures
 
@@ -23,4 +25,5 @@ There are also single-file payloads at the top of `examples/` (one
 file per chart type — `pie-form.json` / `pie-data.json`, `scatter.json`,
 `heatmap.json`, etc.) for quick reference. Run them all with the
 `render-all.sh` helper. v0.4.0 added: `boxplot.json`, `histogram.json`,
-`treemap.json`, `sunburst.json`, `radar.json`.
+`treemap.json`, `sunburst.json`, `radar.json`. v0.5.0 added:
+`waterfall.json`, `step.json`, `tree.json`, `graph.json`.
