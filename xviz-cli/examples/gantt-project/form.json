@@ -1,0 +1,10 @@
+{
+  "vizType": "gantt",
+  "taskColumn": "task",
+  "startColumn": "start",
+  "endColumn": "end",
+  "groupColumn": "owner",
+  "showLabels": true,
+  "showLegend": true,
+  "xAxisLabel": "2024 H1"
+}

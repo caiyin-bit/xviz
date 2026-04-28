@@ -18,6 +18,8 @@ input fixtures only (render locally to verify).
 | [`treemap-regions/`](./treemap-regions/README.md) *(v0.4.0)* | 2-level hierarchical treemap from flat rows | data + form |
 | [`waterfall-pnl/`](./waterfall-pnl/README.md) *(v0.5.0)* | Quarterly P&L decomposition with running total | data + form |
 | [`graph-deps/`](./graph-deps/README.md) *(v0.5.0)* | Microservices call-graph with auto-inferred nodes | data + form |
+| [`timeseries-revenue/`](./timeseries-revenue/README.md) *(v0.6.0)* | Multi-region monthly revenue on a true time axis | data + form |
+| [`gantt-project/`](./gantt-project/README.md) *(v0.6.0)* | H1 project schedule (8 tasks × 4 owners) | data + form |
 
 ## Single-file fixtures
 
@@ -26,4 +28,6 @@ file per chart type — `pie-form.json` / `pie-data.json`, `scatter.json`,
 `heatmap.json`, etc.) for quick reference. Run them all with the
 `render-all.sh` helper. v0.4.0 added: `boxplot.json`, `histogram.json`,
 `treemap.json`, `sunburst.json`, `radar.json`. v0.5.0 added:
-`waterfall.json`, `step.json`, `tree.json`, `graph.json`.
+`waterfall.json`, `step.json`, `tree.json`, `graph.json`. v0.6.0 added:
+`timeseries-bar.json`, `timeseries-line.json`, `mixed-timeseries.json`,
+`gantt.json`.

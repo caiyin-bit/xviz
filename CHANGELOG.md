@@ -6,11 +6,28 @@ versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.6.0] — 2026-04-28
+
+This release completes **M3 of the [xviz × Superset feature-parity roadmap](docs/superpowers/specs/2026-04-26-xviz-superset-parity-roadmap.md)** — four new chart types taking xviz from 19 → 23 supported types. No breaking changes; the existing categorical Bar / Line charts remain in place untouched. The new `timeseries-bar` and `timeseries-line` types are independent additions, not reskins of the old ones.
+
 ### Added
-- **TimeseriesBar / TimeseriesLine charts** (`vizType: 'timeseries-bar' | 'timeseries-line'`) — proper time-axis variants of the existing categorical Bar / Line charts. Reuses `transformCartesianProps` and rewires the x-axis to ECharts' `time` type, remapping each series' data to `[timestamp, value]` pairs. Accepts ISO-8601 strings or numeric epoch ms in the time column. Available in `@minimal-viz/core` (export `TimeseriesBar`, `TimeseriesLine`, `TimeseriesFormData`) and the xviz CLI/serve/MCP surface. First charts of M3 (xviz × Superset parity roadmap).
+- **TimeseriesBar / TimeseriesLine charts** (`vizType: 'timeseries-bar' | 'timeseries-line'`) — proper time-axis variants of the existing categorical Bar / Line charts. Reuses `transformCartesianProps` and rewires the x-axis to ECharts' `time` type, remapping each series' data to `[timestamp, value]` pairs. Accepts ISO-8601 strings or numeric epoch ms in the time column. Available in `@minimal-viz/core` (export `TimeseriesBar`, `TimeseriesLine`, `TimeseriesFormData`) and the xviz CLI/serve/MCP surface.
 - **MixedTimeseries chart** (`vizType: 'mixed-timeseries'`) — combined bar + line chart on the same time axis with optional dual Y axis. Bar metrics live on the left axis (default); line metrics can move to a right axis (`dualAxis: true`) for mixing absolute counts with rate / ratio metrics. Aggregates duplicate (date × metric) cells and chronologically sorts x values. Available in `@minimal-viz/core` (export `MixedTimeseries`, `MixedTimeseriesFormData`) and the xviz CLI/serve/MCP surface.
-- **Gantt chart** (`vizType: 'gantt'`) — task schedule visualization with horizontal bars on a time axis. Implemented as an ECharts `custom` series with a `renderItem` that draws clipped rectangles spanning [start, end]. `groupColumn` colors tasks by owner / department; tasks listed top-to-bottom in input order. Tasks with unparseable dates are dropped. **`CustomChart` is now registered in the renderer** to support this. Available in `@minimal-viz/core` (export `Gantt`, `GanttFormData`) and the xviz CLI/serve/MCP surface.
-- **M3 milestone complete**: TimeseriesBar + TimeseriesLine + MixedTimeseries + Gantt — 4 new chart types, taking xviz from 19 → 23 supported types. Roadmap M3.1–M3.3 all ✅ (Gantt counted as M3.3, since TimeseriesBar/Line shared a transform and shipped together).
+- **Gantt chart** (`vizType: 'gantt'`) — task schedule visualization with horizontal bars on a time axis. Implemented as an ECharts `custom` series with a `renderItem` that draws clipped rectangles spanning [start, end]. `groupColumn` colors tasks by owner / department; tasks listed top-to-bottom in input order. Tasks with unparseable dates are dropped. Available in `@minimal-viz/core` (export `Gantt`, `GanttFormData`) and the xviz CLI/serve/MCP surface.
+- `xviz-cli/examples/` quick-reference fixtures for each new type: `timeseries-bar.json`, `timeseries-line.json`, `mixed-timeseries.json`, `gantt.json`. `render-all.sh` runs them all.
+- New walkthroughs: [`examples/timeseries-revenue/`](xviz-cli/examples/timeseries-revenue/README.md) (multi-region monthly revenue on a true time axis) and [`examples/gantt-project/`](xviz-cli/examples/gantt-project/README.md) (H1 project schedule with 8 tasks × 4 owners). Ship without a pre-rendered `chart.png`; render locally.
+
+### Changed
+- `xviz serve /health.supported` now returns 23 entries instead of 19.
+- `Window.__CHART__.type` union (renderer bundle) extended to 23 type literals.
+- Top-level READMEs (EN + zh-CN), `minimal-viz/README.md`, `xviz-cli/README.md`, and `xviz-cli/examples/README.md` updated to reflect the 23-chart roster and the ~99% BI-coverage figure.
+- **`CustomChart` is now registered in `Echart.tsx`** to support Gantt's custom-series rendering. Renderer bundle grew by ~17 KB to accommodate it (1.014 MB → 1.033 MB total). Future custom-series-based charts (e.g. Bullet) can reuse the same registration.
+
+### Internal
+- `transformTimeseriesProps` reuses `transformCartesianProps` (line/bar variant) and post-processes the output to convert the x-axis from `category` to `time`, rezipping series data with parsed timestamps. Existing `BarChart` / `LineChart` behavior is untouched.
+- `transformMixedTimeseriesProps` is independent (no cartesian reuse) — multi-metric multi-type series wiring with optional `yAxisIndex` routing differs enough from the cartesian model that a separate pass was simpler.
+- `transformGanttProps` builds a `custom` series with an inline `renderItem` that maps `[start, end]` value tuples to clipped rectangles. y-axis is categorical and `inverse: true` so input row order matches visual top-to-bottom.
+- 23 new inline-snapshot / assertion tests across the four new transforms (test count: 60 → 83).
 
 ## [0.5.0] — 2026-04-28
 

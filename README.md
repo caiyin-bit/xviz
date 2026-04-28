@@ -22,7 +22,7 @@
 > The chart layer of Apache Superset, extracted into a standalone library.
 > Use it as a React component, render it headlessly from JSON / CSV / SQL via
 > the CLI, or hand it to an LLM agent over MCP. No BI platform, no metadata DB,
-> no dashboards — just charts, **nineteen of them** (v0.5.0), plus a renderer
+> no dashboards — just charts, **twenty-three of them** (v0.6.0), plus a renderer
 > that turns data into PNG / PDF / HTML.
 
 ## Three ways to use it
@@ -91,12 +91,12 @@ directly:
 ```
 
 Drop that into your Claude Desktop config and Claude can render any of
-the nineteen chart types on demand. Full walk-through in the
+the twenty-three chart types on demand. Full walk-through in the
 [MCP example](./xviz-cli/examples/mcp-claude-desktop/README.md).
 
 ## The charts
 
-Nineteen chart types covering ~98% of everyday BI needs (as of v0.5.0).
+Twenty-three chart types covering ~99% of everyday BI needs (as of v0.6.0).
 
 | | | |
 |:---:|:---:|:---:|
@@ -126,6 +126,14 @@ Nineteen chart types covering ~98% of everyday BI needs (as of v0.5.0).
 | **Tree** | Org / taxonomy structure | Orthogonal (LR/RL/TB/BT) or radial layout |
 | **Graph** | Node-edge relationships | Edge-list input, auto-inferred nodes; force-layout (no animation) for headless rendering |
 
+**Added in v0.6.0** — M3 of the same roadmap (timeseries baseline):
+
+| Chart | Use case | Notes |
+|---|---|---|
+| **TimeseriesBar / TimeseriesLine** | Native time-axis bar / line | True `time`-axis ECharts (vs the existing categorical Bar / Line); accepts ISO-8601 or numeric epoch ms |
+| **MixedTimeseries** | Mixed bar + line on shared time axis | Optional dual Y axis (`dualAxis: true`) — bars on the left, lines on the right |
+| **Gantt** | Task / project schedule | Horizontal bars on a time axis via ECharts `custom` series; group-by-owner coloring |
+
 Plus **BigNumber** (KPI tile with trendline + % delta) and light/dark themes:
 
 <p align="center">
@@ -150,7 +158,7 @@ part of the problem — nothing more.
 
 - 📖 **[Technical deep dive](./docs/blog/2026-04-24-extracting-superset-viz.md)**
   — architecture, trade-offs, side-by-side comparisons
-- 🧩 **[minimal-viz library docs](./minimal-viz/README.md)** — full API, theming, all 19 chart types
+- 🧩 **[minimal-viz library docs](./minimal-viz/README.md)** — full API, theming, all 23 chart types
 - 🛠️ **[xviz CLI docs](./xviz-cli/README.md)** — `render`, `query`, `serve`, `mcp` commands
 - 🧪 **[Runnable examples](./xviz-cli/examples/README.md)** — Postgres, SQLite, CSV, MCP, HTTP
 - 🤝 **[Contributing](./CONTRIBUTING.md)** — bug reports, PRs, dev setup

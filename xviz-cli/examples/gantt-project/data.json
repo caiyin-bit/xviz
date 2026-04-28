@@ -1,0 +1,10 @@
+[
+  { "task": "Discovery",  "owner": "Alice", "start": "2024-01-08", "end": "2024-01-26" },
+  { "task": "Design",     "owner": "Alice", "start": "2024-01-22", "end": "2024-02-23" },
+  { "task": "Backend",    "owner": "Bob",   "start": "2024-02-12", "end": "2024-04-19" },
+  { "task": "Frontend",   "owner": "Carol", "start": "2024-02-26", "end": "2024-04-26" },
+  { "task": "Integration","owner": "Bob",   "start": "2024-04-22", "end": "2024-05-17" },
+  { "task": "QA",         "owner": "Dora",  "start": "2024-05-06", "end": "2024-05-31" },
+  { "task": "Docs",       "owner": "Carol", "start": "2024-05-13", "end": "2024-05-31" },
+  { "task": "Release",    "owner": "Alice", "start": "2024-06-03", "end": "2024-06-14" }
+]
