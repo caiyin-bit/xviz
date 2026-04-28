@@ -195,6 +195,21 @@ export interface RadarFormData {
   colorScheme?: string[]
 }
 
+export interface WaterfallFormData {
+  vizType: 'waterfall'
+  groupby: string                      // category column — x-axis labels (one bar per row)
+  metric: string                       // numeric column — the delta/change value (signed)
+  showTotal?: boolean                  // default true (append a Total bar at the end)
+  totalLabel?: string                  // default 'Total'
+  showValues?: boolean                 // default true (display the delta on each bar)
+  positiveColor?: string               // default greenish palette entry
+  negativeColor?: string               // default reddish palette entry
+  totalColor?: string                  // default blueish palette entry
+  numberFormat?: NumberFormatKind
+  xAxisLabel?: string
+  yAxisLabel?: string
+}
+
 export type AnyFormData =
   | PieFormData
   | CartesianFormData
@@ -210,6 +225,7 @@ export type AnyFormData =
   | TreemapFormData
   | SunburstFormData
   | RadarFormData
+  | WaterfallFormData
 
 export interface ChartProps<FD = AnyFormData> {
   formData: FD

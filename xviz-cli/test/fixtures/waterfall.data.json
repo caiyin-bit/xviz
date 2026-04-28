@@ -1,0 +1,6 @@
+[
+  { "period": "Q1", "delta": 100 },
+  { "period": "Q2", "delta": 50 },
+  { "period": "Q3", "delta": -30 },
+  { "period": "Q4", "delta": 80 }
+]

@@ -1,0 +1,18 @@
+{
+  "width": 720,
+  "height": 440,
+  "formData": {
+    "vizType": "waterfall",
+    "groupby": "period",
+    "metric": "delta",
+    "showTotal": true,
+    "showValues": true,
+    "yAxisLabel": "Net change"
+  },
+  "data": [
+    { "period": "Q1", "delta": 100 },
+    { "period": "Q2", "delta":  50 },
+    { "period": "Q3", "delta": -30 },
+    { "period": "Q4", "delta":  80 }
+  ]
+}

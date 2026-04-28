@@ -6,6 +6,9 @@ versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+- **Waterfall chart** (`vizType: 'waterfall'`) — running-total visualization with positive (gain) and negative (loss) deltas plus an optional terminal Total bar. Implemented as two stacked `bar` series (transparent placeholder + colored deltas) since ECharts has no native waterfall. Available in `@minimal-viz/core` (export `Waterfall`, `WaterfallFormData`) and the xviz CLI/serve/MCP surface. First chart of M2 (xviz × Superset parity roadmap).
+
 ## [0.4.0] — 2026-04-26
 
 This release completes **M1 of the [xviz × Superset feature-parity roadmap](docs/superpowers/specs/2026-04-26-xviz-superset-parity-roadmap.md)** — five new chart types taking xviz from 10 → 15 supported types in a single sweep. No breaking changes; all v0.2.0 charts and APIs are preserved.

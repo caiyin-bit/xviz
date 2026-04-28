@@ -24,6 +24,9 @@ node bin/xviz.mjs render -c examples/treemap.json    -o "$OUT/treemap.png"
 node bin/xviz.mjs render -c examples/sunburst.json   -o "$OUT/sunburst.png"
 node bin/xviz.mjs render -c examples/radar.json      -o "$OUT/radar.png"
 
+# v0.5.0 additions (M2 of Superset parity roadmap)
+node bin/xviz.mjs render -c examples/waterfall.json  -o "$OUT/waterfall.png"
+
 # Dark variants of a few
 node bin/xviz.mjs render -d examples/pie-data.json   -f examples/pie-form.json   -o "$OUT/pie-dark.png"  --width 600 --height 400 --theme dark
 node bin/xviz.mjs render -d examples/sales-data.json -f examples/bar-form.json   -o "$OUT/bar-dark.png"  --width 700 --height 400 --theme dark

@@ -1,0 +1,8 @@
+{
+  "vizType": "waterfall",
+  "groupby": "period",
+  "metric": "delta",
+  "showTotal": true,
+  "showValues": true,
+  "yAxisLabel": "Net change"
+}
