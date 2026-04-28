@@ -34,6 +34,7 @@ node bin/xviz.mjs render -c examples/graph.json      -o "$OUT/graph.png"
 node bin/xviz.mjs render -c examples/timeseries-line.json -o "$OUT/timeseries-line.png"
 node bin/xviz.mjs render -c examples/timeseries-bar.json  -o "$OUT/timeseries-bar.png"
 node bin/xviz.mjs render -c examples/mixed-timeseries.json -o "$OUT/mixed-timeseries.png"
+node bin/xviz.mjs render -c examples/gantt.json           -o "$OUT/gantt.png"
 
 # Dark variants of a few
 node bin/xviz.mjs render -d examples/pie-data.json   -f examples/pie-form.json   -o "$OUT/pie-dark.png"  --width 600 --height 400 --theme dark

@@ -9,6 +9,7 @@ import {
   PieChart, BarChart, LineChart, ScatterChart,
   FunnelChart, GaugeChart, RadarChart, TreemapChart, SunburstChart,
   BoxplotChart, HeatmapChart, SankeyChart, TreeChart, GraphChart,
+  CustomChart,
 } from 'echarts/charts'
 import { CanvasRenderer } from 'echarts/renderers'
 import {
@@ -24,6 +25,7 @@ registerEcharts([
   PieChart, BarChart, LineChart, ScatterChart,
   FunnelChart, GaugeChart, RadarChart, TreemapChart, SunburstChart,
   BoxplotChart, HeatmapChart, SankeyChart, TreeChart, GraphChart,
+  CustomChart,
   TooltipComponent, TitleComponent, GridComponent, LegendComponent,
   GraphicComponent, DataZoomComponent, VisualMapComponent, MarkAreaComponent,
   MarkLineComponent, AriaComponent, ToolboxComponent,

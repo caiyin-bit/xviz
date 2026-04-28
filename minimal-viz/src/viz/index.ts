@@ -21,6 +21,7 @@ export { Graph } from './graph/Graph'
 export { TimeseriesBar } from './timeseries/TimeseriesBar'
 export { TimeseriesLine } from './timeseries/TimeseriesLine'
 export { MixedTimeseries } from './mixed-timeseries/MixedTimeseries'
+export { Gantt } from './gantt/Gantt'
 
 // transformProps (useful for server-side rendering / non-React hosts)
 export { transformPieProps } from './pie/transformProps'
@@ -59,5 +60,6 @@ export type {
   GraphFormData,
   TimeseriesFormData,
   MixedTimeseriesFormData,
+  GanttFormData,
   NumberFormatKind,
 } from './types'

@@ -1,0 +1,21 @@
+{
+  "width": 900,
+  "height": 360,
+  "formData": {
+    "vizType": "gantt",
+    "taskColumn": "task",
+    "startColumn": "start",
+    "endColumn": "end",
+    "groupColumn": "owner",
+    "showLabels": true,
+    "showLegend": true,
+    "xAxisLabel": "Schedule"
+  },
+  "data": [
+    { "task": "Design",  "owner": "Alice", "start": "2024-01-01", "end": "2024-02-15" },
+    { "task": "Build",   "owner": "Bob",   "start": "2024-02-10", "end": "2024-04-30" },
+    { "task": "Test",    "owner": "Alice", "start": "2024-04-15", "end": "2024-05-31" },
+    { "task": "Docs",    "owner": "Carol", "start": "2024-04-01", "end": "2024-05-31" },
+    { "task": "Release", "owner": "Carol", "start": "2024-06-01", "end": "2024-06-15" }
+  ]
+}

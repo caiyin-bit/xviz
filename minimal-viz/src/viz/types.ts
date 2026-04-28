@@ -290,6 +290,20 @@ export interface MixedTimeseriesFormData {
   rightYAxisLabel?: string
 }
 
+export interface GanttFormData {
+  vizType: 'gantt'
+  taskColumn: string                   // task name (one row = one bar)
+  startColumn: string                  // start time (parseable to Date or epoch ms)
+  endColumn: string                    // end time (same parsing rules)
+  groupColumn?: string                 // optional category column — colors bars by group (owner / department)
+  showLabels?: boolean                 // default true (task label inside bar)
+  showLegend?: boolean                 // default true when groupColumn is set
+  legendOrientation?: 'top' | 'right' | 'bottom' | 'left'
+  numberFormat?: NumberFormatKind
+  colorScheme?: string[]
+  xAxisLabel?: string
+}
+
 export type AnyFormData =
   | PieFormData
   | CartesianFormData
@@ -311,6 +325,7 @@ export type AnyFormData =
   | GraphFormData
   | TimeseriesFormData
   | MixedTimeseriesFormData
+  | GanttFormData
 
 export interface ChartProps<FD = AnyFormData> {
   formData: FD
