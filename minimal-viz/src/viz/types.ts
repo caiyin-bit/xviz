@@ -89,6 +89,16 @@ export interface BigNumberPeriodOverPeriodFormData {
   compareLabel?: string             // default 'vs previous'
 }
 
+export interface TimeTableFormData {
+  vizType: 'time-table'
+  timeColumn: string                // time column — values parseable to Date or numeric epoch ms
+  metrics: string[]                 // numeric columns to pivot — each becomes one row
+  metricLabels?: Record<string, string>  // optional pretty names for metrics
+  numberFormat?: NumberFormatKind
+  timeFormat?: 'iso' | 'short'      // 'iso' (default) = full ISO date; 'short' = YYYY-MM
+  stripes?: boolean                 // default true — alternating row tint
+}
+
 export interface ScatterFormData {
   vizType: 'scatter'
   xAxis: string
@@ -346,6 +356,7 @@ export type AnyFormData =
   | GanttFormData
   | BigNumberTotalFormData
   | BigNumberPeriodOverPeriodFormData
+  | TimeTableFormData
 
 export interface ChartProps<FD = AnyFormData> {
   formData: FD

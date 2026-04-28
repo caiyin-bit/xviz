@@ -1,0 +1,24 @@
+{
+  "width": 720,
+  "height": 200,
+  "formData": {
+    "vizType": "time-table",
+    "timeColumn": "date",
+    "metrics": ["orders", "revenue", "refunds"],
+    "metricLabels": {
+      "orders": "Order count",
+      "revenue": "Revenue (USD)",
+      "refunds": "Refunds (USD)"
+    },
+    "timeFormat": "short",
+    "stripes": true
+  },
+  "data": [
+    { "date": "2024-01-01", "orders": 1200, "revenue": 38000, "refunds":  900 },
+    { "date": "2024-02-01", "orders": 1450, "revenue": 47000, "refunds": 1100 },
+    { "date": "2024-03-01", "orders": 1100, "revenue": 35200, "refunds":  600 },
+    { "date": "2024-04-01", "orders": 1700, "revenue": 56000, "refunds": 1500 },
+    { "date": "2024-05-01", "orders": 1850, "revenue": 60500, "refunds": 1300 },
+    { "date": "2024-06-01", "orders": 2100, "revenue": 72000, "refunds": 1800 }
+  ]
+}

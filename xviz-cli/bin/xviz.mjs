@@ -92,7 +92,7 @@ async function cmdServe(opts) {
         status: 'ok', service: 'xviz', version: '0.1.0',
         endpoints: ['POST /render'],
         supported: ['pie', 'bar', 'line', 'table', 'big-number',
-                    'scatter', 'heatmap', 'sankey', 'funnel', 'gauge', 'boxplot', 'histogram', 'treemap', 'sunburst', 'radar', 'waterfall', 'step', 'tree', 'graph', 'timeseries-bar', 'timeseries-line', 'mixed-timeseries', 'gantt', 'big-number-total', 'big-number-pop'],
+                    'scatter', 'heatmap', 'sankey', 'funnel', 'gauge', 'boxplot', 'histogram', 'treemap', 'sunburst', 'radar', 'waterfall', 'step', 'tree', 'graph', 'timeseries-bar', 'timeseries-line', 'mixed-timeseries', 'gantt', 'big-number-total', 'big-number-pop', 'time-table'],
       }))
       log(200)
       return

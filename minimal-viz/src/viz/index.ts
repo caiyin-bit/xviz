@@ -24,6 +24,7 @@ export { MixedTimeseries } from './mixed-timeseries/MixedTimeseries'
 export { Gantt } from './gantt/Gantt'
 export { BigNumberTotal } from './bigNumber/BigNumberTotal'
 export { BigNumberPeriodOverPeriod } from './bigNumber/BigNumberPeriodOverPeriod'
+export { TimeTable } from './time-table/TimeTable'
 
 // transformProps (useful for server-side rendering / non-React hosts)
 export { transformPieProps } from './pie/transformProps'
@@ -65,5 +66,6 @@ export type {
   GanttFormData,
   BigNumberTotalFormData,
   BigNumberPeriodOverPeriodFormData,
+  TimeTableFormData,
   NumberFormatKind,
 } from './types'
