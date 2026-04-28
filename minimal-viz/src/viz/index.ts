@@ -15,6 +15,7 @@ export { Treemap } from './treemap/Treemap'
 export { Sunburst } from './sunburst/Sunburst'
 export { Radar } from './radar/Radar'
 export { Waterfall } from './waterfall/Waterfall'
+export { Step } from './step/Step'
 
 // transformProps (useful for server-side rendering / non-React hosts)
 export { transformPieProps } from './pie/transformProps'
@@ -48,5 +49,6 @@ export type {
   SunburstFormData,
   RadarFormData,
   WaterfallFormData,
+  StepFormData,
   NumberFormatKind,
 } from './types'

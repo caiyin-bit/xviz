@@ -1,0 +1,8 @@
+{
+  "vizType": "step",
+  "xAxis": "date",
+  "metrics": ["value"],
+  "step": "end",
+  "xAxisLabel": "Month",
+  "yAxisLabel": "Value"
+}

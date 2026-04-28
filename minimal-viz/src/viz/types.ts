@@ -210,6 +210,22 @@ export interface WaterfallFormData {
   yAxisLabel?: string
 }
 
+export interface StepFormData {
+  vizType: 'step'
+  xAxis: string                        // category column for x axis
+  metrics: string[]                    // y-axis metrics
+  seriesColumn?: string                // optional breakdown column → multiple step series
+  colorScheme?: string[]
+  stacked?: boolean
+  showDots?: boolean
+  showLegend?: boolean
+  legendOrientation?: 'top' | 'right' | 'bottom' | 'left'
+  numberFormat?: NumberFormatKind
+  xAxisLabel?: string
+  yAxisLabel?: string
+  step?: 'start' | 'middle' | 'end'    // step position; default 'end' (rises after the data point)
+}
+
 export type AnyFormData =
   | PieFormData
   | CartesianFormData
@@ -226,6 +242,7 @@ export type AnyFormData =
   | SunburstFormData
   | RadarFormData
   | WaterfallFormData
+  | StepFormData
 
 export interface ChartProps<FD = AnyFormData> {
   formData: FD
