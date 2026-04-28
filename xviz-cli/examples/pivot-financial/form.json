@@ -1,0 +1,10 @@
+{
+  "vizType": "pivot-table",
+  "rows": ["region", "country"],
+  "columns": ["quarter", "channel"],
+  "value": "revenue",
+  "aggregator": "sum",
+  "showRowTotals": true,
+  "showColumnTotals": true,
+  "stripes": true
+}

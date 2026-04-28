@@ -1,0 +1,7 @@
+{
+  "vizType": "big-number-pop",
+  "metric": "active_users",
+  "subheader": "Monthly active users",
+  "compareLabel": "vs last month",
+  "numberFormat": "smart"
+}

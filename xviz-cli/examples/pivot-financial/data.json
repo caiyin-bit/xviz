@@ -1,0 +1,18 @@
+[
+  { "region": "NA", "country": "US", "quarter": "Q1", "channel": "Web",    "revenue": 12000 },
+  { "region": "NA", "country": "US", "quarter": "Q1", "channel": "Mobile", "revenue":  8000 },
+  { "region": "NA", "country": "US", "quarter": "Q2", "channel": "Web",    "revenue": 15000 },
+  { "region": "NA", "country": "US", "quarter": "Q2", "channel": "Mobile", "revenue": 11000 },
+  { "region": "NA", "country": "CA", "quarter": "Q1", "channel": "Web",    "revenue":  3500 },
+  { "region": "NA", "country": "CA", "quarter": "Q2", "channel": "Web",    "revenue":  4200 },
+  { "region": "EU", "country": "DE", "quarter": "Q1", "channel": "Web",    "revenue":  6800 },
+  { "region": "EU", "country": "DE", "quarter": "Q1", "channel": "Mobile", "revenue":  4500 },
+  { "region": "EU", "country": "DE", "quarter": "Q2", "channel": "Web",    "revenue":  9200 },
+  { "region": "EU", "country": "DE", "quarter": "Q2", "channel": "Mobile", "revenue":  6100 },
+  { "region": "EU", "country": "FR", "quarter": "Q1", "channel": "Web",    "revenue":  3800 },
+  { "region": "EU", "country": "FR", "quarter": "Q2", "channel": "Web",    "revenue":  4900 },
+  { "region": "AS", "country": "JP", "quarter": "Q1", "channel": "Web",    "revenue":  7200 },
+  { "region": "AS", "country": "JP", "quarter": "Q2", "channel": "Web",    "revenue":  8900 },
+  { "region": "AS", "country": "CN", "quarter": "Q1", "channel": "Web",    "revenue": 14000 },
+  { "region": "AS", "country": "CN", "quarter": "Q2", "channel": "Web",    "revenue": 18500 }
+]

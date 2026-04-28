@@ -6,13 +6,29 @@ versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.7.0] — 2026-04-28
+
+This release completes **M4 of the [xviz × Superset feature-parity roadmap](docs/superpowers/specs/2026-04-26-xviz-superset-parity-roadmap.md)** — four new chart types taking xviz from 23 → 27 supported types. No breaking changes. All four new charts are pure React/HTML (no ECharts dependency), so the renderer bundle grows by only ~7 KB.
+
+> **AgGridTable deliberately deferred** (originally scoped as M4.5). Adding AG Grid Community would mean a ~500 KB runtime dependency — half the size of xviz today — for behavior that the existing `Table` and the new `PivotTable` already cover for ~95% of use cases. The lightweight architectural principle wins. AgGridTable can return as an optional satellite package if there's user demand.
+
 ### Added
 - **BigNumberTotal chart** (`vizType: 'big-number-total'`) — single-statistic KPI tile that sums the metric across all input rows (vs the default `BigNumber` which displays the last row, treating data as a time series). Available in `@minimal-viz/core` (export `BigNumberTotal`, `BigNumberTotalFormData`) and the xviz CLI/serve/MCP surface.
-- **BigNumberPeriodOverPeriod chart** (`vizType: 'big-number-pop'`) — period-over-period KPI: headline current value with previous-period value and delta (absolute + percent), with red-down / green-up convention. Two input shapes: long format (last row = current, first row = previous) or wide format (`previousMetric` pulls both columns from the same row). Configurable `compareLabel` (default `vs previous`). Available in `@minimal-viz/core` (export `BigNumberPeriodOverPeriod`, `BigNumberPeriodOverPeriodFormData`) and the xviz CLI/serve/MCP surface. First two charts of M4 (xviz × Superset parity roadmap).
+- **BigNumberPeriodOverPeriod chart** (`vizType: 'big-number-pop'`) — period-over-period KPI: headline current value with previous-period value and delta (absolute + percent), with red-down / green-up convention. Two input shapes: long format (last row = current, first row = previous) or wide format (`previousMetric` pulls both columns from the same row). Configurable `compareLabel` (default `vs previous`). Available in `@minimal-viz/core` (export `BigNumberPeriodOverPeriod`, `BigNumberPeriodOverPeriodFormData`) and the xviz CLI/serve/MCP surface.
 - **TimeTable chart** (`vizType: 'time-table'`) — pivot table with metrics as rows and chronologically-sorted time points as columns. Plain HTML rendering (no ECharts). Aggregates duplicate (time × metric) cells by sum; missing cells show em-dash. `metricLabels` for pretty row names; `timeFormat: 'iso' | 'short'` toggles full date vs YYYY-MM. Available in `@minimal-viz/core` (export `TimeTable`, `TimeTableFormData`) and the xviz CLI/serve/MCP surface.
 - **PivotTable chart** (`vizType: 'pivot-table'`) — full pivot: row dimensions × column dimensions × single metric with one of five aggregators (sum / avg / count / min / max). Multi-level row/col dims are joined with `' / '` (no nested headers — keeps the implementation compact and the table easy to consume programmatically). Optional row totals (right column), column totals (bottom row), and grand total. Plain HTML rendering. Available in `@minimal-viz/core` (export `PivotTable`, `PivotTableFormData`) and the xviz CLI/serve/MCP surface.
-- **M4 milestone complete**: BigNumberTotal + BigNumberPeriodOverPeriod + TimeTable + PivotTable — 4 new chart types, taking xviz from 23 → 27 supported types. Roadmap M4.1–M4.4 all ✅. (M4.5 AgGridTable deliberately deferred to keep xviz lightweight — see roadmap §决策点 3.)
-- vitest config now includes `**/*.test.tsx` so React-component tests (server-side rendered with `renderToStaticMarkup`) can be picked up alongside transform tests.
+- `xviz-cli/examples/` quick-reference fixtures for each new type: `big-number-total.json`, `big-number-pop.json`, `time-table.json`, `pivot-table.json`. `render-all.sh` runs them all.
+- New walkthroughs: [`examples/pivot-financial/`](xviz-cli/examples/pivot-financial/README.md) (H1 revenue by region × quarter × channel — multi-level pivot) and [`examples/big-number-kpi/`](xviz-cli/examples/big-number-kpi/README.md) (MAU month-over-month KPI tile with delta). Ship without a pre-rendered `chart.png`; render locally.
+
+### Changed
+- `xviz serve /health.supported` now returns 27 entries instead of 23.
+- `Window.__CHART__.type` union (renderer bundle) extended to 27 type literals.
+- Top-level READMEs (EN + zh-CN), `minimal-viz/README.md`, `xviz-cli/README.md`, and `xviz-cli/examples/README.md` updated to reflect the 27-chart roster.
+
+### Internal
+- vitest config now includes `**/*.test.tsx` so React-component tests (server-side rendered with `renderToStaticMarkup`) can be picked up alongside transform tests. Required because all four new charts are React components with no `transformProps.ts` to test in isolation.
+- 28 new SSR-rendered tests across the four new charts (test count: 83 → 111).
+- Renderer bundle grew from ~1.033 MB (v0.6.0) to ~1.040 MB (v0.7.0) — only +7 KB across all four charts because none required new ECharts modules.
 
 ## [0.6.0] — 2026-04-28
 
