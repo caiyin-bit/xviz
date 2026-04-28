@@ -8,7 +8,8 @@ versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 - **BoxPlot chart** (`vizType: 'boxplot'`) — categorical box-and-whisker with Tukey or min-max whiskers and optional outlier overlay. Computes 5-number summaries client-side from raw observations. Available in `@minimal-viz/core` (export `BoxPlot`, `BoxPlotFormData`) and the xviz CLI/serve/MCP surface (registered in `/health.supported`).
-- First step of the **xviz × Superset feature parity roadmap** (M1.1 of 7 milestones; see `docs/superpowers/specs/2026-04-26-xviz-superset-parity-roadmap.md`).
+- **Histogram chart** (`vizType: 'histogram'`) — equal-width binning with optional density normalization and cumulative (empirical CDF) modes. Client-side bin computation; uses ECharts `bar` series under the hood. Available in `@minimal-viz/core` (export `Histogram`, `HistogramFormData`) and the xviz CLI/serve/MCP surface.
+- First steps of the **xviz × Superset feature parity roadmap** (M1.1 BoxPlot + M1.2 Histogram of 7 milestones; see `docs/superpowers/specs/2026-04-26-xviz-superset-parity-roadmap.md`).
 
 ## [0.2.0] — 2026-04-25
 

@@ -10,6 +10,7 @@ export { Sankey } from './sankey/Sankey'
 export { Funnel } from './funnel/Funnel'
 export { Gauge } from './gauge/Gauge'
 export { BoxPlot } from './boxplot/BoxPlot'
+export { Histogram } from './histogram/Histogram'
 
 // transformProps (useful for server-side rendering / non-React hosts)
 export { transformPieProps } from './pie/transformProps'
@@ -38,5 +39,6 @@ export type {
   FunnelFormData,
   GaugeFormData,
   BoxPlotFormData,
+  HistogramFormData,
   NumberFormatKind,
 } from './types'

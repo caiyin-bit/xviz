@@ -143,6 +143,22 @@ export interface BoxPlotFormData {
   colorScheme?: string[]
 }
 
+export interface HistogramFormData {
+  vizType: 'histogram'
+  metric: string                       // numeric column — raw observations
+  bins?: number                        // number of equal-width buckets; default 20
+  binStart?: number                    // lower edge; default min(values)
+  binEnd?: number                      // upper edge; default max(values)
+  density?: boolean                    // default false. If true, normalize counts to a probability density (count / (n · binWidth))
+  cumulative?: boolean                 // default false. If true, output running cumulative bin values
+  showLegend?: boolean                 // default false
+  legendOrientation?: 'top' | 'right' | 'bottom' | 'left'
+  numberFormat?: NumberFormatKind
+  xAxisLabel?: string
+  yAxisLabel?: string
+  colorScheme?: string[]
+}
+
 export type AnyFormData =
   | PieFormData
   | CartesianFormData
@@ -154,6 +170,7 @@ export type AnyFormData =
   | FunnelFormData
   | GaugeFormData
   | BoxPlotFormData
+  | HistogramFormData
 
 export interface ChartProps<FD = AnyFormData> {
   formData: FD

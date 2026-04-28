@@ -1,0 +1,8 @@
+{
+  "vizType": "histogram",
+  "metric": "value",
+  "bins": 10,
+  "density": false,
+  "xAxisLabel": "Value",
+  "yAxisLabel": "Count"
+}
