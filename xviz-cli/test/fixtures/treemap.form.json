@@ -1,0 +1,7 @@
+{
+  "vizType": "treemap",
+  "groupby": ["region", "country"],
+  "metric": "sales",
+  "showLabels": true,
+  "showValues": true
+}

@@ -92,7 +92,7 @@ async function cmdServe(opts) {
         status: 'ok', service: 'xviz', version: '0.1.0',
         endpoints: ['POST /render'],
         supported: ['pie', 'bar', 'line', 'table', 'big-number',
-                    'scatter', 'heatmap', 'sankey', 'funnel', 'gauge', 'boxplot', 'histogram'],
+                    'scatter', 'heatmap', 'sankey', 'funnel', 'gauge', 'boxplot', 'histogram', 'treemap'],
       }))
       log(200)
       return

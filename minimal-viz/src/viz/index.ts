@@ -11,6 +11,7 @@ export { Funnel } from './funnel/Funnel'
 export { Gauge } from './gauge/Gauge'
 export { BoxPlot } from './boxplot/BoxPlot'
 export { Histogram } from './histogram/Histogram'
+export { Treemap } from './treemap/Treemap'
 
 // transformProps (useful for server-side rendering / non-React hosts)
 export { transformPieProps } from './pie/transformProps'
@@ -40,5 +41,6 @@ export type {
   GaugeFormData,
   BoxPlotFormData,
   HistogramFormData,
+  TreemapFormData,
   NumberFormatKind,
 } from './types'

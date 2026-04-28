@@ -159,6 +159,17 @@ export interface HistogramFormData {
   colorScheme?: string[]
 }
 
+export interface TreemapFormData {
+  vizType: 'treemap'
+  groupby: string[]                    // hierarchy levels (outermost first); ≥1 column required
+  metric: string                       // numeric column for leaf node sizes
+  showLabels?: boolean                 // default true
+  showValues?: boolean                 // default false (show value alongside name)
+  showBreadcrumb?: boolean             // default false
+  colorScheme?: string[]
+  numberFormat?: NumberFormatKind
+}
+
 export type AnyFormData =
   | PieFormData
   | CartesianFormData
@@ -171,6 +182,7 @@ export type AnyFormData =
   | GaugeFormData
   | BoxPlotFormData
   | HistogramFormData
+  | TreemapFormData
 
 export interface ChartProps<FD = AnyFormData> {
   formData: FD
