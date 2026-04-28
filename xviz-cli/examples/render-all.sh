@@ -30,6 +30,10 @@ node bin/xviz.mjs render -c examples/step.json       -o "$OUT/step.png"
 node bin/xviz.mjs render -c examples/tree.json       -o "$OUT/tree.png"
 node bin/xviz.mjs render -c examples/graph.json      -o "$OUT/graph.png"
 
+# v0.6.0 additions (M3 of Superset parity roadmap)
+node bin/xviz.mjs render -c examples/timeseries-line.json -o "$OUT/timeseries-line.png"
+node bin/xviz.mjs render -c examples/timeseries-bar.json  -o "$OUT/timeseries-bar.png"
+
 # Dark variants of a few
 node bin/xviz.mjs render -d examples/pie-data.json   -f examples/pie-form.json   -o "$OUT/pie-dark.png"  --width 600 --height 400 --theme dark
 node bin/xviz.mjs render -d examples/sales-data.json -f examples/bar-form.json   -o "$OUT/bar-dark.png"  --width 700 --height 400 --theme dark

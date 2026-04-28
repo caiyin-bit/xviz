@@ -1,0 +1,22 @@
+{
+  "width": 800,
+  "height": 420,
+  "formData": {
+    "vizType": "timeseries-bar",
+    "xAxis": "date",
+    "metrics": ["revenue"],
+    "seriesColumn": "region",
+    "stacked": true,
+    "yAxisLabel": "Revenue (USD)"
+  },
+  "data": [
+    { "date": "2024-01-01", "region": "NA", "revenue": 1200 },
+    { "date": "2024-01-01", "region": "EU", "revenue":  800 },
+    { "date": "2024-02-01", "region": "NA", "revenue": 1400 },
+    { "date": "2024-02-01", "region": "EU", "revenue":  900 },
+    { "date": "2024-03-01", "region": "NA", "revenue": 1100 },
+    { "date": "2024-03-01", "region": "EU", "revenue": 1050 },
+    { "date": "2024-04-01", "region": "NA", "revenue": 1700 },
+    { "date": "2024-04-01", "region": "EU", "revenue": 1200 }
+  ]
+}

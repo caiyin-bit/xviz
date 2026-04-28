@@ -1,0 +1,9 @@
+{
+  "vizType": "timeseries-line",
+  "xAxis": "date",
+  "metrics": ["revenue"],
+  "seriesColumn": "region",
+  "smooth": true,
+  "showDots": true,
+  "yAxisLabel": "Revenue (USD)"
+}

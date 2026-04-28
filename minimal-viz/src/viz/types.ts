@@ -254,6 +254,24 @@ export interface GraphFormData {
   colorScheme?: string[]
 }
 
+export interface TimeseriesFormData {
+  vizType: 'timeseries-bar' | 'timeseries-line'
+  xAxis: string                        // time column — values parseable by Date.parse or numeric epoch ms
+  metrics: string[]                    // y-axis metrics
+  seriesColumn?: string                // optional breakdown column → multiple series
+  colorScheme?: string[]
+  stacked?: boolean
+  smooth?: boolean                     // line variant only
+  area?: boolean                       // line variant only
+  showDots?: boolean                   // line variant only; default true
+  showValues?: boolean                 // bar variant only
+  showLegend?: boolean
+  legendOrientation?: 'top' | 'right' | 'bottom' | 'left'
+  numberFormat?: NumberFormatKind
+  xAxisLabel?: string
+  yAxisLabel?: string
+}
+
 export type AnyFormData =
   | PieFormData
   | CartesianFormData
@@ -273,6 +291,7 @@ export type AnyFormData =
   | StepFormData
   | TreeFormData
   | GraphFormData
+  | TimeseriesFormData
 
 export interface ChartProps<FD = AnyFormData> {
   formData: FD

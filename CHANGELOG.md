@@ -6,6 +6,9 @@ versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+- **TimeseriesBar / TimeseriesLine charts** (`vizType: 'timeseries-bar' | 'timeseries-line'`) — proper time-axis variants of the existing categorical Bar / Line charts. Reuses `transformCartesianProps` and rewires the x-axis to ECharts' `time` type, remapping each series' data to `[timestamp, value]` pairs. Accepts ISO-8601 strings or numeric epoch ms in the time column. Available in `@minimal-viz/core` (export `TimeseriesBar`, `TimeseriesLine`, `TimeseriesFormData`) and the xviz CLI/serve/MCP surface. First charts of M3 (xviz × Superset parity roadmap).
+
 ## [0.5.0] — 2026-04-28
 
 This release completes **M2 of the [xviz × Superset feature-parity roadmap](docs/superpowers/specs/2026-04-26-xviz-superset-parity-roadmap.md)** — four new chart types taking xviz from 15 → 19 supported types. No breaking changes; all v0.4.0 charts and APIs are preserved.

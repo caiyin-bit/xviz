@@ -18,6 +18,8 @@ export { Waterfall } from './waterfall/Waterfall'
 export { Step } from './step/Step'
 export { Tree } from './tree/Tree'
 export { Graph } from './graph/Graph'
+export { TimeseriesBar } from './timeseries/TimeseriesBar'
+export { TimeseriesLine } from './timeseries/TimeseriesLine'
 
 // transformProps (useful for server-side rendering / non-React hosts)
 export { transformPieProps } from './pie/transformProps'
@@ -54,5 +56,6 @@ export type {
   StepFormData,
   TreeFormData,
   GraphFormData,
+  TimeseriesFormData,
   NumberFormatKind,
 } from './types'
