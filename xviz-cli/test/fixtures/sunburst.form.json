@@ -1,0 +1,8 @@
+{
+  "vizType": "sunburst",
+  "groupby": ["region", "country"],
+  "metric": "sales",
+  "showLabels": true,
+  "innerRadius": 20,
+  "outerRadius": 90
+}

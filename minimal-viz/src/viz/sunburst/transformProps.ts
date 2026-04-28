@@ -1,29 +1,30 @@
-// Adapted from superset-frontend/plugins/plugin-chart-echarts/src/Treemap/transformProps.ts
-// Converts flat rows → nested tree, then emits an ECharts treemap series.
-// Aggregation rule: leaf nodes carry summed metric values; ECharts auto-aggregates parents.
+// Adapted from superset-frontend/plugins/plugin-chart-echarts/src/Sunburst/transformProps.ts
+// Same flat-rows → nested-tree pipeline as Treemap (shared via viz/hierarchy.ts).
+// Differs in series type ('sunburst') and radius/label semantics.
 
 import type { EChartsCoreOption } from 'echarts/core'
-import type { TreemapSeriesOption } from 'echarts/charts'
-import type { ChartProps, TreemapFormData } from '../types'
+import type { SunburstSeriesOption } from 'echarts/charts'
+import type { ChartProps, SunburstFormData } from '../types'
 import { getNumberFormatter, makeColorScale } from '../utils'
 import { buildHierarchy } from '../hierarchy'
 
-export interface TransformedTreemapProps {
+export interface TransformedSunburstProps {
   echartOptions: EChartsCoreOption
   width: number
   height: number
 }
 
-export function transformTreemapProps(
-  chartProps: ChartProps<TreemapFormData>,
-): TransformedTreemapProps {
+export function transformSunburstProps(
+  chartProps: ChartProps<SunburstFormData>,
+): TransformedSunburstProps {
   const { formData, queriesData, width, height } = chartProps
   const {
     groupby,
     metric,
     showLabels = true,
     showValues = false,
-    showBreadcrumb = false,
+    innerRadius = 0,
+    outerRadius = 90,
     colorScheme,
     numberFormat = 'smart',
   } = formData
@@ -41,30 +42,23 @@ export function transformTreemapProps(
     return `${name}\n${formatNumber(Number(p.value ?? 0))}`
   }
 
-  const series: TreemapSeriesOption = {
-    type: 'treemap',
+  const series: SunburstSeriesOption = {
+    type: 'sunburst',
     data: tree,
-    roam: false,
-    nodeClick: false,
-    breadcrumb: { show: showBreadcrumb },
+    radius: [`${innerRadius}%`, `${outerRadius}%`],
     label: {
       show: showLabels,
       formatter: (p) =>
         labelFormatter(p as { name?: string; value?: number }),
-    },
-    upperLabel: {
-      show: showLabels && groupby.length > 1,
-      height: 20,
+      minAngle: 5,
     },
     itemStyle: {
       borderColor: chartProps.theme?.colorBg ?? '#fff',
       borderWidth: 1,
-      gapWidth: 1,
     },
-    levels: [
-      { itemStyle: { borderColor: chartProps.theme?.colorBg ?? '#fff', borderWidth: 2, gapWidth: 2 } },
-      { itemStyle: { borderColor: chartProps.theme?.colorBg ?? '#fff', borderWidth: 1, gapWidth: 1 } },
-    ],
+    emphasis: {
+      focus: 'ancestor',
+    },
   }
 
   const echartOptions: EChartsCoreOption = {

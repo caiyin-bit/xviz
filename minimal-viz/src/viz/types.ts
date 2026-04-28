@@ -170,6 +170,18 @@ export interface TreemapFormData {
   numberFormat?: NumberFormatKind
 }
 
+export interface SunburstFormData {
+  vizType: 'sunburst'
+  groupby: string[]                    // hierarchy levels (innermost-ring first); ≥1 column required
+  metric: string                       // numeric column for leaf node sizes
+  showLabels?: boolean                 // default true
+  showValues?: boolean                 // default false
+  innerRadius?: number                 // percentage (0..100); default 0 (full sunburst, no donut hole)
+  outerRadius?: number                 // percentage (0..100); default 90
+  colorScheme?: string[]
+  numberFormat?: NumberFormatKind
+}
+
 export type AnyFormData =
   | PieFormData
   | CartesianFormData
@@ -183,6 +195,7 @@ export type AnyFormData =
   | BoxPlotFormData
   | HistogramFormData
   | TreemapFormData
+  | SunburstFormData
 
 export interface ChartProps<FD = AnyFormData> {
   formData: FD

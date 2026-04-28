@@ -12,6 +12,7 @@ export { Gauge } from './gauge/Gauge'
 export { BoxPlot } from './boxplot/BoxPlot'
 export { Histogram } from './histogram/Histogram'
 export { Treemap } from './treemap/Treemap'
+export { Sunburst } from './sunburst/Sunburst'
 
 // transformProps (useful for server-side rendering / non-React hosts)
 export { transformPieProps } from './pie/transformProps'
@@ -42,5 +43,6 @@ export type {
   BoxPlotFormData,
   HistogramFormData,
   TreemapFormData,
+  SunburstFormData,
   NumberFormatKind,
 } from './types'
