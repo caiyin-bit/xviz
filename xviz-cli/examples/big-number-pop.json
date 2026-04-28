@@ -1,0 +1,15 @@
+{
+  "width": 420,
+  "height": 200,
+  "formData": {
+    "vizType": "big-number-pop",
+    "metric": "users",
+    "subheader": "Monthly active users",
+    "compareLabel": "vs last month",
+    "numberFormat": "smart"
+  },
+  "data": [
+    { "month": "2024-05", "users": 18500 },
+    { "month": "2024-06", "users": 21300 }
+  ]
+}

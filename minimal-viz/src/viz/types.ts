@@ -71,6 +71,24 @@ export interface BigNumberFormData {
   compareToPrevious?: boolean       // show delta% from first vs last row in trend
 }
 
+export interface BigNumberTotalFormData {
+  vizType: 'big-number-total'
+  metric: string                    // single number to display (sum if multiple rows)
+  subheader?: string
+  numberFormat?: NumberFormatKind
+  color?: string
+}
+
+export interface BigNumberPeriodOverPeriodFormData {
+  vizType: 'big-number-pop'
+  metric: string                    // current-period value column
+  previousMetric?: string           // optional explicit previous-period column; defaults to first row vs last row from same metric
+  subheader?: string
+  numberFormat?: NumberFormatKind
+  color?: string
+  compareLabel?: string             // default 'vs previous'
+}
+
 export interface ScatterFormData {
   vizType: 'scatter'
   xAxis: string
@@ -326,6 +344,8 @@ export type AnyFormData =
   | TimeseriesFormData
   | MixedTimeseriesFormData
   | GanttFormData
+  | BigNumberTotalFormData
+  | BigNumberPeriodOverPeriodFormData
 
 export interface ChartProps<FD = AnyFormData> {
   formData: FD

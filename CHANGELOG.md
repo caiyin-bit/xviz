@@ -6,6 +6,11 @@ versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+- **BigNumberTotal chart** (`vizType: 'big-number-total'`) — single-statistic KPI tile that sums the metric across all input rows (vs the default `BigNumber` which displays the last row, treating data as a time series). Available in `@minimal-viz/core` (export `BigNumberTotal`, `BigNumberTotalFormData`) and the xviz CLI/serve/MCP surface.
+- **BigNumberPeriodOverPeriod chart** (`vizType: 'big-number-pop'`) — period-over-period KPI: headline current value with previous-period value and delta (absolute + percent), with red-down / green-up convention. Two input shapes: long format (last row = current, first row = previous) or wide format (`previousMetric` pulls both columns from the same row). Configurable `compareLabel` (default `vs previous`). Available in `@minimal-viz/core` (export `BigNumberPeriodOverPeriod`, `BigNumberPeriodOverPeriodFormData`) and the xviz CLI/serve/MCP surface. First two charts of M4 (xviz × Superset parity roadmap).
+- vitest config now includes `**/*.test.tsx` so React-component tests (server-side rendered with `renderToStaticMarkup`) can be picked up alongside transform tests.
+
 ## [0.6.0] — 2026-04-28
 
 This release completes **M3 of the [xviz × Superset feature-parity roadmap](docs/superpowers/specs/2026-04-26-xviz-superset-parity-roadmap.md)** — four new chart types taking xviz from 19 → 23 supported types. No breaking changes; the existing categorical Bar / Line charts remain in place untouched. The new `timeseries-bar` and `timeseries-line` types are independent additions, not reskins of the old ones.
