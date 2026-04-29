@@ -1,0 +1,12 @@
+{
+  "vizType": "country-map",
+  "regionColumn": "state",
+  "metric": "population_m",
+  "nameProperty": "name",
+  "geojson": {
+    "type": "FeatureCollection",
+    "features": []
+  },
+  "colorRange": ["#e8f5f5", "#1FA8C9"],
+  "showLabels": false
+}

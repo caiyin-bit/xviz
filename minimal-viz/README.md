@@ -1,7 +1,7 @@
 # @minimal-viz/core
 
 Lightweight React chart components modeled after Apache Superset's
-visualization plugins. 37 chart types (as of v0.9.0), one dependency
+visualization plugins. 39 chart types (as of v0.10.0), one dependency
 (ECharts), ~5 KB gzipped (excluding peer deps).
 
 ```bash

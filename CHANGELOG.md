@@ -6,6 +6,29 @@ versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.10.0] — 2026-04-29
+
+This release ships **M7-A of the [xviz × Superset feature-parity roadmap](docs/superpowers/specs/2026-04-26-xviz-superset-parity-roadmap.md)** — the SDK-free half of the maps wave. xviz now ships 39 chart types (up from 37), covering ~67% of Superset's chart catalog.
+
+> **M7-B (deck.gl-based maps) intentionally deferred**. See [the M7 spike report](docs/superpowers/specs/2026-04-29-m7-spike-report.md) for the full analysis. Adding deck.gl + maplibre-gl to core would 3×-bloat the bundle (1.1 MB → 3.5+ MB), violating the lightweight architectural principle. When implemented, M7-B will ship as an optional satellite package `@minimal-viz/maps` using **`maplibre-gl@^5`** (not `mapbox-gl` — that's BSL-licensed and incompatible with our Apache 2.0). 13 charts remain in backlog: PointClusterMap, Cartodiagram, and DeckGL × 11.
+
+### Added
+- **WorldMap chart** (`vizType: 'world-map'`) — country-level choropleth using ECharts' native `MapChart` series + `GeoComponent` coordinate system. Users supply the GeoJSON via `formData.geojson` (xviz does NOT inline country geometry — would balloon the bundle to 5+ MB). `countryColumn` matches a feature property (default `name`); auto-computed visualMap from data range. Available in `@minimal-viz/core` (export `WorldMap`, `WorldMapFormData`, `GeoJsonInput`) and the xviz CLI/serve/MCP surface.
+- **CountryMap chart** (`vizType: 'country-map'`) — subdivision-level choropleth (US states, China provinces, etc). Same ECharts MapChart renderer as WorldMap; the wrapper just renames `countryColumn` → `regionColumn` to signal intent. Saved Superset slice configs that use `country_map` migrate without remapping.
+- New walkthroughs: [`examples/world-map-gdp/`](xviz-cli/examples/world-map-gdp/README.md) (top-12 GDPs colored by 2024 USD billions) and [`examples/country-map-states/`](xviz-cli/examples/country-map-states/README.md) (US states by population). Both require a user-supplied GeoJSON file (the walkthroughs include `curl` + `node` snippets to fetch and inline a simplified one).
+
+### Changed
+- `xviz serve /health.supported` now returns 39 entries (was 37).
+- `Window.__CHART__.type` union extended to 39 type literals.
+- **`Echart.tsx` registers ECharts' `MapChart` and `GeoComponent`** to support the new map charts. Renderer bundle grew from ~1.108 MB (v0.9.0) to ~1.151 MB (v0.10.0) — about +43 KB.
+- Top-level READMEs (EN + zh-CN), `minimal-viz/README.md`, `xviz-cli/README.md`, and `xviz-cli/examples/README.md` updated to reflect the 39-chart roster.
+
+### Decided (no-op release impact, documented for future work)
+- **`maplibre-gl@^5` selected as the only base-map SDK for the future M7-B satellite package.** `mapbox-gl` is rejected: its v2+ Business Source License is incompatible with xviz's Apache 2.0 license. `mapbox-gl` also requires a token at runtime and locks tile sources to mapbox.com, both of which conflict with xviz's "lightweight CLI / MCP-first" use case. Superset's own `preset-chart-deckgl` lists `maplibre-gl` and not `mapbox-gl`. Deck.gl's `@deck.gl/mapbox` is base-map-agnostic, so users with existing Mapbox infrastructure can fork the satellite package and swap one import. Full reasoning + implementation contract (default OSM tile style, `mapStyle: string | object` override) recorded in [`docs/superpowers/specs/2026-04-29-m7-spike-report.md`](docs/superpowers/specs/2026-04-29-m7-spike-report.md).
+
+### Internal
+- 9 new tests for the map charts (test count: 152 → 161): WorldMap series shape, GeoJSON `registerMap` caching (WeakMap-based reuse for the same GeoJSON object), visualMap min/max, custom `colorRange` / `nameProperty`, drop-on-bad-input, empty-data, plus a CountryMap alias smoke test.
+
 ## [0.9.0] — 2026-04-29
 
 This release completes **M6 of the [xviz × Superset feature-parity roadmap](docs/superpowers/specs/2026-04-26-xviz-superset-parity-roadmap.md)** — nine new chart types taking xviz from 28 → 37 supported types. xviz now covers ~64% of Superset's chart catalog and effectively 100% of common BI / management-dashboard use cases.

@@ -22,7 +22,7 @@
 > The chart layer of Apache Superset, extracted into a standalone library.
 > Use it as a React component, render it headlessly from JSON / CSV / SQL via
 > the CLI, or hand it to an LLM agent over MCP. No BI platform, no metadata DB,
-> no dashboards — just charts, **thirty-seven of them** (v0.9.0), plus a renderer
+> no dashboards — just charts, **thirty-nine of them** (v0.10.0), plus a renderer
 > that turns data into PNG / PDF / HTML.
 
 ## Three ways to use it
@@ -91,12 +91,12 @@ directly:
 ```
 
 Drop that into your Claude Desktop config and Claude can render any of
-the thirty-seven chart types on demand. Full walk-through in the
+the thirty-nine chart types on demand. Full walk-through in the
 [MCP example](./xviz-cli/examples/mcp-claude-desktop/README.md).
 
 ## The charts
 
-Thirty-seven chart types covering ~99% of everyday BI needs (as of v0.9.0).
+Thirty-nine chart types covering ~99% of everyday BI needs (as of v0.10.0).
 
 | | | |
 |:---:|:---:|:---:|
@@ -165,6 +165,15 @@ Thirty-seven chart types covering ~99% of everyday BI needs (as of v0.9.0).
 | **Horizon** | Single-band time-series area | Simplified — multi-band folded variant in backlog |
 | **PairedTTest** | Paired statistical exploration | BoxPlot variant with pair grouping |
 
+**Added in v0.10.0** — M7-A of the same roadmap (SDK-free choropleths; deck.gl-based maps deferred):
+
+| Chart | Use case | Notes |
+|---|---|---|
+| **WorldMap** | Country-level choropleth | ECharts native MapChart + user-supplied GeoJSON. Zero new deps, zero token, no tile server |
+| **CountryMap** | Subdivision-level choropleth (states / provinces / counties) | Same renderer as WorldMap, signaling intent only |
+
+> **Map SDK note** — xviz core uses ECharts' native MapChart for static choropleths. The 13 deck.gl-based maps from Superset (PointClusterMap, Cartodiagram, DeckGL Arc/Geojson/Grid/Hex/Heatmap/Multi/Path/Polygon/Scatter/Screengrid/Contour) are intentionally deferred to a future optional satellite package `@minimal-viz/maps`. Adding them to core would 3×-bloat the bundle (1.1 MB → 3.5+ MB). When implemented, the satellite package will use **`maplibre-gl@^5`** (BSD-3 license, no token needed, OSM-friendly) — not `mapbox-gl` (BSL license incompatible with Apache 2.0). See [`docs/superpowers/specs/2026-04-29-m7-spike-report.md`](./docs/superpowers/specs/2026-04-29-m7-spike-report.md) for the full decision trail.
+
 Plus **BigNumber** (KPI tile with trendline + % delta) and light/dark themes:
 
 <p align="center">
@@ -189,7 +198,7 @@ part of the problem — nothing more.
 
 - 📖 **[Technical deep dive](./docs/blog/2026-04-24-extracting-superset-viz.md)**
   — architecture, trade-offs, side-by-side comparisons
-- 🧩 **[minimal-viz library docs](./minimal-viz/README.md)** — full API, theming, all 37 chart types
+- 🧩 **[minimal-viz library docs](./minimal-viz/README.md)** — full API, theming, all 39 chart types
 - 🛠️ **[xviz CLI docs](./xviz-cli/README.md)** — `render`, `query`, `serve`, `mcp` commands
 - 🧪 **[Runnable examples](./xviz-cli/examples/README.md)** — Postgres, SQLite, CSV, MCP, HTTP
 - 🤝 **[Contributing](./CONTRIBUTING.md)** — bug reports, PRs, dev setup

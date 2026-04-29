@@ -22,7 +22,7 @@
 > 把 Apache Superset 的图表层剥出来做成独立可用的库。
 > 既能在 React 应用里当组件用，也能用 CLI 把 JSON / CSV / SQL 查询结果无头渲染成
 > PNG / PDF / HTML，还能通过 MCP 让 LLM agent 直接调用画图。
-> 没有 BI 平台、没有元数据库、没有 dashboard ——只有 **37 种图表**（v0.9.0）+
+> 没有 BI 平台、没有元数据库、没有 dashboard ——只有 **39 种图表**（v0.10.0）+
 > 一个把数据变成图片的渲染器。
 
 ## 三种使用方式
@@ -88,12 +88,12 @@ xviz serve --port 3737
   "args": ["xviz-cli", "mcp"] } } }
 ```
 
-把这段加进 Claude Desktop 的配置，Claude 就能按需渲染 37 种图表中的任何一种。
+把这段加进 Claude Desktop 的配置，Claude 就能按需渲染 39 种图表中的任何一种。
 完整走查见 [MCP 示例](./xviz-cli/examples/mcp-claude-desktop/README.md)。
 
 ## 支持的图表类型
 
-37 种图表（截至 v0.9.0），覆盖 BI 日常约 99% 的需求。
+39 种图表（截至 v0.10.0），覆盖 BI 日常约 99% 的需求。
 
 | | | |
 |:---:|:---:|:---:|
@@ -162,6 +162,15 @@ xviz serve --port 3737
 | **Horizon（地平线图）** | 单 band 时序面积图 | 简化版——多 band 折叠版本在 backlog |
 | **PairedTTest（配对 t 检验）** | 配对统计探索 | BoxPlot 变体，按 pair 分组 |
 
+**v0.10.0 新增**——同一路线图 M7-A 阶段成果（无 SDK 地图族；deck.gl 类地图推迟）：
+
+| 图表 | 适用场景 | 说明 |
+|---|---|---|
+| **WorldMap（世界地图）** | 国家级填色图 | ECharts 原生 MapChart + 用户提供 GeoJSON。零新依赖、零 token、无 tile 服务 |
+| **CountryMap（国家地图）** | 子级行政区填色图（州/省/县） | 与 WorldMap 同渲染器，仅命名表意不同 |
+
+> **地图 SDK 选型** —— xviz core 的静态填色图用 ECharts 原生 MapChart。Superset 的 13 张 deck.gl 系地图（PointClusterMap、Cartodiagram、DeckGL Arc/Geojson/Grid/Hex/Heatmap/Multi/Path/Polygon/Scatter/Screengrid/Contour）**有意推迟**到未来的可选卫星包 `@minimal-viz/maps`。把它们塞进 core 会让 bundle 3×-膨胀（1.1 MB → 3.5+ MB）。届时卫星包将使用 **`maplibre-gl@^5`**（BSD-3 许可、无需 token、OSM 友好），**不用 `mapbox-gl`**（BSL 许可与 Apache 2.0 不兼容）。完整决策见 [`docs/superpowers/specs/2026-04-29-m7-spike-report.md`](./docs/superpowers/specs/2026-04-29-m7-spike-report.md)。
+
 外加 **BigNumber**（KPI 大数 + 迷你趋势线 + 增减百分比）和明暗双主题：
 
 <p align="center">
@@ -184,7 +193,7 @@ xviz 不是 BI 平台。没有 dashboard、没有权限、没有保存的查询�
 
 - 📖 **[技术深度文章](./docs/blog/2026-04-24-extracting-superset-viz.md)**
   ——架构、取舍、新旧方案对比
-- 🧩 **[minimal-viz 库文档](./minimal-viz/README.md)** ——完整 API、主题、37 种图表
+- 🧩 **[minimal-viz 库文档](./minimal-viz/README.md)** ——完整 API、主题、39 种图表
 - 🛠️ **[xviz CLI 文档](./xviz-cli/README.md)** ——`render`、`query`、`serve`、`mcp` 命令
 - 🧪 **[可运行示例](./xviz-cli/examples/README.md)** ——Postgres、SQLite、CSV、MCP、HTTP
 - 🤝 **[贡献指南](./CONTRIBUTING.md)** ——bug 报告、PR、开发环境

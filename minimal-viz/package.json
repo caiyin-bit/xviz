@@ -1,7 +1,7 @@
 {
   "name": "@minimal-viz/core",
-  "version": "0.9.0",
-  "description": "Lightweight React chart components (37 chart types covering ~64% of Apache Superset's chart catalog) built on ECharts. Light/dark themes, ~5 KB gzip.",
+  "version": "0.10.0",
+  "description": "Lightweight React chart components (39 chart types covering ~67% of Apache Superset's chart catalog, including WorldMap and CountryMap choropleths) built on ECharts. Light/dark themes, ~5 KB gzip.",
   "keywords": [
     "react",
     "charts",

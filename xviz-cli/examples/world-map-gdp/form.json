@@ -1,0 +1,12 @@
+{
+  "vizType": "world-map",
+  "countryColumn": "country",
+  "metric": "gdp_2024",
+  "nameProperty": "ADMIN",
+  "geojson": {
+    "type": "FeatureCollection",
+    "features": []
+  },
+  "colorRange": ["#e8f5f5", "#1FA8C9"],
+  "showLabels": false
+}

@@ -1,0 +1,14 @@
+[
+  { "state": "California",     "population_m": 39.0 },
+  { "state": "Texas",          "population_m": 30.5 },
+  { "state": "Florida",        "population_m": 22.6 },
+  { "state": "New York",       "population_m": 19.6 },
+  { "state": "Pennsylvania",   "population_m": 13.0 },
+  { "state": "Illinois",       "population_m": 12.5 },
+  { "state": "Ohio",           "population_m": 11.8 },
+  { "state": "Georgia",        "population_m": 11.0 },
+  { "state": "North Carolina", "population_m": 10.7 },
+  { "state": "Michigan",       "population_m": 10.0 },
+  { "state": "New Jersey",     "population_m":  9.3 },
+  { "state": "Virginia",       "population_m":  8.7 }
+]

@@ -25,6 +25,8 @@ input fixtures only (render locally to verify).
 | [`calendar-contributions/`](./calendar-contributions/README.md) *(v0.8.0)* | GitHub-style yearly contribution heatmap | data + form |
 | [`chord-trade/`](./chord-trade/README.md) *(v0.9.0)* | Global trade flows between 5 regions (chord diagram) | data + form |
 | [`bullet-kpi/`](./bullet-kpi/README.md) *(v0.9.0)* | Q4 KPI dashboard (5 KPIs × graded bands + targets) | data + form |
+| [`world-map-gdp/`](./world-map-gdp/README.md) *(v0.10.0)* | World map — top-12 GDPs (zero SDK, user-supplied GeoJSON) | data + form |
+| [`country-map-states/`](./country-map-states/README.md) *(v0.10.0)* | US states by population — subdivision choropleth | data + form |
 
 ## Single-file fixtures
 

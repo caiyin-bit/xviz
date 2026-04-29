@@ -1,0 +1,14 @@
+[
+  { "country": "United States", "gdp_2024": 27360 },
+  { "country": "China",          "gdp_2024": 17790 },
+  { "country": "Germany",        "gdp_2024":  4460 },
+  { "country": "Japan",          "gdp_2024":  4210 },
+  { "country": "India",          "gdp_2024":  3940 },
+  { "country": "United Kingdom", "gdp_2024":  3340 },
+  { "country": "France",         "gdp_2024":  3180 },
+  { "country": "Brazil",         "gdp_2024":  2170 },
+  { "country": "Italy",          "gdp_2024":  2300 },
+  { "country": "Canada",         "gdp_2024":  2240 },
+  { "country": "Russia",         "gdp_2024":  2070 },
+  { "country": "Mexico",         "gdp_2024":  1850 }
+]
