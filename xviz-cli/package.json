@@ -40,6 +40,7 @@
   },
   "scripts": {
     "build": "vite build",
+    "build:maps": "XVIZ_ENABLE_MAPS=1 vite build",
     "prepack": "npm run build",
     "lint": "eslint . --max-warnings 0",
     "test": "vitest run",

@@ -88,11 +88,18 @@ async function cmdServe(opts) {
 
     if (req.method === 'GET' && (req.url === '/' || req.url === '/health')) {
       res.setHeader('Content-Type', 'application/json')
+      const baseSupported = ['pie', 'bar', 'line', 'table', 'big-number',
+                  'scatter', 'heatmap', 'sankey', 'funnel', 'gauge', 'boxplot', 'histogram', 'treemap', 'sunburst', 'radar', 'waterfall', 'step', 'tree', 'graph', 'timeseries-bar', 'timeseries-line', 'mixed-timeseries', 'gantt', 'big-number-total', 'big-number-pop', 'time-table', 'pivot-table', 'calendar', 'rose', 'parallel', 'bullet', 'compare', 'partition', 'time-pivot', 'chord', 'horizon', 'paired-ttest', 'world-map', 'country-map']
+      const mapsSupported = process.env.XVIZ_ENABLE_MAPS === '1'
+        ? ['deck-scatter', 'deck-path', 'deck-polygon', 'deck-arc', 'deck-geojson',
+           'deck-grid', 'deck-hex', 'deck-heatmap', 'deck-screengrid', 'deck-contour',
+           'deck-multi', 'point-cluster-map', 'cartodiagram']
+        : []
       res.end(JSON.stringify({
         status: 'ok', service: 'xviz', version: '0.1.0',
         endpoints: ['POST /render'],
-        supported: ['pie', 'bar', 'line', 'table', 'big-number',
-                    'scatter', 'heatmap', 'sankey', 'funnel', 'gauge', 'boxplot', 'histogram', 'treemap', 'sunburst', 'radar', 'waterfall', 'step', 'tree', 'graph', 'timeseries-bar', 'timeseries-line', 'mixed-timeseries', 'gantt', 'big-number-total', 'big-number-pop', 'time-table', 'pivot-table', 'calendar', 'rose', 'parallel', 'bullet', 'compare', 'partition', 'time-pivot', 'chord', 'horizon', 'paired-ttest', 'world-map', 'country-map'],
+        mapsEnabled: process.env.XVIZ_ENABLE_MAPS === '1',
+        supported: [...baseSupported, ...mapsSupported],
       }))
       log(200)
       return

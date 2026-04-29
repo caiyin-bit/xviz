@@ -11,7 +11,11 @@
     "resolveJsonModule": true,
     "allowImportingTsExtensions": true,
     "noEmit": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "baseUrl": ".",
+    "paths": {
+      "@xviz-renderer/maps": ["renderer/maps-registry.stub.ts"]
+    }
   },
   "include": ["renderer/**/*", "../minimal-viz/src/viz/**/*"]
 }

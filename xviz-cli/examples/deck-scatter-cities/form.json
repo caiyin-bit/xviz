@@ -1,0 +1,9 @@
+{
+  "vizType": "deck-scatter",
+  "longitudeColumn": "lon",
+  "latitudeColumn": "lat",
+  "metric": "population",
+  "colorColumn": "country",
+  "radius": 80000,
+  "opacity": 0.65
+}

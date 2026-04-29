@@ -6,6 +6,15 @@ versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+- **`@minimal-viz/maps@0.1.0`** — first release of the optional satellite package that completes the M7-B half of the maps wave. Ships all 13 deck.gl-powered chart types: `DeckScatter`, `DeckPath`, `DeckPolygon`, `DeckArc`, `DeckGeojson`, `DeckGrid`, `DeckHex`, `DeckHeatmap`, `DeckScreengrid`, `DeckContour`, `DeckMulti` (composite layer), `PointClusterMap` (supercluster + ScatterplotLayer + TextLayer), and `Cartodiagram` (canvas donut markers per geo point). Uses **`maplibre-gl@^5`** (BSD-3) as the only base-map SDK; default tile style is free OpenStreetMap raster (no token required). Standalone version line — published from the same monorepo on `maps-v*` git tags.
+- **`xviz-cli` build-time `XVIZ_ENABLE_MAPS=1` flag.** A new `npm run build:maps` script swaps the renderer's maps registry from an empty stub to the real `@minimal-viz/maps` integration via Vite alias. Default builds stay light (1.15 MB / 374 KB gzip, unchanged); maps-enabled builds add ~1.87 MB raw / 510 KB gzip and unlock the 13 new vizTypes through the same `xviz render` / `serve` / `mcp` surfaces. `serve /health` reports `mapsEnabled: true` and lists the 13 maps types alongside the core 39 when the env var is set at CLI launch.
+- **Live WebGL smoke test** (`xviz-cli/test/render-cli-maps.test.mjs`) — gated by `XVIZ_TEST_MAPS=1`. Builds a maps-enabled bundle, renders the `deck-scatter-cities` example through puppeteer's headless Chrome, and validates the resulting PNG dimensions. Provides end-to-end coverage of the deck.gl + maplibre-gl WebGL path.
+- New walkthrough: [`xviz-cli/examples/deck-scatter-cities/`](xviz-cli/examples/deck-scatter-cities/README.md) — top-20 world cities by population, rendered through the maps satellite. Reused by the smoke test.
+
+### Changed
+- `release.yml` workflow now also fires on `maps-v*` tags, with a separate `publish-maps` job that publishes `@minimal-viz/maps` to npm with provenance. Core/CLI publish jobs gate on `refs/tags/v*` so they don't double-fire on maps tags.
+
 ## [0.10.0] — 2026-04-29
 
 This release ships **M7-A of the [xviz × Superset feature-parity roadmap](docs/superpowers/specs/2026-04-26-xviz-superset-parity-roadmap.md)** — the SDK-free half of the maps wave. xviz now ships 39 chart types (up from 37), covering ~67% of Superset's chart catalog.

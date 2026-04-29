@@ -1,4 +1,4 @@
-import { StrictMode } from 'react'
+import { StrictMode, createElement } from 'react'
 import { createRoot } from 'react-dom/client'
 import {
   PieChart, BarChart, LineChart, Table, BigNumber,
@@ -9,14 +9,19 @@ import {
   LIGHT_THEME, DARK_THEME, extendTheme,
   type AnyFormData, type QueryData, type Theme,
 } from '../../minimal-viz/src/viz'
+import { MAPS_REGISTRY, MAPS_TYPES, MAPS_ENABLED } from '@xviz-renderer/maps'
 
 // The CLI injects configuration as a global before navigating.
 // Shape: { type, width, height, formData, queriesData }
 declare global {
   interface Window {
     __CHART__?: {
-      type: 'pie' | 'bar' | 'line' | 'table' | 'big-number' |
-            'scatter' | 'heatmap' | 'sankey' | 'funnel' | 'gauge' | 'boxplot' | 'histogram' | 'treemap' | 'sunburst' | 'radar' | 'waterfall' | 'step' | 'tree' | 'graph' | 'timeseries-bar' | 'timeseries-line' | 'mixed-timeseries' | 'gantt' | 'big-number-total' | 'big-number-pop' | 'time-table' | 'pivot-table' | 'calendar' | 'rose' | 'parallel' | 'bullet' | 'compare' | 'partition' | 'time-pivot' | 'chord' | 'horizon' | 'paired-ttest' | 'world-map' | 'country-map'
+      // Core viz types are union-typed; maps types come from the satellite
+      // registry (string fall-through dispatched at runtime).
+      type:
+        | 'pie' | 'bar' | 'line' | 'table' | 'big-number'
+        | 'scatter' | 'heatmap' | 'sankey' | 'funnel' | 'gauge' | 'boxplot' | 'histogram' | 'treemap' | 'sunburst' | 'radar' | 'waterfall' | 'step' | 'tree' | 'graph' | 'timeseries-bar' | 'timeseries-line' | 'mixed-timeseries' | 'gantt' | 'big-number-total' | 'big-number-pop' | 'time-table' | 'pivot-table' | 'calendar' | 'rose' | 'parallel' | 'bullet' | 'compare' | 'partition' | 'time-pivot' | 'chord' | 'horizon' | 'paired-ttest' | 'world-map' | 'country-map'
+        | (string & { _mapsType?: never })
       width: number
       height: number
       formData: AnyFormData
@@ -124,10 +129,28 @@ function Renderer() {
       return <WorldMap {...common} formData={formData as never} />
     case 'country-map':
       return <CountryMap {...common} formData={formData as never} />
-    default:
+    default: {
+      // Maps satellite registry — populated only when XVIZ_ENABLE_MAPS=1 at build time.
+      const MapComponent = MAPS_REGISTRY[type as string]
+      if (MapComponent) {
+        return createElement(MapComponent, { ...common, formData } as never)
+      }
+      if (MAPS_TYPES.length === 0 && /^(deck-|point-cluster-map|cartodiagram)/.test(String(type))) {
+        return (
+          <div style={{ color: 'red', padding: 16 }}>
+            Map chart type "{String(type)}" requires a maps-enabled build.
+            Rebuild xviz-cli with <code>XVIZ_ENABLE_MAPS=1 npm run build</code>.
+          </div>
+        )
+      }
       return <div style={{ color: 'red' }}>Unknown chart type: {String(type)}</div>
+    }
   }
 }
+
+// Surface the active vizType list to the CLI / consumers via a global, so
+// `/health.supported` reflects whatever the bundle was built with.
+;(window as unknown as { __SUPPORTED_TYPES__?: string[]; __MAPS_ENABLED__?: boolean }).__MAPS_ENABLED__ = MAPS_ENABLED
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
