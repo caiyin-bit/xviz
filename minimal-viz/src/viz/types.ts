@@ -111,6 +111,18 @@ export interface PivotTableFormData {
   stripes?: boolean                 // default true
 }
 
+export interface CalendarFormData {
+  vizType: 'calendar'
+  dateColumn: string                // date column (parseable to Date or epoch ms; one row per day)
+  metric: string                    // numeric column for cell intensity
+  rangeStart?: string               // ISO date or year (e.g. '2024' or '2024-01-01'); default = first date in data
+  rangeEnd?: string                 // ISO date or year; default = last date in data
+  cellSize?: number                 // pixels per cell; default 16
+  colorRange?: [string, string]     // [low, high] hex colors; default teal
+  showLabel?: boolean               // default false (cells too small for legible labels)
+  numberFormat?: NumberFormatKind
+}
+
 export interface ScatterFormData {
   vizType: 'scatter'
   xAxis: string
@@ -370,6 +382,7 @@ export type AnyFormData =
   | BigNumberPeriodOverPeriodFormData
   | TimeTableFormData
   | PivotTableFormData
+  | CalendarFormData
 
 export interface ChartProps<FD = AnyFormData> {
   formData: FD

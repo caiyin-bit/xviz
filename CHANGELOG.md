@@ -6,7 +6,14 @@ versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
-## [0.8.0] — 2026-04-29
+## [0.8.1] — 2026-04-29
+
+Hotfix release. **`v0.8.0` was tagged on 2026-04-29 but failed to publish to npm** because `CalendarFormData` was missing from the public `types.ts` export at the tagged commit (the type definition was added locally but not staged into the M5.1 / v0.8.0 commits — the type-import sites in `viz/index.ts`, `Calendar.tsx`, and `transformProps.ts` consequently failed to resolve during the `publish-core` job's typecheck step). v0.8.0 was never on npm; this v0.8.1 release ships the same Calendar feature with the type definition correctly committed.
+
+### Fixed
+- `minimal-viz/src/viz/types.ts`: `CalendarFormData` interface and its addition to the `AnyFormData` union are now committed (was an uncommitted local-only change at the v0.8.0 tag).
+
+## [0.8.0] — 2026-04-29 (failed to publish — superseded by 0.8.1)
 
 This release ships **M5 of the [xviz × Superset feature-parity roadmap](docs/superpowers/specs/2026-04-26-xviz-superset-parity-roadmap.md) at half scope** — Calendar (1 of 2 planned charts). xviz now supports 28 chart types (up from 27). WordCloud is deferred for ecosystem reasons (see below).
 
