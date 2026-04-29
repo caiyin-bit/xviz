@@ -1,0 +1,39 @@
+{
+  "width": 900,
+  "height": 220,
+  "formData": {
+    "vizType": "calendar",
+    "dateColumn": "date",
+    "metric": "commits",
+    "rangeStart": "2024-01-01",
+    "rangeEnd": "2024-12-31",
+    "cellSize": 14,
+    "colorRange": ["#ebedf0", "#216e39"]
+  },
+  "data": [
+    { "date": "2024-01-15", "commits":  5 },
+    { "date": "2024-01-22", "commits":  8 },
+    { "date": "2024-02-05", "commits":  3 },
+    { "date": "2024-02-19", "commits": 12 },
+    { "date": "2024-03-04", "commits":  7 },
+    { "date": "2024-03-18", "commits":  2 },
+    { "date": "2024-04-01", "commits": 15 },
+    { "date": "2024-04-15", "commits":  9 },
+    { "date": "2024-05-06", "commits":  4 },
+    { "date": "2024-05-20", "commits":  6 },
+    { "date": "2024-06-10", "commits": 18 },
+    { "date": "2024-06-24", "commits": 11 },
+    { "date": "2024-07-08", "commits":  3 },
+    { "date": "2024-07-22", "commits":  5 },
+    { "date": "2024-08-05", "commits":  9 },
+    { "date": "2024-08-19", "commits": 14 },
+    { "date": "2024-09-02", "commits":  7 },
+    { "date": "2024-09-16", "commits":  2 },
+    { "date": "2024-10-07", "commits": 10 },
+    { "date": "2024-10-21", "commits": 13 },
+    { "date": "2024-11-04", "commits":  6 },
+    { "date": "2024-11-18", "commits":  8 },
+    { "date": "2024-12-02", "commits":  4 },
+    { "date": "2024-12-16", "commits": 17 }
+  ]
+}

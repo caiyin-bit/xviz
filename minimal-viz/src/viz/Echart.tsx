@@ -15,7 +15,7 @@ import { CanvasRenderer } from 'echarts/renderers'
 import {
   TooltipComponent, TitleComponent, GridComponent, LegendComponent,
   GraphicComponent, DataZoomComponent, VisualMapComponent, MarkAreaComponent,
-  MarkLineComponent, AriaComponent, ToolboxComponent,
+  MarkLineComponent, AriaComponent, ToolboxComponent, CalendarComponent,
 } from 'echarts/components'
 import { LabelLayout } from 'echarts/features'
 import type { EChartsCoreOption } from 'echarts/core'
@@ -28,7 +28,7 @@ registerEcharts([
   CustomChart,
   TooltipComponent, TitleComponent, GridComponent, LegendComponent,
   GraphicComponent, DataZoomComponent, VisualMapComponent, MarkAreaComponent,
-  MarkLineComponent, AriaComponent, ToolboxComponent,
+  MarkLineComponent, AriaComponent, ToolboxComponent, CalendarComponent,
   LabelLayout,
 ])
 

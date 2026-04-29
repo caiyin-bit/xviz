@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import {
   PieChart, BarChart, LineChart, Table, BigNumber,
   Scatter, Heatmap, Sankey, Funnel, Gauge, BoxPlot, Histogram, Treemap, Sunburst, Radar, Waterfall, Step, Tree, Graph, TimeseriesBar, TimeseriesLine, MixedTimeseries, Gantt,
-  BigNumberTotal, BigNumberPeriodOverPeriod, TimeTable, PivotTable,
+  BigNumberTotal, BigNumberPeriodOverPeriod, TimeTable, PivotTable, Calendar,
   LIGHT_THEME, DARK_THEME, extendTheme,
   type AnyFormData, type QueryData, type Theme,
 } from '../../minimal-viz/src/viz'
@@ -14,7 +14,7 @@ declare global {
   interface Window {
     __CHART__?: {
       type: 'pie' | 'bar' | 'line' | 'table' | 'big-number' |
-            'scatter' | 'heatmap' | 'sankey' | 'funnel' | 'gauge' | 'boxplot' | 'histogram' | 'treemap' | 'sunburst' | 'radar' | 'waterfall' | 'step' | 'tree' | 'graph' | 'timeseries-bar' | 'timeseries-line' | 'mixed-timeseries' | 'gantt' | 'big-number-total' | 'big-number-pop' | 'time-table' | 'pivot-table'
+            'scatter' | 'heatmap' | 'sankey' | 'funnel' | 'gauge' | 'boxplot' | 'histogram' | 'treemap' | 'sunburst' | 'radar' | 'waterfall' | 'step' | 'tree' | 'graph' | 'timeseries-bar' | 'timeseries-line' | 'mixed-timeseries' | 'gantt' | 'big-number-total' | 'big-number-pop' | 'time-table' | 'pivot-table' | 'calendar'
       width: number
       height: number
       formData: AnyFormData
@@ -98,6 +98,8 @@ function Renderer() {
       return <TimeTable {...common} formData={formData as never} />
     case 'pivot-table':
       return <PivotTable {...common} formData={formData as never} />
+    case 'calendar':
+      return <Calendar {...common} formData={formData as never} />
     default:
       return <div style={{ color: 'red' }}>Unknown chart type: {String(type)}</div>
   }

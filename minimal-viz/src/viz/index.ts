@@ -26,6 +26,7 @@ export { BigNumberTotal } from './bigNumber/BigNumberTotal'
 export { BigNumberPeriodOverPeriod } from './bigNumber/BigNumberPeriodOverPeriod'
 export { TimeTable } from './time-table/TimeTable'
 export { PivotTable } from './pivot-table/PivotTable'
+export { Calendar } from './calendar/Calendar'
 
 // transformProps (useful for server-side rendering / non-React hosts)
 export { transformPieProps } from './pie/transformProps'
@@ -69,5 +70,6 @@ export type {
   BigNumberPeriodOverPeriodFormData,
   TimeTableFormData,
   PivotTableFormData,
+  CalendarFormData,
   NumberFormatKind,
 } from './types'
