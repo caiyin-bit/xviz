@@ -27,6 +27,8 @@ export { BigNumberPeriodOverPeriod } from './bigNumber/BigNumberPeriodOverPeriod
 export { TimeTable } from './time-table/TimeTable'
 export { PivotTable } from './pivot-table/PivotTable'
 export { Calendar } from './calendar/Calendar'
+export { Rose } from './rose/Rose'
+export { ParallelCoordinates } from './parallel/ParallelCoordinates'
 
 // transformProps (useful for server-side rendering / non-React hosts)
 export { transformPieProps } from './pie/transformProps'
@@ -71,5 +73,7 @@ export type {
   TimeTableFormData,
   PivotTableFormData,
   CalendarFormData,
+  RoseFormData,
+  ParallelCoordinatesFormData,
   NumberFormatKind,
 } from './types'

@@ -1,0 +1,21 @@
+{
+  "width": 800,
+  "height": 400,
+  "formData": {
+    "vizType": "parallel",
+    "dimensions": ["mpg", "horsepower", "weight", "price"],
+    "seriesColumn": "class",
+    "lineOpacity": 0.6
+  },
+  "data": [
+    { "class": "compact", "mpg": 32, "horsepower": 110, "weight": 2400, "price": 18000 },
+    { "class": "compact", "mpg": 28, "horsepower": 130, "weight": 2700, "price": 21000 },
+    { "class": "compact", "mpg": 30, "horsepower": 120, "weight": 2500, "price": 19500 },
+    { "class": "sedan",   "mpg": 26, "horsepower": 160, "weight": 3000, "price": 25000 },
+    { "class": "sedan",   "mpg": 24, "horsepower": 180, "weight": 3200, "price": 28000 },
+    { "class": "sedan",   "mpg": 25, "horsepower": 175, "weight": 3100, "price": 26500 },
+    { "class": "suv",     "mpg": 20, "horsepower": 250, "weight": 4200, "price": 42000 },
+    { "class": "suv",     "mpg": 22, "horsepower": 220, "weight": 3900, "price": 38000 },
+    { "class": "suv",     "mpg": 18, "horsepower": 280, "weight": 4500, "price": 48000 }
+  ]
+}

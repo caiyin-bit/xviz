@@ -123,6 +123,32 @@ export interface CalendarFormData {
   numberFormat?: NumberFormatKind
 }
 
+export interface RoseFormData {
+  vizType: 'rose'
+  groupby: string[]                 // categorical columns (joined for slice names)
+  metric: string                    // numeric column for slice size
+  roseType?: 'radius' | 'area'      // default 'radius'. radius = sector radius scales with metric; area = sector area
+  colorScheme?: string[]
+  labelType?: 'key' | 'value' | 'percent' | 'key_value' | 'key_value_percent' | 'key_percent'
+  showLabels?: boolean
+  showLegend?: boolean
+  legendOrientation?: 'top' | 'right' | 'bottom' | 'left'
+  innerRadius?: number              // donut hole percentage; default 0
+  outerRadius?: number              // outer radius percentage; default 75
+  numberFormat?: NumberFormatKind
+}
+
+export interface ParallelCoordinatesFormData {
+  vizType: 'parallel'
+  dimensions: string[]              // numeric columns — each becomes one parallel axis (≥2)
+  seriesColumn?: string             // optional categorical column — colors lines by group
+  colorScheme?: string[]
+  showLegend?: boolean              // default true when seriesColumn is set
+  legendOrientation?: 'top' | 'right' | 'bottom' | 'left'
+  numberFormat?: NumberFormatKind
+  lineOpacity?: number              // default 0.5
+}
+
 export interface ScatterFormData {
   vizType: 'scatter'
   xAxis: string
@@ -383,6 +409,8 @@ export type AnyFormData =
   | TimeTableFormData
   | PivotTableFormData
   | CalendarFormData
+  | RoseFormData
+  | ParallelCoordinatesFormData
 
 export interface ChartProps<FD = AnyFormData> {
   formData: FD

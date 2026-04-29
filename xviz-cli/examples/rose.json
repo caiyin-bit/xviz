@@ -1,0 +1,20 @@
+{
+  "width": 500,
+  "height": 500,
+  "formData": {
+    "vizType": "rose",
+    "groupby": ["region"],
+    "metric": "sales",
+    "roseType": "radius",
+    "showLabels": true,
+    "labelType": "key_percent"
+  },
+  "data": [
+    { "region": "North America", "sales": 2400 },
+    { "region": "Europe",        "sales": 1800 },
+    { "region": "Asia Pacific",  "sales": 3200 },
+    { "region": "South America", "sales":  900 },
+    { "region": "Africa",        "sales":  500 },
+    { "region": "Middle East",   "sales":  700 }
+  ]
+}

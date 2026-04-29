@@ -45,6 +45,10 @@ node bin/xviz.mjs render -c examples/pivot-table.json      -o "$OUT/pivot-table.
 # v0.8.0 additions (M5 of Superset parity roadmap; WordCloud deferred — see CHANGELOG)
 node bin/xviz.mjs render -c examples/calendar.json         -o "$OUT/calendar.png"
 
+# v0.9.0 additions (M6 of Superset parity roadmap — legacy independent charts)
+node bin/xviz.mjs render -c examples/rose.json             -o "$OUT/rose.png"
+node bin/xviz.mjs render -c examples/parallel.json         -o "$OUT/parallel.png"
+
 # Dark variants of a few
 node bin/xviz.mjs render -d examples/pie-data.json   -f examples/pie-form.json   -o "$OUT/pie-dark.png"  --width 600 --height 400 --theme dark
 node bin/xviz.mjs render -d examples/sales-data.json -f examples/bar-form.json   -o "$OUT/bar-dark.png"  --width 700 --height 400 --theme dark
