@@ -1,0 +1,18 @@
+{
+  "width": 700,
+  "height": 220,
+  "formData": {
+    "vizType": "bullet",
+    "groupby": "kpi",
+    "metric": "actual",
+    "targetColumn": "target",
+    "rangeColumns": ["poor", "satisfactory", "good"],
+    "xAxisLabel": "Q4 2024 KPI dashboard"
+  },
+  "data": [
+    { "kpi": "Revenue (USD k)",   "actual": 270,  "target": 250,  "poor": 150,  "satisfactory": 225,  "good": 300 },
+    { "kpi": "Profit (USD k)",    "actual":  22,  "target":  26,  "poor":  20,  "satisfactory":  24,  "good":  28 },
+    { "kpi": "New customers",     "actual": 1850, "target": 2000, "poor": 1500, "satisfactory": 1750, "good": 2100 },
+    { "kpi": "NPS score",         "actual":  68,  "target":  75,  "poor":  50,  "satisfactory":  70,  "good":  85 }
+  ]
+}

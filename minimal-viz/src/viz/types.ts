@@ -149,6 +149,18 @@ export interface ParallelCoordinatesFormData {
   lineOpacity?: number              // default 0.5
 }
 
+export interface BulletFormData {
+  vizType: 'bullet'
+  groupby: string                    // category column — one bullet per row
+  metric: string                    // current value
+  targetColumn?: string             // target value (renders as a black tick); optional
+  rangeColumns?: string[]           // 1-3 numeric columns defining qualitative ranges (e.g. ['poor', 'good', 'excellent']); rendered as graded bands
+  rangeColors?: string[]            // colors for each band; default lightest → darkest gray
+  metricColor?: string              // bar color; default theme accent
+  numberFormat?: NumberFormatKind
+  xAxisLabel?: string
+}
+
 export interface ScatterFormData {
   vizType: 'scatter'
   xAxis: string
@@ -411,6 +423,7 @@ export type AnyFormData =
   | CalendarFormData
   | RoseFormData
   | ParallelCoordinatesFormData
+  | BulletFormData
 
 export interface ChartProps<FD = AnyFormData> {
   formData: FD

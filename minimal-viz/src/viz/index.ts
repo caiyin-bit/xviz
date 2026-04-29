@@ -29,6 +29,7 @@ export { PivotTable } from './pivot-table/PivotTable'
 export { Calendar } from './calendar/Calendar'
 export { Rose } from './rose/Rose'
 export { ParallelCoordinates } from './parallel/ParallelCoordinates'
+export { Bullet } from './bullet/Bullet'
 
 // transformProps (useful for server-side rendering / non-React hosts)
 export { transformPieProps } from './pie/transformProps'
@@ -75,5 +76,6 @@ export type {
   CalendarFormData,
   RoseFormData,
   ParallelCoordinatesFormData,
+  BulletFormData,
   NumberFormatKind,
 } from './types'
