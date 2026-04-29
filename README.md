@@ -22,7 +22,7 @@
 > The chart layer of Apache Superset, extracted into a standalone library.
 > Use it as a React component, render it headlessly from JSON / CSV / SQL via
 > the CLI, or hand it to an LLM agent over MCP. No BI platform, no metadata DB,
-> no dashboards — just charts, **twenty-eight of them** (v0.8.0), plus a renderer
+> no dashboards — just charts, **thirty-seven of them** (v0.9.0), plus a renderer
 > that turns data into PNG / PDF / HTML.
 
 ## Three ways to use it
@@ -91,12 +91,12 @@ directly:
 ```
 
 Drop that into your Claude Desktop config and Claude can render any of
-the twenty-eight chart types on demand. Full walk-through in the
+the thirty-seven chart types on demand. Full walk-through in the
 [MCP example](./xviz-cli/examples/mcp-claude-desktop/README.md).
 
 ## The charts
 
-Twenty-eight chart types covering ~99% of everyday BI needs (as of v0.8.0).
+Thirty-seven chart types covering ~99% of everyday BI needs (as of v0.9.0).
 
 | | | |
 |:---:|:---:|:---:|
@@ -151,6 +151,20 @@ Twenty-eight chart types covering ~99% of everyday BI needs (as of v0.8.0).
 
 > **WordCloud deferred** — `echarts-wordcloud@2.x` requires `echarts@5`, conflicting with our `echarts@6`. Will return when upstream releases an echarts-6-compatible version.
 
+**Added in v0.9.0** — M6 of the same roadmap (legacy independent charts; 9 charts):
+
+| Chart | Use case | Notes |
+|---|---|---|
+| **Rose** | Nightingale rose | Pie variant with `roseType: 'radius' \| 'area'` |
+| **ParallelCoordinates** | Multi-axis polyline | One line per row across N axes; native ECharts `parallel` |
+| **Bullet** | KPI dashboard tile | Graded ranges (poor/good/excellent) + actual value bar + target tick |
+| **Compare** | Year-over-year line plot | Wrapper over TimeseriesLine; comparison periods via seriesColumn |
+| **Partition** | Hierarchical icicle | Wrapper over Treemap with breadcrumb |
+| **TimePivot** | Metrics × time table | Alias of TimeTable for legacy `time_pivot` users |
+| **Chord** | Circular flow diagram | Edge-list input; ECharts 6 native ChordChart |
+| **Horizon** | Single-band time-series area | Simplified — multi-band folded variant in backlog |
+| **PairedTTest** | Paired statistical exploration | BoxPlot variant with pair grouping |
+
 Plus **BigNumber** (KPI tile with trendline + % delta) and light/dark themes:
 
 <p align="center">
@@ -175,7 +189,7 @@ part of the problem — nothing more.
 
 - 📖 **[Technical deep dive](./docs/blog/2026-04-24-extracting-superset-viz.md)**
   — architecture, trade-offs, side-by-side comparisons
-- 🧩 **[minimal-viz library docs](./minimal-viz/README.md)** — full API, theming, all 28 chart types
+- 🧩 **[minimal-viz library docs](./minimal-viz/README.md)** — full API, theming, all 37 chart types
 - 🛠️ **[xviz CLI docs](./xviz-cli/README.md)** — `render`, `query`, `serve`, `mcp` commands
 - 🧪 **[Runnable examples](./xviz-cli/examples/README.md)** — Postgres, SQLite, CSV, MCP, HTTP
 - 🤝 **[Contributing](./CONTRIBUTING.md)** — bug reports, PRs, dev setup

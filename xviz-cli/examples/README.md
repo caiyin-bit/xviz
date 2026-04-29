@@ -23,6 +23,8 @@ input fixtures only (render locally to verify).
 | [`pivot-financial/`](./pivot-financial/README.md) *(v0.7.0)* | H1 revenue by region × quarter × channel (multi-level pivot) | data + form |
 | [`big-number-kpi/`](./big-number-kpi/README.md) *(v0.7.0)* | MAU month-over-month KPI tile with delta | data + form |
 | [`calendar-contributions/`](./calendar-contributions/README.md) *(v0.8.0)* | GitHub-style yearly contribution heatmap | data + form |
+| [`chord-trade/`](./chord-trade/README.md) *(v0.9.0)* | Global trade flows between 5 regions (chord diagram) | data + form |
+| [`bullet-kpi/`](./bullet-kpi/README.md) *(v0.9.0)* | Q4 KPI dashboard (5 KPIs × graded bands + targets) | data + form |
 
 ## Single-file fixtures
 
@@ -35,4 +37,7 @@ file per chart type — `pie-form.json` / `pie-data.json`, `scatter.json`,
 `timeseries-bar.json`, `timeseries-line.json`, `mixed-timeseries.json`,
 `gantt.json`. v0.7.0 added: `big-number-total.json`,
 `big-number-pop.json`, `time-table.json`, `pivot-table.json`. v0.8.0
-added: `calendar.json`.
+added: `calendar.json`. v0.9.0 added: `rose.json`, `parallel.json`,
+`bullet.json`, `chord.json` (Compare/Partition/TimePivot/Horizon/
+PairedTTest reuse data shapes from their underlying renderers, so
+no separate top-level fixture).

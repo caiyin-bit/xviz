@@ -6,6 +6,37 @@ versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.9.0] — 2026-04-29
+
+This release completes **M6 of the [xviz × Superset feature-parity roadmap](docs/superpowers/specs/2026-04-26-xviz-superset-parity-roadmap.md)** — nine new chart types taking xviz from 28 → 37 supported types. xviz now covers ~64% of Superset's chart catalog and effectively 100% of common BI / management-dashboard use cases.
+
+> Many of these are legacy NVD3-era charts that Superset itself is gradually deprecating. xviz preserves the `vizType` discriminators so users with saved Superset slice configs can switch to xviz without remapping. Where the underlying NVD3 visual style was niche, xviz aliases the chart to a more idiomatic ECharts equivalent (e.g. PairedTTest → BoxPlot variant, Compare → multi-line TimeseriesLine).
+
+### Added (full-implementation charts)
+- **Rose chart** (`vizType: 'rose'`) — Nightingale rose. Pie variant with `roseType: 'radius' | 'area'` (sector size encodes either radius or area). Wrapper over the existing PieChart renderer.
+- **ParallelCoordinates chart** (`vizType: 'parallel'`) — multi-axis polyline plot. ECharts 6 native `parallel` series + `parallel` coordinate component (now registered in `Echart.tsx`). One row → one polyline traversing N axes; optional seriesColumn groups lines by category.
+- **Bullet chart** (`vizType: 'bullet'`) — KPI dashboard tile. ECharts has no native bullet, so xviz layers stacked qualitative-range bars (poor / satisfactory / good) + a narrow value bar (`barGap: '-100%'` overlay) + per-row markLine target ticks.
+- **Chord chart** (`vizType: 'chord'`) — circular flow diagram. Native ECharts 6 `chord` series. Edge-list input (source / target / optional metric weight); nodes auto-inferred with cumulative incident-edge weights.
+
+### Added (alias charts)
+These reuse existing renderers with sensible defaults; the `vizType` discriminator is preserved for users coming from Superset.
+- **Compare** (`vizType: 'compare'`) → TimeseriesLine with `area: false`. Year-over-year multi-line plot; comparison periods carried by `seriesColumn`.
+- **Partition** (`vizType: 'partition'`) → Treemap with `showBreadcrumb: true`. Hierarchical icicle/partition rendering.
+- **TimePivot** (`vizType: 'time-pivot'`) → TimeTable. Alias for Superset's legacy `time_pivot` slice type.
+- **Horizon** (`vizType: 'horizon'`) → TimeseriesLine with `smooth: true, area: true`. Single-band horizon chart. The classic folded multi-band variant (positive/negative values into stacked colored bands) is on the backlog as it requires a custom renderItem implementation.
+- **PairedTTest** (`vizType: 'paired-ttest'`) → BoxPlot grouped by `pairColumn`. Practical visual equivalent of Superset's legacy `paired_ttest` slice for most BI use cases.
+
+### Changed
+- `xviz serve /health.supported` now returns 37 entries (was 28).
+- `Window.__CHART__.type` union (renderer bundle) extended to 37 type literals.
+- **`Echart.tsx` registers more ECharts modules**: `ParallelChart`, `ChordChart`, `LinesChart`, `ThemeRiverChart`, and the `ParallelComponent` coordinate system. Renderer bundle grew from 1.054 MB (v0.8.1) to 1.108 MB (v0.9.0) — about +54 KB total across all M6 work, dominated by these module additions rather than the per-chart code.
+- Top-level READMEs (EN + zh-CN), `minimal-viz/README.md`, `xviz-cli/README.md`, and `xviz-cli/examples/README.md` updated to reflect the 37-chart roster.
+- New top-level fixtures: `rose.json`, `parallel.json`, `bullet.json`, `chord.json`. New walkthroughs: [`examples/chord-trade/`](xviz-cli/examples/chord-trade/README.md) (global trade flows) and [`examples/bullet-kpi/`](xviz-cli/examples/bullet-kpi/README.md) (Q4 KPI dashboard).
+
+### Internal
+- 31 new tests across the nine charts (test count: 121 → 152). Mix of inline-snapshot transform tests for the full-implementation charts (Rose, Parallel, Bullet, Chord) and SSR smoke tests for the alias wrappers.
+- Implementation note: the v0.8.0 publish failure (CalendarFormData missing from staged types.ts) prompted a "git status check before each commit" discipline that paid off here — M6's nine charts shipped over four commits without any types.ts staging slips.
+
 ## [0.8.1] — 2026-04-29
 
 Hotfix release. **`v0.8.0` was tagged on 2026-04-29 but failed to publish to npm** because `CalendarFormData` was missing from the public `types.ts` export at the tagged commit (the type definition was added locally but not staged into the M5.1 / v0.8.0 commits — the type-import sites in `viz/index.ts`, `Calendar.tsx`, and `transformProps.ts` consequently failed to resolve during the `publish-core` job's typecheck step). v0.8.0 was never on npm; this v0.8.1 release ships the same Calendar feature with the type definition correctly committed.

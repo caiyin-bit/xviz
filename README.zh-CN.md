@@ -22,7 +22,7 @@
 > 把 Apache Superset 的图表层剥出来做成独立可用的库。
 > 既能在 React 应用里当组件用，也能用 CLI 把 JSON / CSV / SQL 查询结果无头渲染成
 > PNG / PDF / HTML，还能通过 MCP 让 LLM agent 直接调用画图。
-> 没有 BI 平台、没有元数据库、没有 dashboard ——只有 **28 种图表**（v0.8.0）+
+> 没有 BI 平台、没有元数据库、没有 dashboard ——只有 **37 种图表**（v0.9.0）+
 > 一个把数据变成图片的渲染器。
 
 ## 三种使用方式
@@ -88,12 +88,12 @@ xviz serve --port 3737
   "args": ["xviz-cli", "mcp"] } } }
 ```
 
-把这段加进 Claude Desktop 的配置，Claude 就能按需渲染 28 种图表中的任何一种。
+把这段加进 Claude Desktop 的配置，Claude 就能按需渲染 37 种图表中的任何一种。
 完整走查见 [MCP 示例](./xviz-cli/examples/mcp-claude-desktop/README.md)。
 
 ## 支持的图表类型
 
-28 种图表（截至 v0.8.0），覆盖 BI 日常约 99% 的需求。
+37 种图表（截至 v0.9.0），覆盖 BI 日常约 99% 的需求。
 
 | | | |
 |:---:|:---:|:---:|
@@ -148,6 +148,20 @@ xviz serve --port 3737
 
 > **WordCloud 推迟** —— `echarts-wordcloud@2.x` 仍依赖 `echarts@5`，与 xviz 用的 `echarts@6` 冲突。等上游兼容 echarts 6 后再纳入。
 
+**v0.9.0 新增**——同一路线图 M6 阶段成果（legacy 独立图族；9 张）：
+
+| 图表 | 适用场景 | 说明 |
+|---|---|---|
+| **Rose（玫瑰图）** | Nightingale rose | Pie 变体，`roseType: 'radius' \| 'area'` |
+| **ParallelCoordinates（平行坐标）** | 多轴折线 | 每行一条折线穿过 N 个轴；ECharts 原生 `parallel` |
+| **Bullet（子弹图）** | KPI 仪表板 | 渐变 ranges (poor/good/excellent) + 实际值 bar + target tick |
+| **Compare（对比图）** | 同比 / 环比 line plot | 包装 TimeseriesLine；周期通过 seriesColumn 区分 |
+| **Partition（分区图）** | 层级 icicle | 包装 Treemap，带 breadcrumb |
+| **TimePivot（时序透视表）** | metrics × 时间表 | TimeTable 别名，方便 Superset `time_pivot` 用户迁移 |
+| **Chord（弦图）** | 圆形流向图 | 边表输入；ECharts 6 原生 ChordChart |
+| **Horizon（地平线图）** | 单 band 时序面积图 | 简化版——多 band 折叠版本在 backlog |
+| **PairedTTest（配对 t 检验）** | 配对统计探索 | BoxPlot 变体，按 pair 分组 |
+
 外加 **BigNumber**（KPI 大数 + 迷你趋势线 + 增减百分比）和明暗双主题：
 
 <p align="center">
@@ -170,7 +184,7 @@ xviz 不是 BI 平台。没有 dashboard、没有权限、没有保存的查询�
 
 - 📖 **[技术深度文章](./docs/blog/2026-04-24-extracting-superset-viz.md)**
   ——架构、取舍、新旧方案对比
-- 🧩 **[minimal-viz 库文档](./minimal-viz/README.md)** ——完整 API、主题、28 种图表
+- 🧩 **[minimal-viz 库文档](./minimal-viz/README.md)** ——完整 API、主题、37 种图表
 - 🛠️ **[xviz CLI 文档](./xviz-cli/README.md)** ——`render`、`query`、`serve`、`mcp` 命令
 - 🧪 **[可运行示例](./xviz-cli/examples/README.md)** ——Postgres、SQLite、CSV、MCP、HTTP
 - 🤝 **[贡献指南](./CONTRIBUTING.md)** ——bug 报告、PR、开发环境

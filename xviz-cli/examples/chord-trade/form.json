@@ -1,0 +1,7 @@
+{
+  "vizType": "chord",
+  "source": "from",
+  "target": "to",
+  "metric": "flow",
+  "showLabels": true
+}

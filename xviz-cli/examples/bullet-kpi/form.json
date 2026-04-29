@@ -1,0 +1,8 @@
+{
+  "vizType": "bullet",
+  "groupby": "kpi",
+  "metric": "actual",
+  "targetColumn": "target",
+  "rangeColumns": ["poor", "satisfactory", "good"],
+  "xAxisLabel": "Q4 2024 KPI dashboard"
+}

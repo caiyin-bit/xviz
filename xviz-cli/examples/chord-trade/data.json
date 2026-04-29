@@ -1,0 +1,16 @@
+[
+  { "from": "North America", "to": "Europe",        "flow":  1240 },
+  { "from": "North America", "to": "Asia Pacific",  "flow":  1850 },
+  { "from": "North America", "to": "South America", "flow":   620 },
+  { "from": "Europe",        "to": "Asia Pacific",  "flow":  1490 },
+  { "from": "Europe",        "to": "North America", "flow":   980 },
+  { "from": "Europe",        "to": "Africa",        "flow":   485 },
+  { "from": "Asia Pacific",  "to": "North America", "flow":  2100 },
+  { "from": "Asia Pacific",  "to": "Europe",        "flow":  1320 },
+  { "from": "Asia Pacific",  "to": "Africa",        "flow":   340 },
+  { "from": "Asia Pacific",  "to": "South America", "flow":   295 },
+  { "from": "Africa",        "to": "Europe",        "flow":   215 },
+  { "from": "Africa",        "to": "Asia Pacific",  "flow":   180 },
+  { "from": "South America", "to": "North America", "flow":   780 },
+  { "from": "South America", "to": "Europe",        "flow":   410 }
+]

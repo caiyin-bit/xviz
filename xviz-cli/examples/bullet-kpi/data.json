@@ -1,0 +1,7 @@
+[
+  { "kpi": "Revenue (USD k)",      "actual": 287, "target": 280, "poor": 200,  "satisfactory": 260, "good": 320 },
+  { "kpi": "Gross margin (%)",     "actual":  64, "target":  68, "poor":  55,  "satisfactory":  65, "good":  72 },
+  { "kpi": "New customers",        "actual": 1820,"target": 2000,"poor": 1500, "satisfactory": 1800,"good": 2200 },
+  { "kpi": "NPS score",            "actual":  68, "target":  70, "poor":  50,  "satisfactory":  65, "good":  80 },
+  { "kpi": "Support response (h)", "actual":   3, "target":   2, "poor":   8,  "satisfactory":   4, "good":   1 }
+]
