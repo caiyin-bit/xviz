@@ -5,7 +5,7 @@ import {
   Scatter, Heatmap, Sankey, Funnel, Gauge, BoxPlot, Histogram, Treemap, Sunburst, Radar, Waterfall, Step, Tree, Graph, TimeseriesBar, TimeseriesLine, MixedTimeseries, Gantt,
   BigNumberTotal, BigNumberPeriodOverPeriod, TimeTable, PivotTable, Calendar,
   Rose, ParallelCoordinates, Bullet, Compare, Partition, TimePivot,
-  Chord, Horizon, PairedTTest,
+  Chord, Horizon, PairedTTest, WorldMap, CountryMap,
   LIGHT_THEME, DARK_THEME, extendTheme,
   type AnyFormData, type QueryData, type Theme,
 } from '../../minimal-viz/src/viz'
@@ -16,7 +16,7 @@ declare global {
   interface Window {
     __CHART__?: {
       type: 'pie' | 'bar' | 'line' | 'table' | 'big-number' |
-            'scatter' | 'heatmap' | 'sankey' | 'funnel' | 'gauge' | 'boxplot' | 'histogram' | 'treemap' | 'sunburst' | 'radar' | 'waterfall' | 'step' | 'tree' | 'graph' | 'timeseries-bar' | 'timeseries-line' | 'mixed-timeseries' | 'gantt' | 'big-number-total' | 'big-number-pop' | 'time-table' | 'pivot-table' | 'calendar' | 'rose' | 'parallel' | 'bullet' | 'compare' | 'partition' | 'time-pivot' | 'chord' | 'horizon' | 'paired-ttest'
+            'scatter' | 'heatmap' | 'sankey' | 'funnel' | 'gauge' | 'boxplot' | 'histogram' | 'treemap' | 'sunburst' | 'radar' | 'waterfall' | 'step' | 'tree' | 'graph' | 'timeseries-bar' | 'timeseries-line' | 'mixed-timeseries' | 'gantt' | 'big-number-total' | 'big-number-pop' | 'time-table' | 'pivot-table' | 'calendar' | 'rose' | 'parallel' | 'bullet' | 'compare' | 'partition' | 'time-pivot' | 'chord' | 'horizon' | 'paired-ttest' | 'world-map' | 'country-map'
       width: number
       height: number
       formData: AnyFormData
@@ -120,6 +120,10 @@ function Renderer() {
       return <Horizon {...common} formData={formData as never} />
     case 'paired-ttest':
       return <PairedTTest {...common} formData={formData as never} />
+    case 'world-map':
+      return <WorldMap {...common} formData={formData as never} />
+    case 'country-map':
+      return <CountryMap {...common} formData={formData as never} />
     default:
       return <div style={{ color: 'red' }}>Unknown chart type: {String(type)}</div>
   }

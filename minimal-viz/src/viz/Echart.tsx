@@ -10,13 +10,14 @@ import {
   FunnelChart, GaugeChart, RadarChart, TreemapChart, SunburstChart,
   BoxplotChart, HeatmapChart, SankeyChart, TreeChart, GraphChart,
   CustomChart, ParallelChart, ChordChart, LinesChart, ThemeRiverChart,
+  MapChart,
 } from 'echarts/charts'
 import { CanvasRenderer } from 'echarts/renderers'
 import {
   TooltipComponent, TitleComponent, GridComponent, LegendComponent,
   GraphicComponent, DataZoomComponent, VisualMapComponent, MarkAreaComponent,
   MarkLineComponent, AriaComponent, ToolboxComponent, CalendarComponent,
-  ParallelComponent,
+  ParallelComponent, GeoComponent,
 } from 'echarts/components'
 import { LabelLayout } from 'echarts/features'
 import type { EChartsCoreOption } from 'echarts/core'
@@ -27,10 +28,11 @@ registerEcharts([
   FunnelChart, GaugeChart, RadarChart, TreemapChart, SunburstChart,
   BoxplotChart, HeatmapChart, SankeyChart, TreeChart, GraphChart,
   CustomChart, ParallelChart, ChordChart, LinesChart, ThemeRiverChart,
+  MapChart,
   TooltipComponent, TitleComponent, GridComponent, LegendComponent,
   GraphicComponent, DataZoomComponent, VisualMapComponent, MarkAreaComponent,
   MarkLineComponent, AriaComponent, ToolboxComponent, CalendarComponent,
-  ParallelComponent,
+  ParallelComponent, GeoComponent,
   LabelLayout,
 ])
 

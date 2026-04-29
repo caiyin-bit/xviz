@@ -236,6 +236,35 @@ export interface PairedTTestFormData {
   yAxisLabel?: string
 }
 
+/** GeoJSON object — kept loose so users can pass FeatureCollection or Feature shapes. */
+export type GeoJsonInput = {
+  type: string
+  features?: { type: string; properties?: Record<string, unknown>; geometry?: unknown }[]
+  [k: string]: unknown
+}
+
+export interface WorldMapFormData {
+  vizType: 'world-map'
+  countryColumn: string             // column whose values match a feature's identifier (name, ISO code, etc)
+  metric: string                    // numeric column for color intensity
+  geojson: GeoJsonInput             // FeatureCollection of countries
+  nameProperty?: string             // GeoJSON feature property to match against countryColumn; default 'name'
+  colorRange?: [string, string]     // [low, high] hex colors; default teal
+  showLabels?: boolean              // default false
+  numberFormat?: NumberFormatKind
+}
+
+export interface CountryMapFormData {
+  vizType: 'country-map'
+  regionColumn: string              // column whose values match a feature's identifier (state/province/county name)
+  metric: string                    // numeric column for color intensity
+  geojson: GeoJsonInput             // FeatureCollection of subdivisions
+  nameProperty?: string             // default 'name'
+  colorRange?: [string, string]
+  showLabels?: boolean
+  numberFormat?: NumberFormatKind
+}
+
 export interface ScatterFormData {
   vizType: 'scatter'
   xAxis: string
@@ -505,6 +534,8 @@ export type AnyFormData =
   | ChordFormData
   | HorizonFormData
   | PairedTTestFormData
+  | WorldMapFormData
+  | CountryMapFormData
 
 export interface ChartProps<FD = AnyFormData> {
   formData: FD

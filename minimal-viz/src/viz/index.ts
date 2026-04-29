@@ -36,6 +36,8 @@ export { TimePivot } from './time-pivot/TimePivot'
 export { Chord } from './chord/Chord'
 export { Horizon } from './horizon/Horizon'
 export { PairedTTest } from './paired-ttest/PairedTTest'
+export { WorldMap } from './world-map/WorldMap'
+export { CountryMap } from './country-map/CountryMap'
 
 // transformProps (useful for server-side rendering / non-React hosts)
 export { transformPieProps } from './pie/transformProps'
@@ -89,5 +91,8 @@ export type {
   ChordFormData,
   HorizonFormData,
   PairedTTestFormData,
+  WorldMapFormData,
+  CountryMapFormData,
+  GeoJsonInput,
   NumberFormatKind,
 } from './types'
