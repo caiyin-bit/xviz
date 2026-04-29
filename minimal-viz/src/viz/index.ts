@@ -33,6 +33,9 @@ export { Bullet } from './bullet/Bullet'
 export { Compare } from './compare/Compare'
 export { Partition } from './partition/Partition'
 export { TimePivot } from './time-pivot/TimePivot'
+export { Chord } from './chord/Chord'
+export { Horizon } from './horizon/Horizon'
+export { PairedTTest } from './paired-ttest/PairedTTest'
 
 // transformProps (useful for server-side rendering / non-React hosts)
 export { transformPieProps } from './pie/transformProps'
@@ -83,5 +86,8 @@ export type {
   CompareFormData,
   PartitionFormData,
   TimePivotFormData,
+  ChordFormData,
+  HorizonFormData,
+  PairedTTestFormData,
   NumberFormatKind,
 } from './types'

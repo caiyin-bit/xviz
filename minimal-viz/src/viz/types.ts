@@ -196,6 +196,46 @@ export interface TimePivotFormData {
   stripes?: boolean
 }
 
+export interface ChordFormData {
+  vizType: 'chord'
+  source: string                    // edge source column
+  target: string                    // edge target column
+  metric?: string                   // optional edge weight; default 1
+  showLabels?: boolean              // default true
+  numberFormat?: NumberFormatKind
+  colorScheme?: string[]
+}
+
+export interface HorizonFormData {
+  // Simplified horizon chart — single-band area on a time axis. The
+  // multi-band folded variant from Superset is in backlog (would require
+  // a custom renderItem implementation). For most "horizon over time"
+  // use cases the single-band area is the practical equivalent.
+  vizType: 'horizon'
+  xAxis: string                     // time column
+  metric: string
+  seriesColumn?: string             // optional breakdown column → multiple stacked horizons
+  colorScheme?: string[]
+  numberFormat?: NumberFormatKind
+  xAxisLabel?: string
+  yAxisLabel?: string
+}
+
+export interface PairedTTestFormData {
+  // Paired t-test plot (statistical exploration). Renders as a boxplot
+  // grouped by `pairColumn`, exposing the distribution of the paired
+  // values. This is the practical visual equivalent of Superset's
+  // legacy paired_ttest viz for most BI use cases.
+  vizType: 'paired-ttest'
+  pairColumn: string                // category — one box per pair group
+  metric: string                    // observation column
+  showOutliers?: boolean
+  showLegend?: boolean
+  legendOrientation?: 'top' | 'right' | 'bottom' | 'left'
+  numberFormat?: NumberFormatKind
+  yAxisLabel?: string
+}
+
 export interface ScatterFormData {
   vizType: 'scatter'
   xAxis: string
@@ -462,6 +502,9 @@ export type AnyFormData =
   | CompareFormData
   | PartitionFormData
   | TimePivotFormData
+  | ChordFormData
+  | HorizonFormData
+  | PairedTTestFormData
 
 export interface ChartProps<FD = AnyFormData> {
   formData: FD

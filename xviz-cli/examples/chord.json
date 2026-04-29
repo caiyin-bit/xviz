@@ -1,0 +1,19 @@
+{
+  "width": 600,
+  "height": 600,
+  "formData": {
+    "vizType": "chord",
+    "source": "from",
+    "target": "to",
+    "metric": "flow"
+  },
+  "data": [
+    { "from": "North America", "to": "Europe",        "flow":  240 },
+    { "from": "North America", "to": "Asia Pacific",  "flow":  380 },
+    { "from": "North America", "to": "South America", "flow":  120 },
+    { "from": "Europe",        "to": "Asia Pacific",  "flow":  290 },
+    { "from": "Europe",        "to": "Africa",        "flow":   85 },
+    { "from": "Asia Pacific",  "to": "Africa",        "flow":  140 },
+    { "from": "Asia Pacific",  "to": "South America", "flow":   95 }
+  ]
+}
