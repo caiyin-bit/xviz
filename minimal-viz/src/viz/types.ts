@@ -161,6 +161,41 @@ export interface BulletFormData {
   xAxisLabel?: string
 }
 
+export interface CompareFormData {
+  vizType: 'compare'
+  xAxis: string
+  metrics: string[]
+  seriesColumn?: string
+  smooth?: boolean
+  showDots?: boolean
+  showLegend?: boolean
+  legendOrientation?: 'top' | 'right' | 'bottom' | 'left'
+  numberFormat?: NumberFormatKind
+  xAxisLabel?: string
+  yAxisLabel?: string
+  colorScheme?: string[]
+}
+
+export interface PartitionFormData {
+  vizType: 'partition'
+  groupby: string[]
+  metric: string
+  showLabels?: boolean
+  showValues?: boolean
+  colorScheme?: string[]
+  numberFormat?: NumberFormatKind
+}
+
+export interface TimePivotFormData {
+  vizType: 'time-pivot'
+  timeColumn: string
+  metrics: string[]
+  metricLabels?: Record<string, string>
+  numberFormat?: NumberFormatKind
+  timeFormat?: 'iso' | 'short'
+  stripes?: boolean
+}
+
 export interface ScatterFormData {
   vizType: 'scatter'
   xAxis: string
@@ -424,6 +459,9 @@ export type AnyFormData =
   | RoseFormData
   | ParallelCoordinatesFormData
   | BulletFormData
+  | CompareFormData
+  | PartitionFormData
+  | TimePivotFormData
 
 export interface ChartProps<FD = AnyFormData> {
   formData: FD

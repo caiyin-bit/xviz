@@ -30,6 +30,9 @@ export { Calendar } from './calendar/Calendar'
 export { Rose } from './rose/Rose'
 export { ParallelCoordinates } from './parallel/ParallelCoordinates'
 export { Bullet } from './bullet/Bullet'
+export { Compare } from './compare/Compare'
+export { Partition } from './partition/Partition'
+export { TimePivot } from './time-pivot/TimePivot'
 
 // transformProps (useful for server-side rendering / non-React hosts)
 export { transformPieProps } from './pie/transformProps'
@@ -77,5 +80,8 @@ export type {
   RoseFormData,
   ParallelCoordinatesFormData,
   BulletFormData,
+  CompareFormData,
+  PartitionFormData,
+  TimePivotFormData,
   NumberFormatKind,
 } from './types'
