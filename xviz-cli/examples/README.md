@@ -22,6 +22,7 @@ input fixtures only (render locally to verify).
 | [`gantt-project/`](./gantt-project/README.md) *(v0.6.0)* | H1 project schedule (8 tasks × 4 owners) | data + form |
 | [`pivot-financial/`](./pivot-financial/README.md) *(v0.7.0)* | H1 revenue by region × quarter × channel (multi-level pivot) | data + form |
 | [`big-number-kpi/`](./big-number-kpi/README.md) *(v0.7.0)* | MAU month-over-month KPI tile with delta | data + form |
+| [`calendar-contributions/`](./calendar-contributions/README.md) *(v0.8.0)* | GitHub-style yearly contribution heatmap | data + form |
 
 ## Single-file fixtures
 
@@ -33,4 +34,5 @@ file per chart type — `pie-form.json` / `pie-data.json`, `scatter.json`,
 `waterfall.json`, `step.json`, `tree.json`, `graph.json`. v0.6.0 added:
 `timeseries-bar.json`, `timeseries-line.json`, `mixed-timeseries.json`,
 `gantt.json`. v0.7.0 added: `big-number-total.json`,
-`big-number-pop.json`, `time-table.json`, `pivot-table.json`.
+`big-number-pop.json`, `time-table.json`, `pivot-table.json`. v0.8.0
+added: `calendar.json`.

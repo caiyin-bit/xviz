@@ -1,0 +1,9 @@
+{
+  "vizType": "calendar",
+  "dateColumn": "date",
+  "metric": "commits",
+  "rangeStart": "2024-01-01",
+  "rangeEnd": "2024-12-31",
+  "cellSize": 14,
+  "colorRange": ["#ebedf0", "#216e39"]
+}

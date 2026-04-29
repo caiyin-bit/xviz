@@ -6,12 +6,23 @@ versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.8.0] — 2026-04-29
+
+This release ships **M5 of the [xviz × Superset feature-parity roadmap](docs/superpowers/specs/2026-04-26-xviz-superset-parity-roadmap.md) at half scope** — Calendar (1 of 2 planned charts). xviz now supports 28 chart types (up from 27). WordCloud is deferred for ecosystem reasons (see below).
+
 ### Added
-- **Calendar chart** (`vizType: 'calendar'`) — GitHub-contributions-style heatmap, one cell per day, colored by metric intensity. Uses ECharts' `calendar` coordinate system + `heatmap` series; range is auto-derived from data (or set explicitly via `rangeStart`/`rangeEnd`, including bare-year shortcuts like `'2024'`). Date column accepts ISO-8601 strings or numeric epoch ms. **`CalendarComponent` is now registered in `Echart.tsx`** to support it. Available in `@minimal-viz/core` (export `Calendar`, `CalendarFormData`) and the xviz CLI/serve/MCP surface. First chart of M5 (xviz × Superset parity roadmap).
-- 10 inline tests cover series shape, ISO date normalization, auto-range derivation, explicit-range pass-through, bare-year shortcut, visualMap min/max from data, custom colorRange, numeric-epoch parsing, drop-on-bad-input, and empty-data guard.
+- **Calendar chart** (`vizType: 'calendar'`) — GitHub-contributions-style heatmap, one cell per day, colored by metric intensity. Uses ECharts' `calendar` coordinate system + `heatmap` series; range is auto-derived from data (or set explicitly via `rangeStart`/`rangeEnd`, including bare-year shortcuts like `'2024'`). Date column accepts ISO-8601 strings or numeric epoch ms. Available in `@minimal-viz/core` (export `Calendar`, `CalendarFormData`) and the xviz CLI/serve/MCP surface.
+- `xviz-cli/examples/calendar.json` quick-reference fixture (52-week 2024 commit data) and walkthrough [`examples/calendar-contributions/`](xviz-cli/examples/calendar-contributions/README.md).
+- 10 inline tests cover series shape, ISO date normalization, auto-range derivation, explicit-range pass-through, bare-year shortcut, visualMap min/max, custom colorRange, numeric-epoch parsing, drop-on-bad-input, and empty-data guard.
+
+### Changed
+- `xviz serve /health.supported` now returns 28 entries instead of 27.
+- `Window.__CHART__.type` union (renderer bundle) extended to 28 type literals.
+- **`CalendarComponent` is now registered in `Echart.tsx`** so the calendar coordinate system works at runtime. Renderer bundle grew from ~1.040 MB (v0.7.0) to ~1.054 MB (v0.8.0) — about +14 KB.
+- Top-level READMEs (EN + zh-CN), `minimal-viz/README.md`, `xviz-cli/README.md`, and `xviz-cli/examples/README.md` updated to reflect the 28-chart roster.
 
 ### Deferred
-- **WordCloud chart** (originally scoped as M5.2) — `echarts-wordcloud@2.1.0` declares `echarts@^5` as a peerDependency, conflicting with our `echarts@6`. Rather than downgrade ECharts (a breaking change to all 27 existing charts) or force-install with `--legacy-peer-deps` (unverified runtime behavior), WordCloud is deferred until upstream releases an echarts-6-compatible version. Tracking: https://github.com/ecomfe/echarts-wordcloud/issues (no specific issue link committed — check upstream release notes when revisiting).
+- **WordCloud chart** (originally scoped as M5.2) — `echarts-wordcloud@2.1.0` declares `echarts@^5` as a peerDependency, conflicting with our `echarts@6`. Rather than downgrade ECharts (a breaking change to all 27 existing charts) or force-install with `--legacy-peer-deps` (unverified runtime), WordCloud is deferred until upstream publishes an echarts-6-compatible version. Will revisit on the next echarts-wordcloud release (check ecomfe/echarts-wordcloud release notes).
 
 ## [0.7.0] — 2026-04-28
 

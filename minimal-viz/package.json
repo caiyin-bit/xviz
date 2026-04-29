@@ -1,7 +1,7 @@
 {
   "name": "@minimal-viz/core",
-  "version": "0.7.0",
-  "description": "Lightweight React chart components (27 chart types — Pie, Bar, Line, Table, BigNumber, Scatter, Heatmap, Sankey, Funnel, Gauge, BoxPlot, Histogram, Treemap, Sunburst, Radar, Waterfall, Step, Tree, Graph, TimeseriesBar, TimeseriesLine, MixedTimeseries, Gantt, BigNumberTotal, BigNumberPeriodOverPeriod, TimeTable, PivotTable) built on ECharts. Light/dark themes, ~5 KB gzip.",
+  "version": "0.8.0",
+  "description": "Lightweight React chart components (28 chart types — Pie, Bar, Line, Table, BigNumber, Scatter, Heatmap, Sankey, Funnel, Gauge, BoxPlot, Histogram, Treemap, Sunburst, Radar, Waterfall, Step, Tree, Graph, TimeseriesBar, TimeseriesLine, MixedTimeseries, Gantt, BigNumberTotal, BigNumberPeriodOverPeriod, TimeTable, PivotTable, Calendar) built on ECharts. Light/dark themes, ~5 KB gzip.",
   "keywords": [
     "react",
     "charts",

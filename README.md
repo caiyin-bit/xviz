@@ -22,7 +22,7 @@
 > The chart layer of Apache Superset, extracted into a standalone library.
 > Use it as a React component, render it headlessly from JSON / CSV / SQL via
 > the CLI, or hand it to an LLM agent over MCP. No BI platform, no metadata DB,
-> no dashboards — just charts, **twenty-seven of them** (v0.7.0), plus a renderer
+> no dashboards — just charts, **twenty-eight of them** (v0.8.0), plus a renderer
 > that turns data into PNG / PDF / HTML.
 
 ## Three ways to use it
@@ -91,12 +91,12 @@ directly:
 ```
 
 Drop that into your Claude Desktop config and Claude can render any of
-the twenty-seven chart types on demand. Full walk-through in the
+the twenty-eight chart types on demand. Full walk-through in the
 [MCP example](./xviz-cli/examples/mcp-claude-desktop/README.md).
 
 ## The charts
 
-Twenty-seven chart types covering ~99% of everyday BI needs (as of v0.7.0).
+Twenty-eight chart types covering ~99% of everyday BI needs (as of v0.8.0).
 
 | | | |
 |:---:|:---:|:---:|
@@ -143,6 +143,14 @@ Twenty-seven chart types covering ~99% of everyday BI needs (as of v0.7.0).
 | **TimeTable** | Metrics × time pivot | Plain HTML table; chronological column sort; em-dash for missing cells |
 | **PivotTable** | Full row × column × value pivot | 5 aggregators (sum / avg / count / min / max); optional row + column + grand totals |
 
+**Added in v0.8.0** — M5 of the same roadmap (calendar; WordCloud deferred):
+
+| Chart | Use case | Notes |
+|---|---|---|
+| **Calendar** | GitHub-contributions-style heatmap | One cell per day, colored by metric intensity. Auto-derives range from data; date column accepts ISO-8601 or epoch ms |
+
+> **WordCloud deferred** — `echarts-wordcloud@2.x` requires `echarts@5`, conflicting with our `echarts@6`. Will return when upstream releases an echarts-6-compatible version.
+
 Plus **BigNumber** (KPI tile with trendline + % delta) and light/dark themes:
 
 <p align="center">
@@ -167,7 +175,7 @@ part of the problem — nothing more.
 
 - 📖 **[Technical deep dive](./docs/blog/2026-04-24-extracting-superset-viz.md)**
   — architecture, trade-offs, side-by-side comparisons
-- 🧩 **[minimal-viz library docs](./minimal-viz/README.md)** — full API, theming, all 27 chart types
+- 🧩 **[minimal-viz library docs](./minimal-viz/README.md)** — full API, theming, all 28 chart types
 - 🛠️ **[xviz CLI docs](./xviz-cli/README.md)** — `render`, `query`, `serve`, `mcp` commands
 - 🧪 **[Runnable examples](./xviz-cli/examples/README.md)** — Postgres, SQLite, CSV, MCP, HTTP
 - 🤝 **[Contributing](./CONTRIBUTING.md)** — bug reports, PRs, dev setup
