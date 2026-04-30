@@ -112,6 +112,44 @@ Drop that into your Claude Desktop config and Claude can render any of
 the thirty-nine chart types on demand. Full walk-through in the
 [MCP example](./xviz-cli/examples/mcp-claude-desktop/README.md).
 
+## What `1.0` means
+
+1.0 is **a contract**, not a "we're done" sign. From this version onward,
+xviz follows strict SemVer:
+
+| Change | Bump |
+|---|---|
+| Breaking change to the public API | major (`2.0.0`) |
+| New chart type / new CLI flag / new MCP tool | minor (`1.1.0`) |
+| Bug fix / doc change / internal refactor | patch (`1.0.1`) |
+
+The frozen public surface of `@minimal-viz/core@1.x` is exactly the
+symbols re-exported from [`src/viz/index.ts`](./minimal-viz/src/viz/index.ts) — pinned by an
+[inline-snapshot test](./minimal-viz/src/viz/public-api.test.ts) that
+fails CI on any unintended add/remove/rename. The full versioning
+contract lives in [VERSIONING.md](./VERSIONING.md); the security policy
+and supported-version matrix in [SECURITY.md](./SECURITY.md).
+
+`@minimal-viz/maps` stays on its **independent 0.x track** — see the
+[maps satellite](#maps-the-minimal-vizmaps-satellite) section. It will
+graduate to 1.x once it accrues real-world feedback.
+
+### What's actually new in 1.0 (vs 0.10)
+
+| | |
+|---|---|
+| **Maps satellite** | The 13 deck.gl chart types are now shipping in [`@minimal-viz/maps@0.1.0`](./minimal-viz-maps/README.md), behind an `XVIZ_ENABLE_MAPS=1` build flag in xviz-cli — default bundle stays light |
+| **Docker image** | `ghcr.io/caiyin-bit/xviz/xviz-cli:1.0` — alpine + chromium pre-wired, no host-side Chrome install |
+| **MCP API freeze** | Tool names, parameter shapes, and response shapes locked under SemVer |
+| **Bundle size budgets** | CI fails if core ESM > 250 KB, default renderer > 1.30 MB raw / 400 KB gzip, or maps renderer > 3.30 MB raw / 950 KB gzip |
+| **Cross-OS CI** | `build-lib` runs on Linux/macOS/Windows × Node 20+22; core test suite also runs on macOS+Windows |
+| **Live WebGL smoke** | `maps-webgl-smoke` CI job builds the maps-enabled renderer and renders through real headless Chrome (deck.gl + maplibre-gl) on every push |
+| **Perf baseline** | [`xviz-cli/bench/`](./xviz-cli/bench/) — 5-fixture × N-runs harness, cold-start vs warm-render separated |
+| **Auto-release** | `git tag v1.0.1 && git push --tags` now also publishes Docker, creates GH release, extracts notes from CHANGELOG |
+
+Backstory & rationale in the launch post:
+[**xviz 1.0 — what 1.0 means, satellite split, infra wins**](./docs/blog/2026-04-30-xviz-v1-launch.md).
+
 ## The charts
 
 Thirty-nine chart types in core, covering Apache Superset's full
@@ -185,14 +223,47 @@ ECharts-based catalog. Add the `@minimal-viz/maps` satellite for the
 | **Horizon** | Single-band time-series area | Simplified — multi-band folded variant in backlog |
 | **PairedTTest** | Paired statistical exploration | BoxPlot variant with pair grouping |
 
-**Added in v0.10.0** — M7-A of the same roadmap (SDK-free choropleths; deck.gl-based maps deferred):
+**Added in v0.10.0** — M7-A of the same roadmap (SDK-free choropleths in core):
 
 | Chart | Use case | Notes |
 |---|---|---|
 | **WorldMap** | Country-level choropleth | ECharts native MapChart + user-supplied GeoJSON. Zero new deps, zero token, no tile server |
 | **CountryMap** | Subdivision-level choropleth (states / provinces / counties) | Same renderer as WorldMap, signaling intent only |
 
-> **Map SDK note** — xviz core uses ECharts' native MapChart for static choropleths. The 13 deck.gl-based maps from Superset (PointClusterMap, Cartodiagram, DeckGL Arc/Geojson/Grid/Hex/Heatmap/Multi/Path/Polygon/Scatter/Screengrid/Contour) are intentionally deferred to a future optional satellite package `@minimal-viz/maps`. Adding them to core would 3×-bloat the bundle (1.1 MB → 3.5+ MB). When implemented, the satellite package will use **`maplibre-gl@^5`** (BSD-3 license, no token needed, OSM-friendly) — not `mapbox-gl` (BSL license incompatible with Apache 2.0). See [`docs/superpowers/specs/2026-04-29-m7-spike-report.md`](./docs/superpowers/specs/2026-04-29-m7-spike-report.md) for the full decision trail.
+### Maps: the `@minimal-viz/maps` satellite
+
+The 13 deck.gl-powered map types from Superset ship as an **optional
+satellite package** ([`@minimal-viz/maps`](./minimal-viz-maps), 0.1.0) so
+the core bundle stays light. Adding deck.gl + maplibre-gl to core would
+3×-bloat the renderer (1.15 MB → 3.02 MB); putting them behind an opt-in
+keeps that cost off everyone who doesn't draw maps.
+
+| Chart | Layer family | Notes |
+|---|---|---|
+| **DeckScatter / DeckPath / DeckPolygon / DeckArc / DeckGeojson** | Standard layers | Direct deck.gl `ScatterplotLayer` / `PathLayer` / `PolygonLayer` / `ArcLayer` / `GeoJsonLayer` |
+| **DeckGrid / DeckHex / DeckHeatmap / DeckScreengrid / DeckContour** | Aggregation layers | Bin → color-by-metric. Heatmap is GPU gaussian, others are CPU aggregation |
+| **DeckMulti** | Composite | One sublayer per `formData.sublayers[]` entry, dispatched by `vizType` |
+| **PointClusterMap** | Specialty | `supercluster` index + ScatterplotLayer cluster bubbles + TextLayer labels |
+| **Cartodiagram** | Specialty | Per-point donut markers, rendered as canvas → `IconLayer` (avoids per-point ECharts mount cost) |
+
+```bash
+# As a library
+npm install @minimal-viz/maps maplibre-gl \
+  @deck.gl/core @deck.gl/layers @deck.gl/aggregation-layers @deck.gl/mapbox
+
+# In xviz-cli — opt in at build time
+git clone https://github.com/caiyin-bit/xviz.git
+cd xviz/xviz-cli && npm ci --include=optional
+npm run build:maps    # XVIZ_ENABLE_MAPS=1 vite build
+xviz render -d examples/deck-scatter-cities/data.json \
+  -f examples/deck-scatter-cities/form.json -o cities.png
+```
+
+Map SDK choice (recorded in [`docs/superpowers/specs/2026-04-29-m7-spike-report.md`](./docs/superpowers/specs/2026-04-29-m7-spike-report.md)):
+**`maplibre-gl@^5`** (BSD-3, zero-token, OSM-friendly), **not** `mapbox-gl`
+(BSL — incompatible with our Apache 2.0). Default tile style is free
+OpenStreetMap raster; users can override with any maplibre-compatible
+style URL or inline style.
 
 Plus **BigNumber** (KPI tile with trendline + % delta) and light/dark themes:
 
@@ -216,10 +287,16 @@ part of the problem — nothing more.
 
 ## Learn more
 
-- 📖 **[Technical deep dive](./docs/blog/2026-04-24-extracting-superset-viz.md)**
-  — architecture, trade-offs, side-by-side comparisons
+- 📰 **[v1.0 launch post](./docs/blog/2026-04-30-xviz-v1-launch.md)** —
+  what 1.0 means, the satellite split, what shipped vs what's deferred
+- 📖 **[Original deep dive](./docs/blog/2026-04-24-extracting-superset-viz.md)**
+  — how the chart layer was extracted from Superset (architecture, trade-offs, comparisons)
+- 📜 **[VERSIONING.md](./VERSIONING.md)** — SemVer commitment, deprecation policy, supported versions
+- 🛡️ **[SECURITY.md](./SECURITY.md)** — vulnerability reporting, threat model
 - 🧩 **[minimal-viz library docs](./minimal-viz/README.md)** — full API, theming, all 39 chart types
+- 🗺️ **[minimal-viz/maps satellite](./minimal-viz-maps/)** — 13 deck.gl-powered map types
 - 🛠️ **[xviz CLI docs](./xviz-cli/README.md)** — `render`, `query`, `serve`, `mcp` commands
+- ⚡ **[Performance baseline](./xviz-cli/bench/README.md)** — re-runnable bench harness
 - 🧪 **[Runnable examples](./xviz-cli/examples/README.md)** — Postgres, SQLite, CSV, MCP, HTTP
 - 🤝 **[Contributing](./CONTRIBUTING.md)** — bug reports, PRs, dev setup
 - 📜 **[Code of Conduct](./CODE_OF_CONDUCT.md)**

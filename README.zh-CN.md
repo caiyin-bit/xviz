@@ -93,9 +93,44 @@ xviz serve --port 3737
 把这段加进 Claude Desktop 的配置，Claude 就能按需渲染 39 种图表中的任何一种。
 完整走查见 [MCP 示例](./xviz-cli/examples/mcp-claude-desktop/README.md)。
 
+## `1.0` 意味着什么
+
+1.0 是**一份合同**，不是"做完了"的标志。从此版本起，xviz 严格遵守 SemVer：
+
+| 改动 | 版本号变化 |
+|---|---|
+| 公开 API 出现 breaking change | major（`2.0.0`） |
+| 新图表 / 新 CLI 选项 / 新 MCP 工具 | minor（`1.1.0`） |
+| Bug 修复 / 文档变更 / 内部重构 | patch（`1.0.1`） |
+
+`@minimal-viz/core@1.x` 的冻结表面就是 [`src/viz/index.ts`](./minimal-viz/src/viz/index.ts) 重新导出的全部符号——
+通过一个 [inline-snapshot 测试](./minimal-viz/src/viz/public-api.test.ts)
+钉住，任何意外的加 / 删 / 改都会让 CI 红。完整 SemVer 合同写在
+[VERSIONING.md](./VERSIONING.md)，安全策略在 [SECURITY.md](./SECURITY.md)。
+
+`@minimal-viz/maps` **保持独立的 0.x 版本线**——见下面的[地图卫星包](#地图minimal-vizmaps-卫星包)章节。
+等卫星包累积真实反馈后再 graduate 到 1.x。
+
+### 1.0 实际带来的新东西（相比 0.10）
+
+| | |
+|---|---|
+| **地图卫星包** | 13 张 deck.gl 图全在 [`@minimal-viz/maps@0.1.0`](./minimal-viz-maps/) 里发布；xviz-cli 通过 `XVIZ_ENABLE_MAPS=1` build flag 选择性启用，默认 bundle 不变 |
+| **Docker 镜像** | `ghcr.io/caiyin-bit/xviz/xviz-cli:1.0`——alpine + chromium 已预装，宿主机不必装 Chrome |
+| **MCP API 冻结** | 工具名、参数 schema、响应形状都进入 SemVer 合同 |
+| **Bundle size 预算** | CI 校验：core ESM ≤ 250 KB / 默认渲染器 ≤ 1.30 MB raw / 400 KB gzip / maps 渲染器 ≤ 3.30 MB raw / 950 KB gzip，超即红 |
+| **多 OS CI** | `build-lib` 跑 Linux/macOS/Windows × Node 20+22；核心套件还在 macOS+Windows 跑 |
+| **Live WebGL 烟雾测试** | `maps-webgl-smoke` job 每次 push 都 build 启用 maps 的渲染器、跑真实 headless Chrome（deck.gl + maplibre-gl）渲染验证 |
+| **性能基线** | [`xviz-cli/bench/`](./xviz-cli/bench/)——5 fixture × N runs 的可重复 benchmark，cold-start 与 warm-render 分开统计 |
+| **自动发版** | `git tag v1.0.1 && git push --tags` 现在还会自动发 Docker 镜像、自动建 GH release、自动从 CHANGELOG 抽 release notes |
+
+完整背景与设计动机见 [v1.0 发布博客](./docs/blog/2026-04-30-xviz-v1-launch.md)。
+
 ## 支持的图表类型
 
-39 种图表（截至 v0.10.0），覆盖 BI 日常约 99% 的需求。
+核心 39 种图表，覆盖 Apache Superset 全量 ECharts-based 目录。
+要画地图请装 `@minimal-viz/maps` 卫星包再加 13 种 deck.gl 类型——
+详见下面的[地图卫星包](#地图minimal-vizmaps-卫星包)章节。
 
 | | | |
 |:---:|:---:|:---:|
@@ -164,14 +199,45 @@ xviz serve --port 3737
 | **Horizon（地平线图）** | 单 band 时序面积图 | 简化版——多 band 折叠版本在 backlog |
 | **PairedTTest（配对 t 检验）** | 配对统计探索 | BoxPlot 变体，按 pair 分组 |
 
-**v0.10.0 新增**——同一路线图 M7-A 阶段成果（无 SDK 地图族；deck.gl 类地图推迟）：
+**v0.10.0 新增**——同一路线图 M7-A 阶段成果（核心提供无 SDK 地图族）：
 
 | 图表 | 适用场景 | 说明 |
 |---|---|---|
 | **WorldMap（世界地图）** | 国家级填色图 | ECharts 原生 MapChart + 用户提供 GeoJSON。零新依赖、零 token、无 tile 服务 |
 | **CountryMap（国家地图）** | 子级行政区填色图（州/省/县） | 与 WorldMap 同渲染器，仅命名表意不同 |
 
-> **地图 SDK 选型** —— xviz core 的静态填色图用 ECharts 原生 MapChart。Superset 的 13 张 deck.gl 系地图（PointClusterMap、Cartodiagram、DeckGL Arc/Geojson/Grid/Hex/Heatmap/Multi/Path/Polygon/Scatter/Screengrid/Contour）**有意推迟**到未来的可选卫星包 `@minimal-viz/maps`。把它们塞进 core 会让 bundle 3×-膨胀（1.1 MB → 3.5+ MB）。届时卫星包将使用 **`maplibre-gl@^5`**（BSD-3 许可、无需 token、OSM 友好），**不用 `mapbox-gl`**（BSL 许可与 Apache 2.0 不兼容）。完整决策见 [`docs/superpowers/specs/2026-04-29-m7-spike-report.md`](./docs/superpowers/specs/2026-04-29-m7-spike-report.md)。
+### 地图：`@minimal-viz/maps` 卫星包
+
+来自 Superset 的 13 张 deck.gl 地图作为**可选卫星包**发布
+（[`@minimal-viz/maps`](./minimal-viz-maps)，0.1.0），保持核心 bundle 轻量。
+把 deck.gl + maplibre-gl 直接塞进 core 会让渲染器 3×-膨胀（1.15 MB → 3.02 MB）；
+做成可选项就让"不画地图的人不付代价"。
+
+| 图表 | 层族 | 说明 |
+|---|---|---|
+| **DeckScatter / DeckPath / DeckPolygon / DeckArc / DeckGeojson** | 标准层 | 直接对应 deck.gl 的 `ScatterplotLayer` / `PathLayer` / `PolygonLayer` / `ArcLayer` / `GeoJsonLayer` |
+| **DeckGrid / DeckHex / DeckHeatmap / DeckScreengrid / DeckContour** | 聚合层 | 网格/六边形/热力按指标着色。Heatmap 走 GPU 高斯，其余 CPU 聚合 |
+| **DeckMulti** | 组合 | 按 `formData.sublayers[].vizType` 分发到上述层 |
+| **PointClusterMap** | 专用 | `supercluster` 索引 + ScatterplotLayer 聚合气泡 + TextLayer 计数 |
+| **Cartodiagram** | 专用 | 每点一个 canvas 渲染的甜甜圈 → `IconLayer`（避免每点挂载 ECharts 子图的开销）|
+
+```bash
+# 作为库直接装
+npm install @minimal-viz/maps maplibre-gl \
+  @deck.gl/core @deck.gl/layers @deck.gl/aggregation-layers @deck.gl/mapbox
+
+# 在 xviz-cli 里启用——build 时选择性开启
+git clone https://github.com/caiyin-bit/xviz.git
+cd xviz/xviz-cli && npm ci --include=optional
+npm run build:maps    # XVIZ_ENABLE_MAPS=1 vite build
+xviz render -d examples/deck-scatter-cities/data.json \
+  -f examples/deck-scatter-cities/form.json -o cities.png
+```
+
+地图 SDK 选型（详见 [`docs/superpowers/specs/2026-04-29-m7-spike-report.md`](./docs/superpowers/specs/2026-04-29-m7-spike-report.md)）：
+**`maplibre-gl@^5`**（BSD-3 许可、无需 token、OSM 友好），**不用 `mapbox-gl`**
+（BSL 许可与我们的 Apache 2.0 不兼容）。默认底图是免费的 OpenStreetMap 栅格 tile，
+用户可以用任何 maplibre 兼容的 style URL 或内嵌 style 对象覆盖。
 
 外加 **BigNumber**（KPI 大数 + 迷你趋势线 + 增减百分比）和明暗双主题：
 
@@ -193,10 +259,16 @@ xviz 不是 BI 平台。没有 dashboard、没有权限、没有保存的查询�
 
 ## 进一步阅读
 
-- 📖 **[技术深度文章](./docs/blog/2026-04-24-extracting-superset-viz.md)**
-  ——架构、取舍、新旧方案对比
+- 📰 **[v1.0 发布博客](./docs/blog/2026-04-30-xviz-v1-launch.md)** ——
+  1.0 意味着什么、卫星包拆分、已发 vs 推迟的能力清单
+- 📖 **[原始深度文章](./docs/blog/2026-04-24-extracting-superset-viz.md)**
+  ——怎么从 Superset 把图表层抽出来（架构、取舍、新旧方案对比）
+- 📜 **[VERSIONING.md](./VERSIONING.md)** ——SemVer 承诺、deprecation 政策、支持版本矩阵
+- 🛡️ **[SECURITY.md](./SECURITY.md)** ——漏洞上报流程、威胁模型
 - 🧩 **[minimal-viz 库文档](./minimal-viz/README.md)** ——完整 API、主题、39 种图表
+- 🗺️ **[minimal-viz/maps 卫星包](./minimal-viz-maps/)** ——13 张 deck.gl 地图
 - 🛠️ **[xviz CLI 文档](./xviz-cli/README.md)** ——`render`、`query`、`serve`、`mcp` 命令
+- ⚡ **[性能基线](./xviz-cli/bench/README.md)** ——可重复运行的 benchmark
 - 🧪 **[可运行示例](./xviz-cli/examples/README.md)** ——Postgres、SQLite、CSV、MCP、HTTP
 - 🤝 **[贡献指南](./CONTRIBUTING.md)** ——bug 报告、PR、开发环境
 - 📜 **[行为准则](./CODE_OF_CONDUCT.md)**
