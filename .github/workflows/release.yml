@@ -222,23 +222,24 @@ jobs:
         if: steps.exists.outputs.already == 'false'
         id: notes
         run: |
-          # Pick the version label that matches the tag.
-          # `v1.0.0` → `[1.0.0]`,  `maps-v0.1.0` → `[maps 0.1.0]`
+          # Pick the prefix that matches the tag.
+          # `v1.0.0` → `## [1.0.0]`,  `maps-v0.1.0` → `## [maps 0.1.0]`
           if [[ "$GITHUB_REF_NAME" == maps-v* ]]; then
             ver="${GITHUB_REF_NAME#maps-v}"
-            label="[maps ${ver}]"
+            prefix="## [maps ${ver}]"
             file="minimal-viz-maps/CHANGELOG.md"
             [ -f "$file" ] || file="CHANGELOG.md"
           else
             ver="${GITHUB_REF_NAME#v}"
-            label="[${ver}]"
+            prefix="## [${ver}]"
             file="CHANGELOG.md"
           fi
-          # Extract the section between this label and the next "## [".
-          # If we don't find a matching section, fall back to the tag name.
-          notes=$(awk -v lbl="$label" '
-            $0 ~ "^## " lbl { found=1; next }
-            found && /^## \[/ { exit }
+          # Extract the section between this prefix line and the next
+          # "## [" line, using literal substring match (awk's ~ would
+          # interpret the brackets as a regex char class).
+          notes=$(awk -v p="$prefix" '
+            !found && index($0, p) == 1 { found=1; next }
+            found && index($0, "## [") == 1 { exit }
             found { print }
           ' "$file")
           if [ -z "$notes" ]; then
