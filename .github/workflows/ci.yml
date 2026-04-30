@@ -32,10 +32,14 @@ jobs:
 
   build-lib:
     # Build @minimal-viz/core — makes sure the library bundle (ESM + CJS) and
-    # .d.ts declarations can be emitted cleanly.
-    runs-on: ubuntu-latest
+    # .d.ts declarations can be emitted cleanly across the supported OS x Node
+    # matrix. Library code is platform-neutral, but tsc + esbuild file-system
+    # behavior occasionally diverges on Windows, so we cover all three.
+    runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
         node: [20, 22]
     steps:
       - uses: actions/checkout@v5
@@ -56,6 +60,22 @@ jobs:
           test -f dist/index.js       || (echo "missing dist/index.js" && exit 1)
           test -f dist/index.cjs      || (echo "missing dist/index.cjs" && exit 1)
           test -f dist/index.d.ts     || (echo "missing dist/index.d.ts" && exit 1)
+      - name: Bundle size budget — @minimal-viz/core
+        # Per VERSIONING.md / v1.0 launch plan: ESM dist must stay under
+        # 250 KB. Tree-shaking-friendly so consumers only pay for what they
+        # import; the budget guards against accidental whole-graph imports.
+        # Run on Linux only — `wc -c` semantics differ across runners.
+        if: runner.os == 'Linux'
+        working-directory: minimal-viz
+        run: |
+          raw=$(wc -c < dist/index.js)
+          max_raw=$((250 * 1024))
+          echo "core ESM dist: ${raw} B"
+          echo "budget: ${max_raw} B"
+          if [ "$raw" -gt "$max_raw" ]; then
+            echo "::error::@minimal-viz/core dist/index.js size ${raw} exceeds budget ${max_raw}"
+            exit 1
+          fi
       - name: npm pack (smoke)
         working-directory: minimal-viz
         run: npm pack --dry-run
@@ -90,6 +110,27 @@ jobs:
           echo "Renderer bundle size: $size bytes"
           test "$size" -gt 100000 \
             || (echo "Renderer bundle suspiciously small ($size < 100KB)" && exit 1)
+
+      - name: Bundle size budget — default renderer
+        # Per VERSIONING.md / v1.0 launch plan: default renderer must stay
+        # under 1.30 MB raw / 400 KB gzip. Going over ⇒ CI red until either
+        # the budget or the bundle is reconsidered intentionally.
+        working-directory: xviz-cli
+        run: |
+          raw=$(wc -c < dist/renderer/index.html)
+          gz=$(gzip -c dist/renderer/index.html | wc -c)
+          max_raw=$((1300 * 1024))
+          max_gz=$((400 * 1024))
+          echo "default renderer: ${raw} B raw / ${gz} B gzip"
+          echo "budget: ${max_raw} B raw / ${max_gz} B gzip"
+          if [ "$raw" -gt "$max_raw" ]; then
+            echo "::error::default renderer raw size ${raw} exceeds budget ${max_raw}"
+            exit 1
+          fi
+          if [ "$gz" -gt "$max_gz" ]; then
+            echo "::error::default renderer gzip size ${gz} exceeds budget ${max_gz}"
+            exit 1
+          fi
 
   pack-smoke:
     # End-to-end install-and-render. Verifies that 'npm pack' (which calls
@@ -153,9 +194,15 @@ jobs:
           test "$size" -gt 1000 || (echo "PNG too small" && exit 1)
 
   vitest:
-    # Runs the new Vitest suites for both packages. xviz-cli tests spawn
-    # the CLI which boots Puppeteer, so this job also needs Chrome.
-    runs-on: ubuntu-latest
+    # Runs the Vitest suites for both packages. xviz-cli tests spawn the CLI
+    # which boots Puppeteer, so this job also needs Chrome. Cross-OS coverage
+    # protects against subtle puppeteer / esbuild / vite path-handling
+    # divergences.
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
       - uses: actions/checkout@v5
 
@@ -213,6 +260,72 @@ jobs:
           files: ./minimal-viz/coverage/lcov.info,./xviz-cli/coverage/lcov.info
           flags: minimal-viz,xviz-cli
           fail_ci_if_error: false
+
+  maps-webgl-smoke:
+    # Builds the maps-enabled renderer (XVIZ_ENABLE_MAPS=1) and runs the live
+    # WebGL smoke test through puppeteer's headless Chrome. Validates that
+    # the deck.gl + maplibre-gl path renders end-to-end. Also enforces the
+    # maps-enabled bundle size budget.
+    runs-on: ubuntu-latest
+    needs: build-renderer
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: |
+            minimal-viz/package-lock.json
+            xviz-cli/package-lock.json
+            minimal-viz-maps/package-lock.json
+
+      - uses: browser-actions/setup-chrome@v2
+        id: chrome
+        with:
+          chrome-version: stable
+
+      - name: Install minimal-viz deps
+        working-directory: minimal-viz
+        run: npm ci --ignore-scripts
+
+      - name: Install xviz-cli deps
+        working-directory: xviz-cli
+        run: npm ci --ignore-scripts
+
+      - name: Install maps satellite deps
+        working-directory: minimal-viz-maps
+        run: npm ci --ignore-scripts
+
+      - name: Build maps-enabled renderer
+        working-directory: xviz-cli
+        run: npm run build:maps
+
+      - name: Bundle size budget — maps renderer
+        working-directory: xviz-cli
+        run: |
+          raw=$(wc -c < dist/renderer/index.html)
+          gz=$(gzip -c dist/renderer/index.html | wc -c)
+          max_raw=$((3300 * 1024))
+          max_gz=$((950 * 1024))
+          echo "maps renderer: ${raw} B raw / ${gz} B gzip"
+          echo "budget: ${max_raw} B raw / ${max_gz} B gzip"
+          if [ "$raw" -gt "$max_raw" ]; then
+            echo "::error::maps renderer raw size ${raw} exceeds budget ${max_raw}"
+            exit 1
+          fi
+          if [ "$gz" -gt "$max_gz" ]; then
+            echo "::error::maps renderer gzip size ${gz} exceeds budget ${max_gz}"
+            exit 1
+          fi
+
+      - name: Run live WebGL smoke test
+        working-directory: xviz-cli
+        env:
+          XVIZ_CHROME: ${{ steps.chrome.outputs.chrome-path }}
+          XVIZ_TEST_MAPS: '1'
+          XVIZ_ENABLE_MAPS: '1'
+        run: npx vitest run test/render-cli-maps.test.mjs
 
   lint-typecheck:
     # Lints minimal-viz (xviz-cli has no ESLint config — by design, Week 2 spec)

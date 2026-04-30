@@ -9,7 +9,7 @@ import { Echart } from '../Echart'
 
 export function PairedTTest(props: ChartProps<PairedTTestFormData>) {
   const { theme, formData, queriesData, width, height } = props
-  const bpFormData: BoxPlotFormData = {
+  const bpFormData: BoxPlotFormData = useMemo(() => ({
     vizType: 'boxplot',
     groupby: formData.pairColumn,
     metric: formData.metric,
@@ -20,7 +20,7 @@ export function PairedTTest(props: ChartProps<PairedTTestFormData>) {
     legendOrientation: formData.legendOrientation,
     numberFormat: formData.numberFormat,
     yAxisLabel: formData.yAxisLabel,
-  }
+  }), [formData])
   const { echartOptions, width: w, height: h } = useMemo(
     () => transformBoxPlotProps({
       formData: bpFormData,

@@ -10,7 +10,7 @@ import { Echart } from '../Echart'
 
 export function Compare(props: ChartProps<CompareFormData>) {
   const { theme, formData, queriesData, width, height } = props
-  const tsFormData: TimeseriesFormData = {
+  const tsFormData: TimeseriesFormData = useMemo(() => ({
     vizType: 'timeseries-line',
     xAxis: formData.xAxis,
     metrics: formData.metrics,
@@ -24,7 +24,7 @@ export function Compare(props: ChartProps<CompareFormData>) {
     numberFormat: formData.numberFormat,
     xAxisLabel: formData.xAxisLabel,
     yAxisLabel: formData.yAxisLabel,
-  }
+  }), [formData])
   const { echartOptions, width: w, height: h } = useMemo(
     () => transformTimeseriesProps({
       formData: tsFormData,

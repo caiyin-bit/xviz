@@ -1,0 +1,24 @@
+{
+  "width": 700,
+  "height": 400,
+  "formData": {
+    "vizType": "line",
+    "xAxis": "month",
+    "metrics": ["mau"],
+    "yAxisLabel": "MAU (millions)"
+  },
+  "data": [
+    { "month": "2024-01", "mau": 12.4 },
+    { "month": "2024-02", "mau": 13.1 },
+    { "month": "2024-03", "mau": 13.6 },
+    { "month": "2024-04", "mau": 14.0 },
+    { "month": "2024-05", "mau": 14.7 },
+    { "month": "2024-06", "mau": 15.2 },
+    { "month": "2024-07", "mau": 15.6 },
+    { "month": "2024-08", "mau": 15.9 },
+    { "month": "2024-09", "mau": 16.4 },
+    { "month": "2024-10", "mau": 17.0 },
+    { "month": "2024-11", "mau": 17.5 },
+    { "month": "2024-12", "mau": 18.2 }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "width": 700,
+  "height": 420,
+  "formData": {
+    "vizType": "heatmap",
+    "xAxis": "hour",
+    "yAxis": "day",
+    "metric": "visitors",
+    "showValues": true,
+    "numberFormat": "smart",
+    "colorRange": ["#f5f7fa", "#1FA8C9"]
+  },
+  "data": [
+    { "day": "Mon", "hour": "00", "visitors":  12 },
+    { "day": "Mon", "hour": "06", "visitors":  45 },
+    { "day": "Mon", "hour": "12", "visitors": 210 },
+    { "day": "Mon", "hour": "18", "visitors": 320 },
+    { "day": "Tue", "hour": "00", "visitors":   8 },
+    { "day": "Tue", "hour": "06", "visitors":  55 },
+    { "day": "Tue", "hour": "12", "visitors": 260 },
+    { "day": "Tue", "hour": "18", "visitors": 280 },
+    { "day": "Wed", "hour": "00", "visitors":  10 },
+    { "day": "Wed", "hour": "06", "visitors":  60 },
+    { "day": "Wed", "hour": "12", "visitors": 290 },
+    { "day": "Wed", "hour": "18", "visitors": 350 },
+    { "day": "Thu", "hour": "00", "visitors":  14 },
+    { "day": "Thu", "hour": "06", "visitors":  70 },
+    { "day": "Thu", "hour": "12", "visitors": 310 },
+    { "day": "Thu", "hour": "18", "visitors": 400 },
+    { "day": "Fri", "hour": "00", "visitors":  18 },
+    { "day": "Fri", "hour": "06", "visitors":  80 },
+    { "day": "Fri", "hour": "12", "visitors": 380 },
+    { "day": "Fri", "hour": "18", "visitors": 520 },
+    { "day": "Sat", "hour": "00", "visitors":  90 },
+    { "day": "Sat", "hour": "06", "visitors":  30 },
+    { "day": "Sat", "hour": "12", "visitors": 250 },
+    { "day": "Sat", "hour": "18", "visitors": 470 },
+    { "day": "Sun", "hour": "00", "visitors":  60 },
+    { "day": "Sun", "hour": "06", "visitors":  20 },
+    { "day": "Sun", "hour": "12", "visitors": 180 },
+    { "day": "Sun", "hour": "18", "visitors": 240 }
+  ]
+}

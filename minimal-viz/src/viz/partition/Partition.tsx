@@ -11,7 +11,7 @@ import { Echart } from '../Echart'
 
 export function Partition(props: ChartProps<PartitionFormData>) {
   const { theme, formData, queriesData, width, height } = props
-  const tmFormData: TreemapFormData = {
+  const tmFormData: TreemapFormData = useMemo(() => ({
     vizType: 'treemap',
     groupby: formData.groupby,
     metric: formData.metric,
@@ -20,7 +20,7 @@ export function Partition(props: ChartProps<PartitionFormData>) {
     showBreadcrumb: true,
     colorScheme: formData.colorScheme,
     numberFormat: formData.numberFormat,
-  }
+  }), [formData])
   const { echartOptions, width: w, height: h } = useMemo(
     () => transformTreemapProps({
       formData: tmFormData,

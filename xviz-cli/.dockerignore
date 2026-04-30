@@ -1,0 +1,17 @@
+# Don't copy the host-side dist/node_modules — the image rebuilds them.
+**/node_modules
+**/dist
+**/coverage
+**/.vite
+**/.cache
+**/*.tgz
+
+# Misc dev artifacts.
+**/.DS_Store
+**/.env*
+**/.git
+**/.github
+**/test-results
+
+# Bench artifacts (not needed at runtime).
+**/bench/results-*.json

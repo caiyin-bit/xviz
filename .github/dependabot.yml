@@ -1,0 +1,104 @@
+# Dependabot configuration for xviz monorepo.
+# Three npm ecosystems live in this repo (each with its own package-lock).
+# We also track GitHub Actions versions.
+#
+# Rationale:
+# - Weekly cadence keeps churn low; security alerts run independently.
+# - Open PR limit caps noise during single-maintainer weeks.
+# - Group production minor/patch updates so a typical Monday morning has 1
+#   PR per package instead of 10.
+
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/minimal-viz"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "08:00"
+      timezone: "Asia/Shanghai"
+    open-pull-requests-limit: 5
+    groups:
+      production-minor:
+        dependency-type: "production"
+        update-types: ["minor", "patch"]
+      development-minor:
+        dependency-type: "development"
+        update-types: ["minor", "patch"]
+    commit-message:
+      prefix: "chore(deps,core)"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "package:core"
+
+  - package-ecosystem: "npm"
+    directory: "/xviz-cli"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "08:00"
+      timezone: "Asia/Shanghai"
+    open-pull-requests-limit: 5
+    groups:
+      production-minor:
+        dependency-type: "production"
+        update-types: ["minor", "patch"]
+      development-minor:
+        dependency-type: "development"
+        update-types: ["minor", "patch"]
+    commit-message:
+      prefix: "chore(deps,cli)"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "package:cli"
+    ignore:
+      # puppeteer-core majors usually require Chrome major-version coordination
+      # — bump manually after testing on the matching Chrome stable channel.
+      - dependency-name: "puppeteer-core"
+        update-types: ["version-update:semver-major"]
+
+  - package-ecosystem: "npm"
+    directory: "/minimal-viz-maps"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "08:00"
+      timezone: "Asia/Shanghai"
+    open-pull-requests-limit: 5
+    groups:
+      production-minor:
+        dependency-type: "production"
+        update-types: ["minor", "patch"]
+      development-minor:
+        dependency-type: "development"
+        update-types: ["minor", "patch"]
+    commit-message:
+      prefix: "chore(deps,maps)"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "package:maps"
+    ignore:
+      # deck.gl + maplibre-gl majors may have breaking changes that affect
+      # the per-layer wrappers — bump manually after a smoke-render pass.
+      - dependency-name: "@deck.gl/*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "maplibre-gl"
+        update-types: ["version-update:semver-major"]
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "08:00"
+      timezone: "Asia/Shanghai"
+    open-pull-requests-limit: 3
+    commit-message:
+      prefix: "chore(deps,ci)"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "ci"

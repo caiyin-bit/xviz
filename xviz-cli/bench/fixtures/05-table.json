@@ -1,0 +1,19 @@
+{
+  "width": 700,
+  "height": 360,
+  "formData": {
+    "vizType": "table",
+    "columns": ["region", "product", "q1", "q2", "q3", "q4"],
+    "numberFormat": "smart"
+  },
+  "data": [
+    { "region": "NA", "product": "Pro",     "q1": 12000, "q2": 14500, "q3": 13200, "q4": 17800 },
+    { "region": "NA", "product": "Standard","q1":  8200, "q2":  9100, "q3":  8800, "q4": 10500 },
+    { "region": "EU", "product": "Pro",     "q1":  9500, "q2": 10200, "q3":  9800, "q4": 12100 },
+    { "region": "EU", "product": "Standard","q1":  6100, "q2":  6800, "q3":  6500, "q4":  7900 },
+    { "region": "APAC","product": "Pro",     "q1": 15400, "q2": 17800, "q3": 16900, "q4": 21500 },
+    { "region": "APAC","product": "Standard","q1": 10200, "q2": 11500, "q3": 10800, "q4": 13400 },
+    { "region": "LATAM","product": "Pro",     "q1":  4200, "q2":  4900, "q3":  4500, "q4":  5800 },
+    { "region": "LATAM","product": "Standard","q1":  2800, "q2":  3100, "q3":  2900, "q4":  3900 }
+  ]
+}

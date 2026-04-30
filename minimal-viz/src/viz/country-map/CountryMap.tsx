@@ -13,7 +13,7 @@ import { Echart } from '../Echart'
 
 export function CountryMap(props: ChartProps<CountryMapFormData>) {
   const { theme, formData, queriesData, width, height } = props
-  const wmFormData: WorldMapFormData = {
+  const wmFormData: WorldMapFormData = useMemo(() => ({
     vizType: 'world-map',
     countryColumn: formData.regionColumn,
     metric: formData.metric,
@@ -22,7 +22,7 @@ export function CountryMap(props: ChartProps<CountryMapFormData>) {
     colorRange: formData.colorRange,
     showLabels: formData.showLabels,
     numberFormat: formData.numberFormat,
-  }
+  }), [formData])
   const { echartOptions, width: w, height: h } = useMemo(
     () => transformWorldMapProps({
       formData: wmFormData,

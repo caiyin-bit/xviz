@@ -7,8 +7,9 @@ on:
       - 'maps-v*'
 
 permissions:
-  contents: read
-  id-token: write
+  contents: write     # needed by gh release create
+  id-token: write     # needed by npm provenance
+  packages: write     # needed by docker push to ghcr.io
 
 jobs:
   publish-core:
@@ -140,3 +141,129 @@ jobs:
         run: npm publish --access public --provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  publish-docker:
+    # Build and push the xviz-cli docker image to GHCR. Only fires on `v*`
+    # tags (the maps satellite is library-only — no separate image yet).
+    runs-on: ubuntu-latest
+    needs: publish-cli
+    if: startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v5
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Compute image tags
+        id: tags
+        run: |
+          ver="${GITHUB_REF_NAME#v}"
+          repo="ghcr.io/${GITHUB_REPOSITORY,,}/xviz-cli"
+          tags="${repo}:${ver},${repo}:latest"
+          # Add a major-minor tag so users can pin to e.g. `:1.0`.
+          if [[ "$ver" =~ ^[0-9]+\.[0-9]+ ]]; then
+            mm="${ver%.*}"
+            tags="${tags},${repo}:${mm}"
+          fi
+          echo "image_tags=${tags}" >> "$GITHUB_OUTPUT"
+          echo "image_repo=${repo}" >> "$GITHUB_OUTPUT"
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: xviz-cli/Dockerfile
+          # linux/amd64 only for the first cut. arm64 builds are 2-3× slower
+          # and the puppeteer / alpine-chromium combo on arm64 has known
+          # quirks; we'll add it after the v1.0 image proves stable.
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.tags.outputs.image_tags }}
+          labels: |
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+            org.opencontainers.image.description=xviz-cli — headless chart renderer
+            org.opencontainers.image.licenses=Apache-2.0
+            org.opencontainers.image.version=${{ github.ref_name }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  github-release:
+    # Auto-create the GitHub release after the npm publish job(s) succeed.
+    # Notes are extracted from the corresponding section of CHANGELOG.md.
+    runs-on: ubuntu-latest
+    needs: [publish-core, publish-cli, publish-maps, publish-docker]
+    # All four are conditional on tag prefix; needs() doesn't fail when a
+    # dep is skipped, so this works for both v* and maps-v* tags.
+    if: always() && !cancelled() && !failure()
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Skip if release already exists
+        id: exists
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            echo "already=true" >> "$GITHUB_OUTPUT"
+            echo "GitHub release $GITHUB_REF_NAME already exists, skipping create"
+          else
+            echo "already=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Extract release notes from CHANGELOG.md
+        if: steps.exists.outputs.already == 'false'
+        id: notes
+        run: |
+          # Pick the version label that matches the tag.
+          # `v1.0.0` → `[1.0.0]`,  `maps-v0.1.0` → `[maps 0.1.0]`
+          if [[ "$GITHUB_REF_NAME" == maps-v* ]]; then
+            ver="${GITHUB_REF_NAME#maps-v}"
+            label="[maps ${ver}]"
+            file="minimal-viz-maps/CHANGELOG.md"
+            [ -f "$file" ] || file="CHANGELOG.md"
+          else
+            ver="${GITHUB_REF_NAME#v}"
+            label="[${ver}]"
+            file="CHANGELOG.md"
+          fi
+          # Extract the section between this label and the next "## [".
+          # If we don't find a matching section, fall back to the tag name.
+          notes=$(awk -v lbl="$label" '
+            $0 ~ "^## " lbl { found=1; next }
+            found && /^## \[/ { exit }
+            found { print }
+          ' "$file")
+          if [ -z "$notes" ]; then
+            notes="Release $GITHUB_REF_NAME — see CHANGELOG.md"
+          fi
+          {
+            echo "body<<__EOF_NOTES__"
+            echo "$notes"
+            echo ""
+            echo "---"
+            echo ""
+            echo "Generated automatically from CHANGELOG.md by .github/workflows/release.yml"
+            echo "__EOF_NOTES__"
+          } >> "$GITHUB_OUTPUT"
+      - name: Create GitHub release
+        if: steps.exists.outputs.already == 'false'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          title="$GITHUB_REF_NAME"
+          if [[ "$GITHUB_REF_NAME" == maps-v* ]]; then
+            title="@minimal-viz/maps ${GITHUB_REF_NAME#maps-v}"
+          else
+            title="xviz ${GITHUB_REF_NAME}"
+          fi
+          gh release create "$GITHUB_REF_NAME" \
+            --title "$title" \
+            --notes "${{ steps.notes.outputs.body }}"
