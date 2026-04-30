@@ -6,6 +6,42 @@ versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [1.0.0] — 2026-04-30
+
+xviz reaches **1.0** on the **A + B + F** plan from the [v1.0 launch spec](docs/superpowers/specs/2026-04-30-v1.0-launch.md): API freeze, production-readiness gap fill, infra polish. **No new chart types** — the 39 core charts and 13 maps satellite charts (52 total, covering Apache Superset's full chart catalog) shipped during the v0.4–v0.10 parity roadmap are the 1.0 surface, now under SemVer commitment.
+
+The 1.0 release is **direct, no RC** — if a critical regression surfaces in the first 7 days, a 1.0.1 hotfix lands inside that window. The maps satellite (`@minimal-viz/maps`) stays on its independent 0.x track for at least one more minor cycle while it accrues field validation; it will graduate to 1.x in a later release.
+
+### Added — API freeze
+- [**VERSIONING.md**](VERSIONING.md) at the repo root: SemVer commitment for 1.x, deprecation policy (one full minor cycle minimum before removal), supported-version matrix (latest of latest major + latest of `major − 1`), and an explicit out-of-scope list (ECharts option internals, theme RGB values, internal `transformProps.ts` modules, repo file layout). The frozen public API of `@minimal-viz/core@1.x` is exactly the symbols re-exported from `src/viz/index.ts`.
+- [**SECURITY.md**](SECURITY.md): vulnerability reporting flow (private GitHub advisory or maintainer email), 3-business-day acknowledgement target, 14-day patch target for high severity, threat model with explicit in/out-of-scope lists.
+- **Public API snapshot test** (`minimal-viz/src/viz/public-api.test.ts`) — inline snapshots of both runtime exports and `export type { ... }` re-exports. Any add / remove / rename to the public surface fails CI until the snapshot is intentionally updated; a missed bump becomes a code review checkpoint instead of a silent break.
+
+### Added — Production gates (CI)
+- **Cross-OS CI matrix.** `build-lib` now runs on `ubuntu-latest × macos-latest × windows-latest × Node 20 + 22`. `vitest` (incl. puppeteer-driven render tests) runs on all three OSes against a fresh `setup-chrome@v2`. Catches subtle puppeteer / esbuild / vite path-handling divergences before users hit them.
+- **Live WebGL maps smoke job** (`maps-webgl-smoke`). Builds the `XVIZ_ENABLE_MAPS=1` renderer and runs the live deck.gl + maplibre-gl render through headless Chrome — previously this test only ran locally behind `XVIZ_TEST_MAPS=1`.
+- **Bundle size budgets enforced in CI.** Going over fails the build:
+  - `@minimal-viz/core` ESM dist ≤ **250 KB** (currently ~76 KB)
+  - default `xviz-cli` renderer ≤ **1.30 MB raw / 400 KB gzip** (currently ~1.15 MB / 374 KB)
+  - maps-enabled `xviz-cli` renderer ≤ **3.30 MB raw / 950 KB gzip** (currently ~3.02 MB / 884 KB)
+- **GitHub Actions auto-release.** `release.yml` now creates the GitHub release automatically on `v*` and `maps-v*` tags, extracting notes from the matching `## [version]` section of `CHANGELOG.md`. No more manual `gh release create` step.
+
+### Added — Production gates (artifacts)
+- **Docker image** at `ghcr.io/caiyin-bit/xviz/xviz-cli`. Multi-stage build (`node:20-bookworm-slim` for the renderer compile → `alpine:3.20 + chromium + tini` for runtime, ~250 MB final). Pre-wired `XVIZ_CHROME=/usr/bin/chromium-browser`. New `publish-docker` workflow job pushes `:1.0.0`, `:1.0`, and `:latest` on every `v*` tag (skipped on `maps-v*` — satellite is library-only).
+- **Performance baseline benchmark** (`xviz-cli/bench/render-bench.mjs`). 5-fixture × N-runs harness over the shared `Engine`; reports cold-start + per-fixture min/p50/max/mean. Markdown by default; `--json` available for regression checks. Not run in CI (regression gate needs separate sign-off).
+
+### Added — Infra polish
+- **Dependabot config** (`.github/dependabot.yml`). Weekly npm updates for all three packages (core / cli / maps) and GitHub Actions, with grouped PRs (production minor/patch and dev minor/patch separately). Major-version bumps for `puppeteer-core`, `@deck.gl/*`, and `maplibre-gl` are explicitly ignored — they require manual smoke-render testing before merge.
+
+### Changed
+- **Versions bumped to 1.0.0**: `@minimal-viz/core` 0.10.0 → 1.0.0; `xviz-cli` 0.10.0 → 1.0.0. `@minimal-viz/maps` stays at 0.1.0 (intentional, see top of section).
+- **`@minimal-viz/maps` peer dependency** widened from `^0.10.0` to `^1.0.0 || ^0.10.0` — installs cleanly against the new core without forcing maps users to upgrade.
+- 5 pre-existing `react-hooks/exhaustive-deps` warnings (in `Compare`, `CountryMap`, `Horizon`, `PairedTTest`, `Partition` alias wrappers) fixed by wrapping each delegate's inner `formData` object in its own `useMemo`. These had been failing CI's lint-typecheck job since M6; v1.0 unblocks them.
+
+## [0.11.0-prep] — `@minimal-viz/maps@0.1.0` (the prior `[Unreleased]` content)
+
+> The preceding `[Unreleased]` section, retained here for archival traceability while v1.0 was in progress.
+
 ### Added
 - **`@minimal-viz/maps@0.1.0`** — first release of the optional satellite package that completes the M7-B half of the maps wave. Ships all 13 deck.gl-powered chart types: `DeckScatter`, `DeckPath`, `DeckPolygon`, `DeckArc`, `DeckGeojson`, `DeckGrid`, `DeckHex`, `DeckHeatmap`, `DeckScreengrid`, `DeckContour`, `DeckMulti` (composite layer), `PointClusterMap` (supercluster + ScatterplotLayer + TextLayer), and `Cartodiagram` (canvas donut markers per geo point). Uses **`maplibre-gl@^5`** (BSD-3) as the only base-map SDK; default tile style is free OpenStreetMap raster (no token required). Standalone version line — published from the same monorepo on `maps-v*` git tags.
 - **`xviz-cli` build-time `XVIZ_ENABLE_MAPS=1` flag.** A new `npm run build:maps` script swaps the renderer's maps registry from an empty stub to the real `@minimal-viz/maps` integration via Vite alias. Default builds stay light (1.15 MB / 374 KB gzip, unchanged); maps-enabled builds add ~1.87 MB raw / 510 KB gzip and unlock the 13 new vizTypes through the same `xviz render` / `serve` / `mcp` surfaces. `serve /health` reports `mapsEnabled: true` and lists the 13 maps types alongside the core 39 when the env var is set at CLI launch.

@@ -1,7 +1,7 @@
 {
   "name": "xviz-cli",
-  "version": "0.10.0",
-  "description": "Headless chart renderer — turn JSON, CSV, or SQL query results into PNG / PDF / HTML. Ships render / query / serve / mcp commands.",
+  "version": "1.0.0",
+  "description": "Headless chart renderer — turn JSON, CSV, or SQL query results into PNG / PDF / HTML. Ships render / query / serve / mcp commands. Stable 1.x — see VERSIONING.md.",
   "keywords": [
     "chart",
     "charts",

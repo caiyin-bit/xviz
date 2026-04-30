@@ -9,6 +9,7 @@
   </a>
   <img src="https://img.shields.io/badge/license-Apache_2.0-blue.svg" alt="License" />
   <img src="https://img.shields.io/badge/node-%E2%89%A520-brightgreen.svg" alt="Node" />
+  <img src="https://img.shields.io/badge/v1.0-stable-success.svg" alt="Stability" />
 </p>
 
 <p align="center">
@@ -22,8 +23,10 @@
 > The chart layer of Apache Superset, extracted into a standalone library.
 > Use it as a React component, render it headlessly from JSON / CSV / SQL via
 > the CLI, or hand it to an LLM agent over MCP. No BI platform, no metadata DB,
-> no dashboards — just charts, **thirty-nine of them** (v0.10.0), plus a renderer
-> that turns data into PNG / PDF / HTML.
+> no dashboards — just charts. **Stable 1.0**: 39 chart types in core +
+> 13 deck.gl-powered map types in the optional `@minimal-viz/maps` satellite,
+> covering Apache Superset's full chart catalog. SemVer commitment in
+> [VERSIONING.md](./VERSIONING.md).
 
 ## Three ways to use it
 
@@ -48,7 +51,7 @@ import { PieChart } from '@minimal-viz/core'
 ```
 
 Runs in any React 18+ app. Three runtime deps: `react`, `react-dom`,
-`echarts`. ~5 KB gzipped (excluding peers).
+`echarts`. ~76 KB ESM / ~18 KB gzipped (excluding peers).
 
 See the [library docs →](./minimal-viz/README.md)
 
@@ -73,6 +76,21 @@ Chrome or Chromium is required at runtime (`xviz` uses `puppeteer-core`,
 no browser bundled). Set `XVIZ_CHROME=/path/to/chrome` if it isn't on the
 default search path.
 
+### 2½ · As a Docker image (no Chrome install needed)
+
+```bash
+# Latest stable
+docker run --rm -v "$PWD:/data" ghcr.io/caiyin-bit/xviz/xviz-cli:latest \
+  render -d /data/sales.json -f /data/pie.json -o /data/out.png
+
+# Pin to a major.minor for production
+docker run --rm ghcr.io/caiyin-bit/xviz/xviz-cli:1.0 --help
+```
+
+Multi-stage Alpine image (~250 MB) with chromium pre-wired. Maps satellite
+is *not* in this image — for `XVIZ_ENABLE_MAPS=1` builds, fork the
+[Dockerfile](./xviz-cli/Dockerfile) and build with the env override.
+
 See the [CLI docs →](./xviz-cli/README.md) and the
 [runnable examples →](./xviz-cli/examples/README.md)
 
@@ -96,7 +114,9 @@ the thirty-nine chart types on demand. Full walk-through in the
 
 ## The charts
 
-Thirty-nine chart types covering ~99% of everyday BI needs (as of v0.10.0).
+Thirty-nine chart types in core, covering Apache Superset's full
+ECharts-based catalog. Add the `@minimal-viz/maps` satellite for the
+13 deck.gl-powered map types — see the [maps section](#maps-the-minimal-vizmaps-satellite) below.
 
 | | | |
 |:---:|:---:|:---:|

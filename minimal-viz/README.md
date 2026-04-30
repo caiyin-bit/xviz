@@ -1,8 +1,15 @@
 # @minimal-viz/core
 
 Lightweight React chart components modeled after Apache Superset's
-visualization plugins. 39 chart types (as of v0.10.0), one dependency
-(ECharts), ~5 KB gzipped (excluding peer deps).
+visualization plugins. **39 chart types** covering Apache Superset's full
+ECharts-based catalog. One dependency (ECharts), ~76 KB ESM / ~18 KB
+gzipped (excluding peer deps).
+
+Stable 1.0 — see [VERSIONING.md](../VERSIONING.md) for the SemVer
+commitment and deprecation policy.
+
+For deck.gl-powered map types (DeckScatter, PointClusterMap, etc.) install
+the optional [`@minimal-viz/maps`](../minimal-viz-maps) satellite.
 
 ```bash
 npm install @minimal-viz/core react react-dom echarts

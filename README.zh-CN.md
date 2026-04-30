@@ -9,6 +9,7 @@
   </a>
   <img src="https://img.shields.io/badge/license-Apache_2.0-blue.svg" alt="License" />
   <img src="https://img.shields.io/badge/node-%E2%89%A520-brightgreen.svg" alt="Node" />
+  <img src="https://img.shields.io/badge/v1.0-stable-success.svg" alt="Stability" />
 </p>
 
 <p align="center">
@@ -22,8 +23,9 @@
 > 把 Apache Superset 的图表层剥出来做成独立可用的库。
 > 既能在 React 应用里当组件用，也能用 CLI 把 JSON / CSV / SQL 查询结果无头渲染成
 > PNG / PDF / HTML，还能通过 MCP 让 LLM agent 直接调用画图。
-> 没有 BI 平台、没有元数据库、没有 dashboard ——只有 **39 种图表**（v0.10.0）+
-> 一个把数据变成图片的渲染器。
+> 没有 BI 平台、没有元数据库、没有 dashboard。**已稳定 1.0**：核心 39 张图 +
+> 可选的 `@minimal-viz/maps` 卫星包再补 13 张 deck.gl 地图，覆盖 Apache Superset
+> 全量图表目录。SemVer 承诺见 [VERSIONING.md](./VERSIONING.md)。
 
 ## 三种使用方式
 

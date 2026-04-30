@@ -3,13 +3,22 @@
 Headless chart renderer. Takes JSON or CSV data in, emits PNG / PDF / HTML out.
 Built on [`@minimal-viz/core`](../minimal-viz/README.md) + Puppeteer.
 
+Stable 1.0 — see [VERSIONING.md](../VERSIONING.md) for the SemVer
+commitment.
+
 Three modes:
 
 - **`xviz render`** — one-shot CLI rendering
 - **`xviz serve`** — HTTP server with `POST /render`
 - **`xviz mcp`** — MCP server for LLM tool-use (Claude, etc.)
 
-Supports 39 chart types: `pie bar line table big-number scatter heatmap sankey funnel gauge boxplot histogram treemap sunburst radar waterfall step tree graph timeseries-bar timeseries-line mixed-timeseries gantt big-number-total big-number-pop time-table pivot-table calendar rose parallel bullet compare partition time-pivot chord horizon paired-ttest world-map country-map`.
+Supports 39 chart types in the default build: `pie bar line table big-number scatter heatmap sankey funnel gauge boxplot histogram treemap sunburst radar waterfall step tree graph timeseries-bar timeseries-line mixed-timeseries gantt big-number-total big-number-pop time-table pivot-table calendar rose parallel bullet compare partition time-pivot chord horizon paired-ttest world-map country-map`.
+
+For 13 additional **deck.gl-powered map types** (`deck-scatter`, `deck-path`,
+`deck-polygon`, `deck-arc`, `deck-geojson`, `deck-grid`, `deck-hex`,
+`deck-heatmap`, `deck-screengrid`, `deck-contour`, `deck-multi`,
+`point-cluster-map`, `cartodiagram`), build the renderer with the
+maps satellite enabled — see [§ Maps satellite](#maps-satellite-xviz_enable_maps) below.
 
 ## Setup
 
@@ -25,6 +34,20 @@ and does not bundle a browser. The CLI auto-detects these paths:
   `/usr/bin/chromium-browser`
 
 Override the path with `XVIZ_CHROME=/path/to/chrome`.
+
+### Or use the Docker image
+
+```bash
+docker run --rm -v "$PWD:/data" ghcr.io/caiyin-bit/xviz/xviz-cli:latest \
+  render -d /data/sales.json -f /data/pie.json -o /data/out.png
+
+# Pin to a major.minor for production
+docker run --rm ghcr.io/caiyin-bit/xviz/xviz-cli:1.0 --help
+```
+
+The image bundles chromium (`XVIZ_CHROME` is pre-wired). It does **not**
+include the maps satellite — fork the [`Dockerfile`](./Dockerfile) and
+build with `XVIZ_ENABLE_MAPS=1` to include it.
 
 ### From source (contributors only)
 
@@ -246,6 +269,55 @@ node bin/xviz.mjs render \
   -f examples/superset-exports/covid-form.json \
   -o /tmp/covid.png --width 900
 ```
+
+## Maps satellite (`XVIZ_ENABLE_MAPS`)
+
+The 13 deck.gl-powered map charts live in the optional
+[`@minimal-viz/maps`](../minimal-viz-maps) satellite package. They are
+**not** in the default xviz-cli renderer — adding deck.gl + maplibre-gl
+to every CLI install would 3× the bundle. Opt in at build time:
+
+```bash
+git clone https://github.com/caiyin-bit/xviz.git
+cd xviz/xviz-cli
+npm ci --include=optional
+npm run build:maps    # XVIZ_ENABLE_MAPS=1 vite build
+node bin/xviz.mjs render \
+  -d examples/deck-scatter-cities/data.json \
+  -f examples/deck-scatter-cities/form.json \
+  -o cities.png --width 900 --height 540
+```
+
+`xviz serve /health` reports `mapsEnabled: true` and includes the 13 map
+types alongside the 39 core types when the env var is set at CLI launch:
+
+```bash
+XVIZ_ENABLE_MAPS=1 node bin/xviz.mjs serve --port 3737
+curl -s http://localhost:3737/health | jq .mapsEnabled    # → true
+```
+
+Bundle sizes (CI-enforced budgets in `.github/workflows/ci.yml`):
+
+| Build         | Raw      | Gzip   |
+|---------------|---------:|-------:|
+| Default       | ~1.15 MB | ~374 KB |
+| Maps-enabled  | ~3.02 MB | ~884 KB |
+
+## Performance baseline
+
+A repeatable benchmark lives in [`bench/`](./bench). It exercises the
+shared `Engine` over 5 representative fixtures × N runs, separating
+cold-start (puppeteer launch) from warm renders:
+
+```bash
+npm run build
+node bench/render-bench.mjs              # default: 3 runs each, markdown out
+node bench/render-bench.mjs --runs 10    # tighter signal
+node bench/render-bench.mjs --json       # machine-readable
+```
+
+Run it locally before any change you suspect could move the perf needle.
+Numbers are hardware-dependent (see [`bench/README.md`](./bench/README.md)).
 
 ## License
 

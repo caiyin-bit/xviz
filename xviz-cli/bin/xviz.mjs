@@ -96,7 +96,7 @@ async function cmdServe(opts) {
            'deck-multi', 'point-cluster-map', 'cartodiagram']
         : []
       res.end(JSON.stringify({
-        status: 'ok', service: 'xviz', version: '0.1.0',
+        status: 'ok', service: 'xviz', version: '1.0.0',
         endpoints: ['POST /render'],
         mapsEnabled: process.env.XVIZ_ENABLE_MAPS === '1',
         supported: [...baseSupported, ...mapsSupported],
@@ -170,7 +170,7 @@ async function cmdServe(opts) {
 }
 
 const program = new Command()
-program.name('xviz').description('Headless chart renderer').version('0.1.0')
+program.name('xviz').description('Headless chart renderer').version('1.0.0')
 
 program
   .command('render')
